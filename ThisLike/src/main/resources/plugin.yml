@@ -1,0 +1,15 @@
+name: ThisLike
+version: 0.1
+main: com.mycompany.thislike.ThisLike
+description: This Like Event Control plugin
+author: Kumaisu
+database: true
+api-version: 1.14
+commands:
+    TL:
+        description: ThisLike Control Command
+        usage: /<command> help
+permissions:
+    ThisLike.admin:
+        description: Command Permission
+        default: op
