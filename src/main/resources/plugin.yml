@@ -6,7 +6,7 @@ author: Kumaisu
 database: true
 api-version: 1.14
 commands:
-    TL:
+    ThisLike:
         description: ThisLike Control Command
         usage: /<command> help
 permissions:
