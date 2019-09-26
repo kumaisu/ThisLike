@@ -30,9 +30,7 @@ public class PlaceListener implements Listener {
     }
     
     /**
-     * ブロックを設置した時の処理
-     * ポイントブロックを置いた場合は、スコアからポイントをマイナスする
-     * ※自然生成か設置かを判断するための試作をしているが機能していない
+     * 看板設置時に文章を記載した時に発生するイベント
      *
      * @param event
      */
@@ -44,17 +42,17 @@ public class PlaceListener implements Listener {
         Material material = event.getBlock().getType();
         Tools.Prt( ChatColor.YELLOW + "Material = " + material.name(), Tools.consoleMode.max, programCode );
 
-        //  try {
-            Tools.Prt( ChatColor.YELLOW + "Sign Line 1 : " + event.getLine( 0 ), Tools.consoleMode.max, programCode );
-            Tools.Prt( ChatColor.YELLOW + "Sign Line 2 : " + event.getLine( 1 ), Tools.consoleMode.max, programCode );
-            Tools.Prt( ChatColor.YELLOW + "Sign Line 3 : " + event.getLine( 2 ), Tools.consoleMode.max, programCode );
-            Tools.Prt( ChatColor.YELLOW + "Sign Line 4 : " + event.getLine( 3 ), Tools.consoleMode.max, programCode );
-            if ( event.getLine( 0 ).equals( "ThisLike" ) ) {
-                event.setLine( 0, ChatColor.AQUA + "[ThisLike]" );
-                event.setLine( 2, ChatColor.GREEN + player.getName() );
-                event.setLine( 3, ChatColor.YELLOW + "イイネ : " + ChatColor.BLUE + "0" );
-            }
-        //  } catch ( ClassCastException e ) {}
+        Tools.Prt( ChatColor.YELLOW + "Sign Line 1 : " + event.getLine( 0 ), Tools.consoleMode.max, programCode );
+        Tools.Prt( ChatColor.YELLOW + "Sign Line 2 : " + event.getLine( 1 ), Tools.consoleMode.max, programCode );
+        Tools.Prt( ChatColor.YELLOW + "Sign Line 3 : " + event.getLine( 2 ), Tools.consoleMode.max, programCode );
+        Tools.Prt( ChatColor.YELLOW + "Sign Line 4 : " + event.getLine( 3 ), Tools.consoleMode.max, programCode );
+        if ( event.getLine( 0 ).equals( "ThisLike" ) ) {
+            event.setLine( 0, ChatColor.AQUA + "[ThisLike]" );
+            event.setLine( 2, ChatColor.GREEN + player.getName() );
+            event.setLine( 3, ChatColor.YELLOW + "イイネ : " + ChatColor.BLUE + "0" );
+
+            //  DB 追加処理？
+        }
     }
 
 }

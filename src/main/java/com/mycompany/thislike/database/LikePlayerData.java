@@ -14,7 +14,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import org.bukkit.ChatColor;
-import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import com.mycompany.kumaisulibraries.Tools;
 import static com.mycompany.thislike.config.Config.programCode;
@@ -41,7 +40,6 @@ public class LikePlayerData {
             preparedStatement.setString( 2, player.getName() );
             preparedStatement.setString( 3, sdf.format( new Date() ) );
             preparedStatement.setString( 4, sdf.format( new Date() ) );
-            preparedStatement.setInt( 5, player.getStatistic( Statistic.PLAY_ONE_MINUTE ) );
             preparedStatement.setInt( 6, 0 );
             preparedStatement.setInt( 7, 0 );
             preparedStatement.setInt( 8, 0 );
