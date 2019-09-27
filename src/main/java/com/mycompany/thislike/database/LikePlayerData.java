@@ -65,11 +65,12 @@ public class LikePlayerData {
      * プレイヤー情報を削除する
      *
      * @param ID
+     * @param player
      * @return
      */
-    public static boolean DelSQL( String ID ) {
+    public static boolean DelSQL( String ID, Player player ) {
         try ( Connection con = Database.dataSource.getConnection() ) {
-            String sql = "DELETE FROM likes WHERE uuid = '" + ID + "';";
+            String sql = "DELETE FROM likes WHERE id = '" + ID + "' AND uuid = '" + player.getUniqueId().toString() + "';";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             PreparedStatement preparedStatement = con.prepareStatement( sql );
             preparedStatement.executeUpdate();
@@ -85,14 +86,15 @@ public class LikePlayerData {
     /**
      * UUIDからプレイヤー情報を取得する
      *
-     * @param uuid
+     * @param ID
+     * @param player
      * @return
      */
-    public static boolean GetSQL( UUID uuid ) {
+    public static boolean hasSQL( String ID, Player player ) {
         try ( Connection con = Database.dataSource.getConnection() ) {
             boolean retStat = false;
             Statement stmt = con.createStatement();
-            String sql = "SELECT * FROM player WHERE uuid = '" + uuid.toString() + "';";
+            String sql = "SELECT * FROM likes WHERE id = '" + ID + "' AND uuid = '" + player.getUniqueId().toString() + "';";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             ResultSet rs = stmt.executeQuery( sql );
             if ( rs.next() ) {

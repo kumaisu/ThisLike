@@ -17,6 +17,10 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
 import com.mycompany.kumaisulibraries.Tools;
 import static com.mycompany.thislike.config.Config.programCode;
+import com.mycompany.thislike.database.Database;
+import com.mycompany.thislike.database.DatabaseUtil;
+import com.mycompany.thislike.database.LikePlayerData;
+import com.mycompany.thislike.database.SignData;
 
 /**
  *
@@ -48,30 +52,50 @@ public class ClickListener implements Listener {
             Sign sign = (Sign) clickedBlock.getState();
             if ( sign.getLine( 0 ).equals( ChatColor.AQUA + "[ThisLike]" ) ) {
 
-                //  Owner ならば、コマンド処理　＞　OwnerControl.java
-
-                //  DB参照　無ければ以下処理　有れば return;
+                String SignID = DatabaseUtil.makeID( clickedBlock.getLocation() );
+                Tools.Prt( ChatColor.YELLOW + "Sign ID = " + SignID, Tools.consoleMode.full, programCode );
+                SignData.GetSQL( SignID );
+                if ( Database.OwnerName.equals( player.getName() ) ) {
+                    Tools.Prt( ChatColor.AQUA + "Owner Control", Tools.consoleMode.max, programCode );
+                    //  Owner ならば、コマンド処理　＞　OwnerControl.java
+                    return;
+                }
 
                 Tools.Prt( ChatColor.YELLOW + "Sign Line 1 : " + sign.getLine( 0 ), Tools.consoleMode.max, programCode );
                 Tools.Prt( ChatColor.YELLOW + "Sign Line 2 : " + sign.getLine( 1 ), Tools.consoleMode.max, programCode );
                 Tools.Prt( ChatColor.YELLOW + "Sign Line 3 : " + sign.getLine( 2 ), Tools.consoleMode.max, programCode );
                 Tools.Prt( ChatColor.YELLOW + "Sign Line 4 : " + sign.getLine( 3 ), Tools.consoleMode.max, programCode );
 
-                //  DB追加処理　イイネ処理
-                //  該当なしならイイネ処理
-                //  該当ありならイイネ削除処理
-
-                Tools.Prt( player,
-                    sign.getLine( 2 ) + "さんの" +
-                    ChatColor.YELLOW + "『" + sign.getLine( 1 ) + "』" +
-                    ChatColor.GREEN + "に" +
-                    ChatColor.AQUA + "イイネ" +
-                    ChatColor.GREEN + "しました",
-                    Tools.consoleMode.full, programCode
-                );
+                if ( LikePlayerData.hasSQL( SignID, player ) ) {
+                    //  既にイイネしてるので解除処理
+                    SignData.subLike( SignID );
+                    LikePlayerData.DelSQL( SignID, player );
+                    Tools.Prt( player,
+                        sign.getLine( 2 ) +
+                        ChatColor.LIGHT_PURPLE + "さんの" +
+                        ChatColor.YELLOW + "『" + sign.getLine( 1 ) + "』" +
+                        ChatColor.LIGHT_PURPLE + "から" +
+                        ChatColor.AQUA + "イイネ" +
+                        ChatColor.LIGHT_PURPLE + "をやめました",
+                        Tools.consoleMode.full, programCode
+                    );
+                } else {
+                    //  イイネ処理
+                    SignData.incLike( SignID );
+                    LikePlayerData.AddSQL( player, SignID );
+                    Tools.Prt( player,
+                        sign.getLine( 2 ) + "さんの" +
+                        ChatColor.YELLOW + "『" + sign.getLine( 1 ) + "』" +
+                        ChatColor.GREEN + "に" +
+                        ChatColor.AQUA + "イイネ" +
+                        ChatColor.GREEN + "しました",
+                        Tools.consoleMode.full, programCode
+                    );
+                }
 
                 //  看板内容更新
-                sign.setLine( 3, ChatColor.YELLOW + "イイネ : " + ChatColor.BLUE + "1" );
+                SignData.GetSQL( SignID );
+                sign.setLine( 3, ChatColor.YELLOW + "イイネ : " + ChatColor.BLUE + Database.LikeNum );
                 sign.update();
             }
         } catch ( ClassCastException e ) {}

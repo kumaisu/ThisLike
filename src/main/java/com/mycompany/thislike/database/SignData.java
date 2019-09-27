@@ -5,7 +5,6 @@
  */
 package com.mycompany.thislike.database;
 
-import java.util.UUID;
 import java.util.Date;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,7 +20,7 @@ import static com.mycompany.thislike.config.Config.programCode;
 /**
  * @author sugichan
  *
- * CREATE TABLE IF NOT EXISTS sign( id varchar(20), uuid varchar(36), name varchar(20), date DATETIME, like int );
+ * CREATE TABLE IF NOT EXISTS sign( id varchar(20), uuid varchar(36), name varchar(20), date DATETIME, likenum int );
  */
 public class SignData {
     private static final SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
@@ -34,7 +33,7 @@ public class SignData {
      */
     public static void AddSQL( Player player, String ID ) {
         try ( Connection con = Database.dataSource.getConnection() ) {
-            String sql = "INSERT INTO sign (id, uuid, name, date, like) VALUES (?, ?, ?, ?, ?);";
+            String sql = "INSERT INTO sign (id, uuid, name, date, likenum) VALUES (?, ?, ?, ?, ?);";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             PreparedStatement preparedStatement = con.prepareStatement( sql );
             preparedStatement.setString( 1, ID );
@@ -81,21 +80,21 @@ public class SignData {
     /**
      * UUIDからプレイヤー情報を取得する
      *
-     * @param uuid
+     * @param ID
      * @return
      */
-    public static boolean GetSQL( UUID uuid ) {
+    public static boolean GetSQL( String ID ) {
         try ( Connection con = Database.dataSource.getConnection() ) {
             boolean retStat = false;
             Statement stmt = con.createStatement();
-            String sql = "SELECT * FROM sign WHERE uuid = '" + uuid.toString() + "';";
+            String sql = "SELECT * FROM sign WHERE id = '" + ID + "';";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             ResultSet rs = stmt.executeQuery( sql );
             if ( rs.next() ) {
                 Database.ID             = rs.getString( "id" );
                 Database.OwnerName      = rs.getString( "name" );
                 Database.SignDate       = rs.getTimestamp( "date" );
-                Database.LikeNum        = rs.getInt( "like" );
+                Database.LikeNum        = rs.getInt( "likenum" );
                 Tools.Prt( "Get Data from SQL Success.", Tools.consoleMode.full , programCode );
                 retStat = true;
             }
@@ -112,39 +111,32 @@ public class SignData {
      *
      * @param ID
      */
-    public static void addImprisonment( String ID ) {
+    public static void incLike( String ID ) {
         try ( Connection con = Database.dataSource.getConnection() ) {
-            String sql = "UPDATE sign SET like = like + 1 WHERE id = '" + ID + "'";
+            String sql = "UPDATE sign SET likenum = likenum + 1 WHERE id = '" + ID + "'";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             PreparedStatement preparedStatement = con.prepareStatement(sql);
             preparedStatement.executeUpdate();
             con.close();
         } catch ( SQLException e ) {
-            Tools.Prt( ChatColor.RED + "Error Add Imprisonment : " + e.getMessage(), programCode );
+            Tools.Prt( ChatColor.RED + "Error Add LikeNum : " + e.getMessage(), programCode );
         }
     }
 
     /**
-     * Like カウント取得
+     * Like imprsioment イイネ回数カウントダウン
      *
      * @param ID
-     * @return 
      */
-    public static int getLikeCount( String ID ) {
+    public static void subLike( String ID ) {
         try ( Connection con = Database.dataSource.getConnection() ) {
-            int imprisonment = 0;
-            String sql = "SELECT * FROM sign WHERE id = '" + ID + "'";
+            String sql = "UPDATE sign SET likenum = likenum - 1 WHERE id = '" + ID + "'";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery( sql );
-            if ( rs.next() ) {
-                imprisonment = rs.getInt( "like" );
-            }
+            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            preparedStatement.executeUpdate();
             con.close();
-            return imprisonment;
         } catch ( SQLException e ) {
-            Tools.Prt( ChatColor.RED + "Error Get Imprisonment : " + e.getMessage(), programCode );
-            return 0;
+            Tools.Prt( ChatColor.RED + "Error sub LikeNum : " + e.getMessage(), programCode );
         }
     }
 }

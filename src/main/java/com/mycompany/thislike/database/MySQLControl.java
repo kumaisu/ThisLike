@@ -93,18 +93,18 @@ public class MySQLControl {
             //      date : DATETIME
             //      like : int
             //  存在すれば、無視される
-            String sql = "CREATE TABLE IF NOT EXISTS sign( id varchar(20), uuid varchar(36), name varchar(20), date DATETIME, like int );";
+            String sql = "CREATE TABLE IF NOT EXISTS sign( id varchar(20), uuid varchar(36), name varchar(20), date DATETIME, likenum int );";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             PreparedStatement preparedStatement = con.prepareStatement( sql );
             preparedStatement.executeUpdate();
 
             //  いいねプレイヤーテーブル
-            //      id : varchar(12)
+            //      id : varchar(20)
             //      uuid : varchar(36)      player uuid
             //      name : varchar(20)      player name
             //      date : DATETIME         update Date
             //  存在すれば、無視される
-            sql = "CREATE TABLE IF NOT EXISTS likes( id varchar(12), uuid varchar(36), name varchar(20), date DATETIME );";
+            sql = "CREATE TABLE IF NOT EXISTS likes( id varchar(20), uuid varchar(36), name varchar(20), date DATETIME );";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             preparedStatement = con.prepareStatement( sql );
             preparedStatement.executeUpdate();
