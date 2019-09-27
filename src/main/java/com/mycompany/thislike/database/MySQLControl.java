@@ -86,28 +86,25 @@ public class MySQLControl {
      */
     public static void TableUpdate() {
         try ( Connection con = Database.dataSource.getConnection() ) {
-            //  テーブルの作成
-            //		uuid : varchar(36)	player uuid
-            //		name : varchar(20)	player name
-            //		logiut : DATETIME	last Logout Date
-            //          basedate : DATETIME     update Date
-            //          tick : int              total Tick Time
-            //		offset : int 		total Login Time offset
-            //		jail : int		to jail flag
-            //          Imprisonment : int      Imprisonment Count
+            //  いいね看板テーブル
+            //      id : varchar(12)        x y z x16 { max ffffffffffff }
+            //      uuid : varchar(36)      owner player uuid
+            //      name : varchar(20)      owner player name
+            //      date : DATETIME
+            //      like : int
             //  存在すれば、無視される
-            String sql = "CREATE TABLE IF NOT EXISTS player( uuid varchar(36), name varchar(20), logout DATETIME, basedate DATETIME, tick int, offset int, jail int, imprisonment int );";
+            String sql = "CREATE TABLE IF NOT EXISTS sign( id varchar(20), uuid varchar(36), name varchar(20), date DATETIME, like int );";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             PreparedStatement preparedStatement = con.prepareStatement( sql );
             preparedStatement.executeUpdate();
 
-            //  テーブルの作成
-            //          id : int auto_increment Jail_ID
-            //		uuid : varchar(36)	player uuid
-            //          date : DATETIME         update Date
-            //          Reason : varchar(50)    Last Jail Reason
+            //  いいねプレイヤーテーブル
+            //      id : varchar(12)
+            //      uuid : varchar(36)      player uuid
+            //      name : varchar(20)      player name
+            //      date : DATETIME         update Date
             //  存在すれば、無視される
-            sql = "CREATE TABLE IF NOT EXISTS reason( id int auto_increment, uuid varchar(36), date DATETIME, reason varchar(50), index(id) );";
+            sql = "CREATE TABLE IF NOT EXISTS likes( id varchar(12), uuid varchar(36), name varchar(20), date DATETIME );";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             preparedStatement = con.prepareStatement( sql );
             preparedStatement.executeUpdate();

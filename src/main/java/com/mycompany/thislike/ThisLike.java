@@ -12,6 +12,7 @@ import com.mycompany.thislike.listener.BreakListener;
 import com.mycompany.thislike.listener.ClickListener;
 import com.mycompany.thislike.listener.PlaceListener;
 import com.mycompany.thislike.command.ThislikeCommand;
+import com.mycompany.thislike.database.MySQLControl;
 
 /**
  *
@@ -27,6 +28,8 @@ public class ThisLike extends JavaPlugin {
     @SuppressWarnings( "ResultOfObjectAllocationIgnored" )
     public void onEnable() {
         config = new ConfigManager( this );
+        MySQLControl.connect();
+        MySQLControl.TableUpdate();
         new PlaceListener( this );
         new ClickListener( this );
         new BreakListener( this );
@@ -35,10 +38,13 @@ public class ThisLike extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        super.onDisable(); //To change body of generated methods, choose Tools | Templates.
         HandlerList.unregisterAll( this );
+        MySQLControl.disconnect();
     }
 
     @Override
     public void onLoad() {
+        super.onLoad(); //To change body of generated methods, choose Tools | Templates.
     }
 }

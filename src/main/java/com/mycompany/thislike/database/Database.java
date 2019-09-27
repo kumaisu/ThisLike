@@ -5,6 +5,7 @@
  */
 package com.mycompany.thislike.database;
 
+import java.util.UUID;
 import java.util.Date;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -15,11 +16,25 @@ import com.zaxxer.hikari.HikariDataSource;
 public class Database {
     public static HikariDataSource dataSource = null;
 
-    public static String name = "Unknown";
-    public static Date logout;
-    public static Date basedate;
-    public static int tick = 0;
-    public static int offset = 0;
-    public static int jail = 0;
-    public static int imprisonment = 0;
+    //  いいね看板テーブル
+    //      id : varchar(12)        x y z x16 { max ffffffffffff }
+    //      uuid : varchar(36)      owner player uuid
+    //      name : varchar(20)      owner player name
+    //      date : DATETIME
+    //      like : int
+    //  CREATE TABLE IF NOT EXISTS sign( id varchar(20), uuid varchar(36), name varchar(20), date DATETIME, like int );
+    public static String ID = "000000000000";
+    public static String OwnerName;
+    public static Date SignDate;
+    public static int LikeNum = 0;
+
+    //  いいねプレイヤーテーブル
+    //      id : varchar(12)
+    //      uuid : varchar(36)      player uuid
+    //      name : varchar(20)      player name
+    //      date : DATETIME         update Date
+    //  CREATE TABLE IF NOT EXISTS likes( id varchar(12), uuid varchar(36), name varchar(20), date DATETIME );
+    public static UUID LikeUUID;
+    public static String LikeName;
+    public static Date StampDate;
 }
