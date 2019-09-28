@@ -5,12 +5,14 @@
  */
 package com.mycompany.thislike;
 
+import java.util.HashMap;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.event.HandlerList;
 import com.mycompany.thislike.config.ConfigManager;
 import com.mycompany.thislike.listener.BreakListener;
 import com.mycompany.thislike.listener.ClickListener;
 import com.mycompany.thislike.listener.PlaceListener;
+import com.mycompany.thislike.listener.InventoryListener;
 import com.mycompany.thislike.command.ThislikeCommand;
 import com.mycompany.thislike.database.MySQLControl;
 
@@ -33,7 +35,9 @@ public class ThisLike extends JavaPlugin {
         new PlaceListener( this );
         new ClickListener( this );
         new BreakListener( this );
+        new InventoryListener( this );
         getCommand( "thislike" ).setExecutor( new ThislikeCommand( this ) );
+        OwnerControl.inv = new HashMap<>();
     }
 
     @Override

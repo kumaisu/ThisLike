@@ -16,6 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
 import com.mycompany.kumaisulibraries.Tools;
+import com.mycompany.thislike.OwnerControl;
 import static com.mycompany.thislike.config.Config.programCode;
 import com.mycompany.thislike.database.Database;
 import com.mycompany.thislike.database.DatabaseUtil;
@@ -56,8 +57,7 @@ public class ClickListener implements Listener {
                 Tools.Prt( ChatColor.YELLOW + "Sign ID = " + SignID, Tools.consoleMode.full, programCode );
                 SignData.GetSQL( SignID );
                 if ( Database.OwnerName.equals( player.getName() ) ) {
-                    Tools.Prt( ChatColor.AQUA + "Owner Control", Tools.consoleMode.max, programCode );
-                    //  Owner ならば、コマンド処理　＞　OwnerControl.java
+                    OwnerControl.printLiker( player, SignID, sign.getLine( 1 ) );
                     return;
                 }
 

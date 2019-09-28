@@ -11,3 +11,5 @@ mysql:
   username: root
   password: password
 
+#   Server Version 1.2 or 1.4
+Version: 1.4
