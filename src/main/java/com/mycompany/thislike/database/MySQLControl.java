@@ -87,24 +87,26 @@ public class MySQLControl {
     public static void TableUpdate() {
         try ( Connection con = Database.dataSource.getConnection() ) {
             //  いいね看板テーブル
-            //      id : varchar(12)        x y z x16 { max ffffffffffff }
+            //      id : int                auto increment
+            //      loc : varchar(20)        x y z x16 { max ffffffffffff }
+            //      world : varchar(20)     world name
             //      uuid : varchar(36)      owner player uuid
             //      name : varchar(20)      owner player name
             //      date : DATETIME
             //      like : int
             //  存在すれば、無視される
-            String sql = "CREATE TABLE IF NOT EXISTS sign( id varchar(20), uuid varchar(36), name varchar(20), date DATETIME, likenum int );";
+            String sql = "CREATE TABLE IF NOT EXISTS sign( id int auto_increment, loc varchar(20), world varchar(20), uuid varchar(36), name varchar(20), date DATETIME, likenum int, index( id ) );";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             PreparedStatement preparedStatement = con.prepareStatement( sql );
             preparedStatement.executeUpdate();
 
             //  いいねプレイヤーテーブル
-            //      id : varchar(20)
+            //      id : int
             //      uuid : varchar(36)      player uuid
             //      name : varchar(20)      player name
             //      date : DATETIME         update Date
             //  存在すれば、無視される
-            sql = "CREATE TABLE IF NOT EXISTS likes( id varchar(20), uuid varchar(36), name varchar(20), date DATETIME );";
+            sql = "CREATE TABLE IF NOT EXISTS likes( id int, uuid varchar(36), name varchar(20), date DATETIME );";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             preparedStatement = con.prepareStatement( sql );
             preparedStatement.executeUpdate();

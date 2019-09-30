@@ -40,6 +40,11 @@ public class InventoryListener implements Listener {
         Tools.Prt( ChatColor.GOLD + "get Inventory Click Event", Tools.consoleMode.max, programCode );
         Player player = ( Player ) event.getWhoClicked();
         if ( !event.getInventory().equals( OwnerControl.inv.get( player.getUniqueId() ) ) ) return;
+        if ( event.getCurrentItem().getItemMeta() == null ) return;
+        if ( event.getCurrentItem().getItemMeta().getDisplayName().contains("Remove Sign")) {
+            Tools.Prt( player, "Remove Sign Process", programCode );
+            event.getWhoClicked().closeInventory();
+        }
         event.setCancelled( true );
     }
 

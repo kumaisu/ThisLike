@@ -17,23 +17,30 @@ public class Database {
     public static HikariDataSource dataSource = null;
 
     //  いいね看板テーブル
-    //      id : varchar(12)        x y z x16 { max ffffffffffff }
+    //      id : int                auto increment
+    //      loc : varchar(20)        x y z x16 { max ffffffffffff }
+    //      world : varchar(20)     world name
     //      uuid : varchar(36)      owner player uuid
     //      name : varchar(20)      owner player name
     //      date : DATETIME
     //      like : int
-    //  CREATE TABLE IF NOT EXISTS sign( id varchar(20), uuid varchar(36), name varchar(20), date DATETIME, like int );
-    public static String ID = "000000000000";
+    //  存在すれば、無視される
+    //  String sql = "CREATE TABLE IF NOT EXISTS sign( id int auto_increment, loc varchar(20), world varchar(20), uuid varchar(36), name varchar(20), date DATETIME, likenum int, index( id ) );";
+    public static int ID = 0;
+    public static String LOC = "";
+    public static String WORLD = "";
+    //  public static String TITLE = "";
     public static String OwnerName;
+    public static UUID OwnerUUID;
     public static Date SignDate;
     public static int LikeNum = 0;
 
     //  いいねプレイヤーテーブル
-    //      id : varchar(12)
+    //      id : int
     //      uuid : varchar(36)      player uuid
     //      name : varchar(20)      player name
     //      date : DATETIME         update Date
-    //  CREATE TABLE IF NOT EXISTS likes( id varchar(12), uuid varchar(36), name varchar(20), date DATETIME );
+    //  CREATE TABLE IF NOT EXISTS likes( id int, uuid varchar(36), name varchar(20), date DATETIME );
     public static UUID LikeUUID;
     public static String LikeName;
     public static Date StampDate;

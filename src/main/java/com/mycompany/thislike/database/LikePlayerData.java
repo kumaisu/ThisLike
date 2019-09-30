@@ -8,6 +8,7 @@ package com.mycompany.thislike.database;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Date;
+import static java.util.UUID.fromString;
 import java.text.SimpleDateFormat;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -39,12 +40,12 @@ public class LikePlayerData {
      * @param player
      * @param ID
      */
-    public static void AddSQL( Player player, String ID ) {
+    public static void AddSQL( Player player, int ID ) {
         try ( Connection con = Database.dataSource.getConnection() ) {
             String sql = "INSERT INTO likes (id, uuid, name, date) VALUES (?, ?, ?, ?);";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             PreparedStatement preparedStatement = con.prepareStatement( sql );
-            preparedStatement.setString( 1, ID );
+            preparedStatement.setInt( 1, ID );
             preparedStatement.setString( 2, player.getUniqueId().toString() );
             preparedStatement.setString( 3, player.getName() );
             preparedStatement.setString( 4, sdf.format( new Date() ) );
@@ -69,9 +70,30 @@ public class LikePlayerData {
      * @param player
      * @return
      */
-    public static boolean DelSQL( String ID, Player player ) {
+    public static boolean DelPlayerSQL( int ID, Player player ) {
         try ( Connection con = Database.dataSource.getConnection() ) {
-            String sql = "DELETE FROM likes WHERE id = '" + ID + "' AND uuid = '" + player.getUniqueId().toString() + "';";
+            String sql = "DELETE FROM likes WHERE id = " + ID + " AND uuid = '" + player.getUniqueId().toString() + "';";
+            Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
+            PreparedStatement preparedStatement = con.prepareStatement( sql );
+            preparedStatement.executeUpdate();
+            Tools.Prt( "Delete Data from SQL Success.", Tools.consoleMode.full , programCode );
+            con.close();
+            return true;
+        } catch ( SQLException e ) {
+            Tools.Prt( ChatColor.RED + "Error DelFromSQL" + e.getMessage(), programCode );
+            return false;
+        }
+    }
+
+    /**
+     * プレイヤー情報を削除する
+     *
+     * @param ID
+     * @return
+     */
+    public static boolean DelSQL( int ID ) {
+        try ( Connection con = Database.dataSource.getConnection() ) {
+            String sql = "DELETE FROM likes WHERE id = " + ID + ";";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             PreparedStatement preparedStatement = con.prepareStatement( sql );
             preparedStatement.executeUpdate();
@@ -88,14 +110,42 @@ public class LikePlayerData {
      * UUIDからプレイヤー情報を取得する
      *
      * @param ID
-     * @param player
      * @return
      */
-    public static boolean hasSQL( String ID, Player player ) {
+    public static boolean GetSQL( int ID ) {
         try ( Connection con = Database.dataSource.getConnection() ) {
             boolean retStat = false;
             Statement stmt = con.createStatement();
-            String sql = "SELECT * FROM likes WHERE id = '" + ID + "' AND uuid = '" + player.getUniqueId().toString() + "';";
+            String sql = "SELECT * FROM likes WHERE id = " + ID + ";";
+            Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
+            ResultSet rs = stmt.executeQuery( sql );
+            if ( rs.next() ) {
+                Database.LikeUUID   = fromString( rs.getString( "uuid" ) );
+                Database.LikeName   = rs.getString( "name" );
+                Database.StampDate  = rs.getTimestamp( "date" );
+                Tools.Prt( "Get Data from SQL Success.", Tools.consoleMode.full , programCode );
+                retStat = true;
+            }
+            con.close();
+            return retStat;
+        } catch ( SQLException e ) {
+            Tools.Prt( ChatColor.RED + "Error GetPlayer" + e.getMessage(), programCode );
+            return false;
+        }
+    }
+
+    /**
+     * UUIDからプレイヤー情報を取得する
+     *
+     * @param ID
+     * @param player
+     * @return
+     */
+    public static boolean hasSQL( int ID, Player player ) {
+        try ( Connection con = Database.dataSource.getConnection() ) {
+            boolean retStat = false;
+            Statement stmt = con.createStatement();
+            String sql = "SELECT * FROM likes WHERE id = " + ID + " AND uuid = '" + player.getUniqueId().toString() + "';";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             ResultSet rs = stmt.executeQuery( sql );
             if ( rs.next() ) {
@@ -116,12 +166,12 @@ public class LikePlayerData {
      * @param ID
      * @return 
      */
-    public static Map< String, Date > listSQL( String ID ) {
+    public static Map< String, Date > listSQL( int ID ) {
         Map< String, Date > likeP = new HashMap<>();
 
         try ( Connection con = Database.dataSource.getConnection() ) {
             Statement stmt = con.createStatement();
-            String sql = "SELECT * FROM likes WHERE id = '" + ID + "';";
+            String sql = "SELECT * FROM likes WHERE id = " + ID + ";";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             ResultSet rs = stmt.executeQuery( sql );
             int i = 0;

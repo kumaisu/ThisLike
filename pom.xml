@@ -57,13 +57,6 @@
             <artifactId>slf4j-jdk14</artifactId>
             <version>1.7.16</version>
         </dependency>
-    <!--Vault-->
-        <dependency>
-            <groupId>com.github.MilkBowl</groupId>
-            <artifactId>VaultAPI</artifactId>
-            <version>1.7</version>
-            <scope>provided</scope>
-        </dependency>
     <!--Private Libraries-->
         <dependency>
             <groupId>com.mycompany</groupId>

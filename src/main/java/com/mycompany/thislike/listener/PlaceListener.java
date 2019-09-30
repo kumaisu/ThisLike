@@ -51,9 +51,13 @@ public class PlaceListener implements Listener {
         if ( event.getLine( 0 ).equals( "ThisLike" ) ) {
             event.setLine( 0, ChatColor.AQUA + "[ThisLike]" );
             event.setLine( 2, ChatColor.GREEN + player.getName() );
-            event.setLine( 3, ChatColor.YELLOW + "イイネ : " + ChatColor.BLUE + "0" );
+            event.setLine( 3, ChatColor.GOLD + "イイネ : " + ChatColor.BLUE + "0" );
 
-            SignData.AddSQL( player, DatabaseUtil.makeID( event.getBlock().getLocation() ) );
+            SignData.AddSQL(
+                player,
+                DatabaseUtil.makeID( event.getBlock().getLocation() ),
+                event.getBlock().getLocation().getWorld().getName()
+            );
         }
     }
 

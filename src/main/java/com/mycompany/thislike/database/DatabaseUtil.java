@@ -19,7 +19,7 @@ public class DatabaseUtil {
         String X = String.format( "%08x", loc.getBlockX() );
         String Y = String.format( "%04x", loc.getBlockY() );
         String Z = String.format( "%08x", loc.getBlockZ() );
-        Tools.Prt(
+        Tools.Prt( "Location Convert = " +
             loc.getBlockX() + ":" + X + "," +
             loc.getBlockY() + ":" + Y + "," +
             loc.getBlockZ() + ":" + Z,
@@ -33,7 +33,7 @@ public class DatabaseUtil {
         Integer X = Integer.decode( "0x" + ID.substring( 0, 8 ) );
         Integer Y = Integer.decode( "0x" + ID.substring( 8, 4 ) );
         Integer Z = Integer.decode( "0x" + ID.substring( 12, 8 ) );
-        Tools.Prt( "Resotre [" + ID + "] " + X + "," + Y + "," + Z, Tools.consoleMode.max, programCode );
+        Tools.Prt( "Location Resotre [" + ID + "] " + X + "," + Y + "," + Z, Tools.consoleMode.max, programCode );
         Loc.setX( X );
         Loc.setY( Y );
         Loc.setZ( Z );

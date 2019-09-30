@@ -21,6 +21,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import com.mycompany.thislike.database.LikePlayerData;
 import com.mycompany.kumaisulibraries.Tools;
 import static com.mycompany.thislike.config.Config.programCode;
+import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  *
@@ -37,15 +38,22 @@ public class OwnerControl {
      * @param ID
      * @param Title
     */
-    public static void printLiker( Player player, String ID, String Title ) {
+    public static void printLiker( Player player, int ID, String Title ) {
         Map< String, Date > liker = LikePlayerData.listSQL( ID );
 
-        int slot = liker.size() + ( 9 - ( liker.size() % 9 ) );
+        int slot = liker.size() + ( 9 - ( liker.size() % 9 ) ) + 9;
         if ( slot>54 ) { slot = 54; }
 
+        
         Inventory TempInv;
         TempInv = Bukkit.createInventory( null, slot, "『" + Title + "』いいね" );
 
+        ItemStack DelIcon = new ItemStack( Material.BARRIER, 1 );
+        ItemMeta DelMeta = Bukkit.getItemFactory().getItemMeta(Material.BARRIER);
+        DelMeta.setDisplayName( "Remove Sign" );
+        DelIcon.setItemMeta( DelMeta );
+        TempInv.setItem( slot - 1, DelIcon );
+        
         liker.keySet().forEach( ( key ) -> {
             Tools.Prt( ChatColor.GREEN + key + " : " + ChatColor.WHITE + liker.get( key ), Tools.consoleMode.max, programCode );
             SimpleDateFormat ddf = new SimpleDateFormat( "yyyy/MM/dd" );
