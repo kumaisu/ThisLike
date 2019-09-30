@@ -50,7 +50,7 @@ public class BreakListener implements Listener {
         //  DBからデータ取得
         String SignLOC = DatabaseUtil.makeID( block.getLocation() );
         String SignWorld = block.getLocation().getWorld().getName();
-        Tools.Prt( ChatColor.YELLOW + "Sign LOC = " + SignLOC + " : " + SignWorld, Tools.consoleMode.full, programCode );
+        Tools.Prt( ChatColor.YELLOW + "Sign LOC = " + SignLOC + " : " + SignWorld, Tools.consoleMode.max, programCode );
         if ( SignData.GetSQL( SignLOC, SignWorld ) ) {
             Tools.Prt( ChatColor.GOLD + "get [" + ChatColor.AQUA + "ThisLike"+ ChatColor.GOLD + "] Sign", Tools.consoleMode.max, programCode );
 

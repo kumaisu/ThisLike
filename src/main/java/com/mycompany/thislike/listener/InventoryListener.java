@@ -45,7 +45,7 @@ public class InventoryListener implements Listener {
         Tools.Prt( ChatColor.GOLD + "get Inventory Click Event", Tools.consoleMode.max, programCode );
         Player player = ( Player ) event.getWhoClicked();
         if ( !event.getInventory().equals( OwnerControl.inv.get( player.getUniqueId() ) ) ) return;
-        if ( event.getCurrentItem().getItemMeta() == null ) return;
+        if ( event.getCurrentItem() == null ) return;
         if ( event.getCurrentItem().getItemMeta().getDisplayName().contains("Remove Sign")) {
             event.getWhoClicked().closeInventory();
 
@@ -63,7 +63,7 @@ public class InventoryListener implements Listener {
                 Tools.Prt( player,
                     ChatColor.LIGHT_PURPLE + "イイネ看板を無効にしました。" +
                     ChatColor.GREEN + "破壊可能です",
-                    Tools.consoleMode.max, programCode
+                    Tools.consoleMode.full, programCode
                 );
             }
         }

@@ -46,7 +46,6 @@ public class OwnerControl {
         int slot = liker.size() + ( 9 - ( liker.size() % 9 ) ) + 9;
         if ( slot>54 ) { slot = 54; }
 
-        
         Inventory TempInv;
         TempInv = Bukkit.createInventory( null, slot, "『" + Title + "』いいね" );
 
@@ -77,17 +76,12 @@ public class OwnerControl {
      * @return 
      */
     public static ItemStack getPlayerHead( Player player, String target, List<String> Lore ) {
-        /* 1.12用
-        SkullMeta iMeta = ( SkullMeta ) Bukkit.getItemFactory().getItemMeta( Material.SKULL_ITEM );
-        iMeta.setOwner( target );
-        iMeta.setDisplayName( target );
-        ItemStack i = new ItemStack( Material.SKULL_ITEM, 1, ( byte ) SkullType.PLAYER.ordinal() );
-        i.setItemMeta( iMeta );
-        */
+        //  SkullMeta iMeta = ( SkullMeta ) Bukkit.getItemFactory().getItemMeta( Material.SKULL_ITEM );
         SkullMeta skull = ( SkullMeta ) Bukkit.getItemFactory().getItemMeta( Material.PLAYER_HEAD );
         skull.setOwner( target );
         skull.setDisplayName( target );
         skull.setLore( Lore );
+        //  ItemStack i = new ItemStack( Material.SKULL_ITEM, 1, ( byte ) SkullType.PLAYER.ordinal() );
         ItemStack i = new ItemStack( Material.PLAYER_HEAD, 1 );
         i.setItemMeta( skull );
         return i;

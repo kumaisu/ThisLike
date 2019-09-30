@@ -111,7 +111,7 @@ public class MySQLControl {
             preparedStatement = con.prepareStatement( sql );
             preparedStatement.executeUpdate();
 
-            Tools.Prt( ChatColor.AQUA + "dataSource Open Success.", Tools.consoleMode.max, programCode );
+            Tools.Prt( ChatColor.AQUA + "dataSource Open Success.", Tools.consoleMode.full, programCode );
             con.close();
         } catch( SQLException e ) {
             Tools.Prt( ChatColor.RED + "Connection Error : " + e.getMessage(), programCode);
