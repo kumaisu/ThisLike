@@ -24,6 +24,8 @@ import com.mycompany.thislike.database.LikePlayerData;
 import com.mycompany.kumaisulibraries.Tools;
 import static com.mycompany.thislike.config.Config.programCode;
 
+import org.bukkit.SkullType;
+
 /**
  *
  * @author sugichan
@@ -51,7 +53,9 @@ public class OwnerControl {
 
         ItemStack DelIcon = new ItemStack( Material.BARRIER, 1 );
         ItemMeta DelMeta = Bukkit.getItemFactory().getItemMeta(Material.BARRIER);
-        DelMeta.setDisplayName( "Remove Sign" );
+        DelMeta.setDisplayName( "Remove" );
+        List<String> DelLore = Arrays.asList( ChatColor.RED + "いいね看板を", ChatColor.RED + "削除します" );
+        DelMeta.setLore( DelLore );
         DelIcon.setItemMeta( DelMeta );
         TempInv.setItem( slot - 1, DelIcon );
         
@@ -76,13 +80,13 @@ public class OwnerControl {
      * @return 
      */
     public static ItemStack getPlayerHead( Player player, String target, List<String> Lore ) {
-        //  SkullMeta iMeta = ( SkullMeta ) Bukkit.getItemFactory().getItemMeta( Material.SKULL_ITEM );
-        SkullMeta skull = ( SkullMeta ) Bukkit.getItemFactory().getItemMeta( Material.PLAYER_HEAD );
+        SkullMeta skull = ( SkullMeta ) Bukkit.getItemFactory().getItemMeta( Material.SKULL_ITEM );         //  1.12.2
+        //  SkullMeta skull = ( SkullMeta ) Bukkit.getItemFactory().getItemMeta( Material.PLAYER_HEAD );
         skull.setOwner( target );
         skull.setDisplayName( target );
         skull.setLore( Lore );
-        //  ItemStack i = new ItemStack( Material.SKULL_ITEM, 1, ( byte ) SkullType.PLAYER.ordinal() );
-        ItemStack i = new ItemStack( Material.PLAYER_HEAD, 1 );
+        ItemStack i = new ItemStack( Material.SKULL_ITEM, 1, ( byte ) SkullType.PLAYER.ordinal() );         //  1.12.2
+        //  ItemStack i = new ItemStack( Material.PLAYER_HEAD, 1 );
         i.setItemMeta( skull );
         return i;
     }

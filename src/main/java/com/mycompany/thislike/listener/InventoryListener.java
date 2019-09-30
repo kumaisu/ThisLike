@@ -8,6 +8,7 @@ package com.mycompany.thislike.listener;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.block.Sign;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -19,7 +20,7 @@ import com.mycompany.thislike.database.LikePlayerData;
 import com.mycompany.thislike.OwnerControl;
 import com.mycompany.kumaisulibraries.Tools;
 import static com.mycompany.thislike.config.Config.programCode;
-import org.bukkit.block.Sign;
+import org.bukkit.Material;
 
 /**
  *
@@ -45,8 +46,8 @@ public class InventoryListener implements Listener {
         Tools.Prt( ChatColor.GOLD + "get Inventory Click Event", Tools.consoleMode.max, programCode );
         Player player = ( Player ) event.getWhoClicked();
         if ( !event.getInventory().equals( OwnerControl.inv.get( player.getUniqueId() ) ) ) return;
-        if ( event.getCurrentItem() == null ) return;
-        if ( event.getCurrentItem().getItemMeta().getDisplayName().contains("Remove Sign")) {
+
+        if ( ( event.getCurrentItem().getType() == Material.BARRIER ) && event.getCurrentItem().getItemMeta().getDisplayName().contains( "Remove" ) ) {
             event.getWhoClicked().closeInventory();
 
             String SignLOC = DatabaseUtil.makeID( OwnerControl.loc.get( player.getUniqueId() ) );

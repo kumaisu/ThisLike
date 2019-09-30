@@ -57,11 +57,11 @@ public class ConfigManager {
     }
 
     public static void Status( Player p ) {
-        Tools.Prt( p, ChatColor.GREEN + "=== Citizenship Status ===", programCode );
+        Tools.Prt( p, ChatColor.GREEN + "=== ThisLike Status ===", programCode );
         Tools.Prt( p, ChatColor.WHITE + "Degub Mode   : " + ChatColor.YELLOW + Tools.consoleFlag.get( programCode ).toString(), programCode );
         Tools.Prt( p, ChatColor.WHITE + "Mysql        : " + ChatColor.YELLOW + Config.host + ":" + Config.port, programCode );
         Tools.Prt( p, ChatColor.WHITE + "DB Name      : " + ChatColor.YELLOW + Config.database, programCode );
-        if ( ( p == null ) || p.hasPermission( "citizenship.console" ) ) {
+        if ( p == null ) {
             Tools.Prt( p, ChatColor.WHITE + "DB UserName  : " + ChatColor.YELLOW + Config.username, programCode );
             Tools.Prt( p, ChatColor.WHITE + "DB Password  : " + ChatColor.YELLOW + Config.password, programCode );
         }
