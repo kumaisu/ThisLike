@@ -58,6 +58,7 @@ public class ClickListener implements Listener {
             Sign sign = (Sign) clickedBlock.getState();
 
             if ( Database.OwnerName.equals( player.getName() ) ) {
+                OwnerControl.loc.put( player.getUniqueId(), clickedBlock.getLocation() );
                 OwnerControl.printLiker( player, Database.ID, sign.getLine( 1 ) );
                 return;
             }

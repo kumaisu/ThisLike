@@ -15,13 +15,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Location;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import com.mycompany.thislike.database.LikePlayerData;
 import com.mycompany.kumaisulibraries.Tools;
 import static com.mycompany.thislike.config.Config.programCode;
-import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  *
@@ -30,6 +31,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class OwnerControl {
 
     public static Map< UUID, Inventory > inv;
+    public static Map< UUID, Location > loc;
 
     /**
      * イイネのプレイヤー一覧表示 

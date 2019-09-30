@@ -38,6 +38,7 @@ public class ThisLike extends JavaPlugin {
         new InventoryListener( this );
         getCommand( "thislike" ).setExecutor( new ThislikeCommand( this ) );
         OwnerControl.inv = new HashMap<>();
+        OwnerControl.loc = new HashMap<>();
     }
 
     @Override
