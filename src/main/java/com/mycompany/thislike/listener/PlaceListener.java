@@ -30,7 +30,7 @@ public class PlaceListener implements Listener {
     public PlaceListener( Plugin plugin ) {
         plugin.getServer().getPluginManager().registerEvents( this, plugin );
     }
-    
+
     /**
      * 看板設置時に文章を記載した時に発生するイベント
      *
@@ -60,5 +60,4 @@ public class PlaceListener implements Listener {
             );
         }
     }
-
 }

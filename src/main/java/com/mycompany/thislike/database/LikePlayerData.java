@@ -186,7 +186,6 @@ public class LikePlayerData {
         } catch ( SQLException e ) {
             Tools.Prt( ChatColor.RED + "Error listSQL" + e.getMessage(), programCode );
         }
-
         return likeP;
     }
 }

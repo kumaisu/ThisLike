@@ -27,7 +27,7 @@ public class DatabaseUtil {
         String RetStr = X + Y + Z;
         return RetStr;
     }
-    
+
     public static Location StoreID( String ID ) {
         Location Loc = null;
         Integer X = Integer.decode( "0x" + ID.substring( 0, 8 ) );
@@ -39,5 +39,4 @@ public class DatabaseUtil {
         Loc.setZ( Z );
         return Loc;
     }
-    
 }

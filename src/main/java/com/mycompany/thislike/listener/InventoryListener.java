@@ -6,7 +6,6 @@
 package com.mycompany.thislike.listener;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.block.Sign;
@@ -36,7 +35,7 @@ public class InventoryListener implements Listener {
     public InventoryListener( Plugin plugin ) {
         plugin.getServer().getPluginManager().registerEvents( this, plugin );
     }
-    
+
     /**
      * クリックされた時の処理
      *
@@ -50,10 +49,10 @@ public class InventoryListener implements Listener {
 
         String SignLOC = DatabaseUtil.makeID( OwnerControl.loc.get( player.getUniqueId() ) );
         String SignWorld = OwnerControl.loc.get( player.getUniqueId() ).getWorld().getName();
+        Sign sign = (Sign) OwnerControl.loc.get( player.getUniqueId() ).getBlock().getState();
 
         switch( event.getCurrentItem().getType().name() ) {
             case "BARRIER":
-                Tools.Prt( "BARRIER", Tools.consoleMode.max, programCode );
                 if ( event.getCurrentItem().getItemMeta().getDisplayName().contains( "Remove" ) ) {
                     event.getWhoClicked().closeInventory();
                     Tools.Prt( ChatColor.YELLOW + "Sign LOC = " + SignLOC + " : " + SignWorld, Tools.consoleMode.full, programCode );
@@ -62,7 +61,6 @@ public class InventoryListener implements Listener {
                         SignData.DelSQL( Database.ID );
                         LikePlayerData.DelSQL( Database.ID );
                         //  対象看板を破壊する操作※追加予定　暫定的に1行目を赤にして破壊可能にする
-                        Sign sign = (Sign) OwnerControl.loc.get( player.getUniqueId() ).getBlock().getState();
                         sign.setLine( 0, ChatColor.RED + "#[ThisLike]#" );
                         sign.update();
                         Tools.Prt( player,
@@ -73,26 +71,27 @@ public class InventoryListener implements Listener {
                     }
                 }
                 break;
-            case "WOOL":
-                Tools.Prt( "WOOL", Tools.consoleMode.max, programCode );
+            case "BLUE_WOOL":
                 event.getWhoClicked().closeInventory();
-                Sign sign = (Sign) OwnerControl.loc.get( player.getUniqueId() ).getBlock().getState();
-                switch( event.getCurrentItem().getItemMeta().getDisplayName() ) { 
-                    case "いいね":
-                        LikeControl.SetLike( Database.ID, player, sign.getLine( 2 ), sign.getLine( 1 ) );
-                        break;
-                    case "解除":
-                        LikeControl.SetUnlike( Database.ID, player, sign.getLine( 2 ), sign.getLine( 1 ) );
-                        break;
+                if ( event.getCurrentItem().getItemMeta().getDisplayName().contains( "いいね" ) ) {
+                    LikeControl.SetLike( Database.ID, player, sign.getLine( 2 ), sign.getLine( 1 ) );
                 }
-                //  看板内容更新
-                SignData.GetSQL( SignLOC, SignWorld );
-                sign.setLine( 3, ChatColor.YELLOW + "イイネ : " + ChatColor.BLUE + Database.LikeNum );
-                sign.update();
+                break;
+            case "RED_WOOL":
+                event.getWhoClicked().closeInventory();
+                if ( event.getCurrentItem().getItemMeta().getDisplayName().contains( "解除" ) ) {
+                    LikeControl.SetUnlike( Database.ID, player, sign.getLine( 2 ), sign.getLine( 1 ) );
+                }
                 break;
             default:
                 Tools.Prt( event.getCurrentItem().getType().name(), Tools.consoleMode.max, programCode );
         }
+
+        //  看板内容更新
+        SignData.GetSQL( SignLOC, SignWorld );
+        sign.setLine( 3, ChatColor.YELLOW + "イイネ : " + ChatColor.BLUE + Database.LikeNum );
+        sign.update();
+
         event.setCancelled( true );
     }
 

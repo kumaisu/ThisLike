@@ -44,7 +44,7 @@ public class BreakListener implements Listener {
         Tools.Prt( "Material = " + material.name(), Tools.consoleMode.max, programCode );
 
         if ( !material.name().contains( "SIGN" ) ) { return; }
-        
+
         //  DBからデータ取得
         String SignLOC = DatabaseUtil.makeID( block.getLocation() );
         String SignWorld = block.getLocation().getWorld().getName();

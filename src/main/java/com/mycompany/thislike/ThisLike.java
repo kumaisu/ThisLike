@@ -26,7 +26,7 @@ public class ThisLike extends JavaPlugin {
     private ThisLike instance;
 
     public static ConfigManager config;
-    
+
     @Override
     @SuppressWarnings( "ResultOfObjectAllocationIgnored" )
     public void onEnable() {
