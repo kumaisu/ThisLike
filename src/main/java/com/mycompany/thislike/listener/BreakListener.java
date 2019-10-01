@@ -18,8 +18,6 @@ import com.mycompany.thislike.database.Database;
 import com.mycompany.thislike.database.SignData;
 import com.mycompany.thislike.database.DatabaseUtil;
 import static com.mycompany.thislike.config.Config.programCode;
-import org.bukkit.Location;
-import com.mycompany.thislike.database.LikePlayerData;
 
 /**
  *
@@ -60,22 +58,6 @@ public class BreakListener implements Listener {
             //  将来的には、OPまたはADMINは壊せるように変更
             Tools.Prt( "Break Cancelled", Tools.consoleMode.max, programCode );
             event.setCancelled( true );
-
-            /*
-            return;
-                
-            if ( player.getUniqueId().equals( Database.OwnerUUID ) || player.hasPermission( "ThisLike.admin" ) ) {
-                Location loc = block.getLocation();
-                Block checkBlock = loc.getBlock();
-                Tools.Prt( ChatColor.GREEN + "Check Block Type : " + checkBlock.getType().name(), Tools.consoleMode.max, programCode );
-
-                Tools.Prt( ChatColor.GOLD + "Owner or Admin Delete process", Tools.consoleMode.max, programCode );
-
-                //  Owner か Admin なら DBから看板削除 & イイネDBをクリアー
-                SignData.DelSQL( Database.ID );
-                LikePlayerData.DelSQL( Database.ID );
-            }
-            */
         }
     }
 }

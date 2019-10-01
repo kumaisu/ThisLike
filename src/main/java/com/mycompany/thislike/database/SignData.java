@@ -12,11 +12,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import static java.util.UUID.fromString;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import com.mycompany.kumaisulibraries.Tools;
 import static com.mycompany.thislike.config.Config.programCode;
-import static java.util.UUID.fromString;
 
 /**
  * @author sugichan

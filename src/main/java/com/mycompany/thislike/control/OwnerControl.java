@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.thislike;
+package com.mycompany.thislike.control;
 
 import java.util.UUID;
 import java.util.Date;
@@ -25,6 +25,8 @@ import com.mycompany.kumaisulibraries.Tools;
 import static com.mycompany.thislike.config.Config.programCode;
 
 import org.bukkit.SkullType;
+import org.bukkit.material.Wool;
+import org.bukkit.DyeColor;
 
 /**
  *
@@ -41,8 +43,9 @@ public class OwnerControl {
      * @param player
      * @param ID
      * @param Title
+     * @param hasOwner
     */
-    public static void printLiker( Player player, int ID, String Title ) {
+    public static void printLiker( Player player, int ID, String Title, boolean hasOwner ) {
         Map< String, Date > liker = LikePlayerData.listSQL( ID );
 
         int slot = liker.size() + ( 9 - ( liker.size() % 9 ) ) + 9;
@@ -51,13 +54,30 @@ public class OwnerControl {
         Inventory TempInv;
         TempInv = Bukkit.createInventory( null, slot, "『" + Title + "』いいね" );
 
-        ItemStack DelIcon = new ItemStack( Material.BARRIER, 1 );
-        ItemMeta DelMeta = Bukkit.getItemFactory().getItemMeta(Material.BARRIER);
-        DelMeta.setDisplayName( "Remove" );
-        List<String> DelLore = Arrays.asList( ChatColor.RED + "いいね看板を", ChatColor.RED + "削除します" );
-        DelMeta.setLore( DelLore );
-        DelIcon.setItemMeta( DelMeta );
-        TempInv.setItem( slot - 1, DelIcon );
+        if ( hasOwner ) {
+            //  Remove Icon 作成
+            ItemStack DelIcon = new ItemStack( Material.BARRIER, 1 );
+            ItemMeta DelMeta = Bukkit.getItemFactory().getItemMeta(Material.BARRIER);
+            DelMeta.setDisplayName( "Remove" );
+            List<String> DelLore = Arrays.asList( ChatColor.RED + "いいね看板を", ChatColor.RED + "削除します" );
+            DelMeta.setLore( DelLore );
+            DelIcon.setItemMeta( DelMeta );
+            TempInv.setItem( slot - 1, DelIcon );
+        }
+
+        //  イイネ解除
+        ItemStack Unlike = new Wool( DyeColor.RED ).toItemStack( 1 );
+        ItemMeta um = Unlike.getItemMeta();
+        um.setDisplayName( "解除" );
+        Unlike.setItemMeta( um );
+        TempInv.setItem( slot - 8, Unlike );
+        
+        //  イイネ解除
+        ItemStack Like = new Wool( DyeColor.BLUE ).toItemStack( 1 );
+        ItemMeta lm = Like.getItemMeta();
+        lm.setDisplayName( "いいね" );
+        Like.setItemMeta( lm );
+        TempInv.setItem( slot - 9, Like );
         
         liker.keySet().forEach( ( key ) -> {
             Tools.Prt( ChatColor.GREEN + key + " : " + ChatColor.WHITE + liker.get( key ), Tools.consoleMode.max, programCode );
@@ -89,37 +109,5 @@ public class OwnerControl {
         //  ItemStack i = new ItemStack( Material.PLAYER_HEAD, 1 );
         i.setItemMeta( skull );
         return i;
-    }
-
-    public static void SendMenu( Player player ) {
-        String ExecCommand;
-
-        /*
-        イイネ一覧  [表示]
-        建物名      [変更]
-        看板        [削除]
-        */
-        player.sendMessage( ChatColor.GREEN + "+-------------------------------------" );
-        player.sendMessage( ChatColor.GREEN + "|" + ChatColor.AQUA + "イイネ[ThisLike] Owner コマンド" );
-        
-        ExecCommand = "tellraw " + player.getName() + " ["
-                + "{\"text\":\"|イイネ一覧  \",\"color\":\"green\"},"
-                + "{\"text\":\"[表示]\",\"color\":\"yellow\",\"underlined\":\"true\",\"clickEvent\":"
-                + "{\"action\":\"run_command\",\"value\":\"/ThisLike list\"}}]";
-        Bukkit.getServer().dispatchCommand( Bukkit.getConsoleSender(), ExecCommand );
-
-        ExecCommand = "tellraw " + player.getName() + " ["
-                + "{\"text\":\"|建物名      \",\"color\":\"green\"},"
-                + "{\"text\":\"[変更]\",\"color\":\"yellow\",\"underlined\":\"true\",\"clickEvent\":"
-                + "{\"action\":\"run_command\",\"value\":\"/ThisLike change\"}}]";
-        Bukkit.getServer().dispatchCommand( Bukkit.getConsoleSender(), ExecCommand );
-
-        ExecCommand = "tellraw " + player.getName() + " ["
-                + "{\"text\":\"|看板        \",\"color\":\"green\"},"
-                + "{\"text\":\"[削除]\",\"color\":\"yellow\",\"underlined\":\"true\",\"clickEvent\":"
-                + "{\"action\":\"run_command\",\"value\":\"/ThisLike remove\"}}]";
-        Bukkit.getServer().dispatchCommand( Bukkit.getConsoleSender(), ExecCommand );
-        
-        player.sendMessage( ChatColor.GREEN + "+-------------------------------------" );
     }
 }

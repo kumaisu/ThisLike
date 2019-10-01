@@ -14,6 +14,7 @@ import com.mycompany.thislike.listener.ClickListener;
 import com.mycompany.thislike.listener.PlaceListener;
 import com.mycompany.thislike.listener.InventoryListener;
 import com.mycompany.thislike.command.ThislikeCommand;
+import com.mycompany.thislike.control.OwnerControl;
 import com.mycompany.thislike.database.MySQLControl;
 
 /**

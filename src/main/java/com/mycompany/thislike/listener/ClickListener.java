@@ -20,7 +20,8 @@ import com.mycompany.thislike.database.Database;
 import com.mycompany.thislike.database.DatabaseUtil;
 import com.mycompany.thislike.database.SignData;
 import com.mycompany.thislike.database.LikePlayerData;
-import com.mycompany.thislike.OwnerControl;
+import com.mycompany.thislike.control.OwnerControl;
+import com.mycompany.thislike.control.LikeControl;
 import static com.mycompany.thislike.config.Config.programCode;
 
 /**
@@ -57,42 +58,26 @@ public class ClickListener implements Listener {
         if ( SignData.GetSQL( SignLOC, SignWorld ) ) {
             Sign sign = (Sign) clickedBlock.getState();
 
-            if ( Database.OwnerName.equals( player.getName() ) ) {
-                OwnerControl.loc.put( player.getUniqueId(), clickedBlock.getLocation() );
-                OwnerControl.printLiker( player, Database.ID, sign.getLine( 1 ) );
-                return;
-            }
-
             Tools.Prt( ChatColor.YELLOW + "Sign Line 1 : " + sign.getLine( 0 ), Tools.consoleMode.max, programCode );
             Tools.Prt( ChatColor.YELLOW + "Sign Line 2 : " + sign.getLine( 1 ), Tools.consoleMode.max, programCode );
             Tools.Prt( ChatColor.YELLOW + "Sign Line 3 : " + sign.getLine( 2 ), Tools.consoleMode.max, programCode );
             Tools.Prt( ChatColor.YELLOW + "Sign Line 4 : " + sign.getLine( 3 ), Tools.consoleMode.max, programCode );
 
+            if ( player.isSneaking() ) {
+                OwnerControl.loc.put( player.getUniqueId(), clickedBlock.getLocation() );
+                OwnerControl.printLiker( player, Database.ID, sign.getLine( 1 ), Database.OwnerName.equals( player.getName() ) );
+                return;
+            }
+
+            if ( Database.OwnerName.equals( player.getName() ) ) {
+                Tools.Prt( player, ChatColor.GREEN + "あなたのイイネ看板です", Tools.consoleMode.max, programCode );
+                return;
+            }
+
             if ( LikePlayerData.hasSQL( Database.ID, player ) ) {
-                //  既にイイネしてるので解除処理
-                SignData.subLike( Database.ID );
-                LikePlayerData.DelPlayerSQL( Database.ID, player );
-                Tools.Prt( player,
-                    sign.getLine( 2 ) +
-                    ChatColor.LIGHT_PURPLE + "さんの" +
-                    ChatColor.YELLOW + "『" + sign.getLine( 1 ) + "』" +
-                    ChatColor.LIGHT_PURPLE + "から" +
-                    ChatColor.AQUA + "イイネ" +
-                    ChatColor.LIGHT_PURPLE + "をやめました",
-                    Tools.consoleMode.full, programCode
-                );
+                LikeControl.SetUnlike( Database.ID, player, sign.getLine( 2 ), sign.getLine( 1 ) );
             } else {
-                //  イイネ処理
-                SignData.incLike( Database.ID );
-                LikePlayerData.AddSQL( player, Database.ID );
-                Tools.Prt( player,
-                    sign.getLine( 2 ) + "さんの" +
-                    ChatColor.YELLOW + "『" + sign.getLine( 1 ) + "』" +
-                    ChatColor.GREEN + "に" +
-                    ChatColor.AQUA + "イイネ" +
-                    ChatColor.GREEN + "しました",
-                    Tools.consoleMode.full, programCode
-                );
+                LikeControl.SetLike( Database.ID, player, sign.getLine( 2 ), sign.getLine( 1 ) );
             }
 
             //  看板内容更新
