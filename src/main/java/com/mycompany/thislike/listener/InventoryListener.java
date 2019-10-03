@@ -6,7 +6,6 @@
 package com.mycompany.thislike.listener;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.block.Sign;
@@ -15,7 +14,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import com.mycompany.thislike.database.Database;
-import com.mycompany.thislike.database.DatabaseUtil;
 import com.mycompany.thislike.database.SignData;
 import com.mycompany.thislike.database.LikePlayerData;
 import com.mycompany.thislike.control.OwnerControl;
@@ -48,16 +46,13 @@ public class InventoryListener implements Listener {
         Player player = ( Player ) event.getWhoClicked();
         if ( !event.getInventory().equals( OwnerControl.inv.get( player.getUniqueId() ) ) ) return;
 
-        String SignLOC = DatabaseUtil.makeID( OwnerControl.loc.get( player.getUniqueId() ) );
-        String SignWorld = OwnerControl.loc.get( player.getUniqueId() ).getWorld().getName();
-
         switch( event.getCurrentItem().getType().name() ) {
             case "BARRIER":
                 Tools.Prt( "BARRIER", Tools.consoleMode.max, programCode );
                 if ( event.getCurrentItem().getItemMeta().getDisplayName().contains( "Remove" ) ) {
                     event.getWhoClicked().closeInventory();
-                    Tools.Prt( ChatColor.YELLOW + "Sign LOC = " + SignLOC + " : " + SignWorld, Tools.consoleMode.full, programCode );
-                    if ( SignData.GetSQL( SignLOC, SignWorld ) ) {
+                    Tools.Prt( ChatColor.YELLOW + "Sign LOC = " + OwnerControl.loc.get( player.getUniqueId() ).toString(), Tools.consoleMode.full, programCode );
+                    if ( SignData.GetSQL( OwnerControl.loc.get( player.getUniqueId() ) ) ) {
                         //  Owner か Admin なら DBから看板削除 & イイネDBをクリアー
                         SignData.DelSQL( Database.ID );
                         LikePlayerData.DelSQL( Database.ID );
@@ -86,7 +81,7 @@ public class InventoryListener implements Listener {
                         break;
                 }
                 //  看板内容更新
-                SignData.GetSQL( SignLOC, SignWorld );
+                SignData.GetSQL( OwnerControl.loc.get( player.getUniqueId() ) );
                 sign.setLine( 3, ChatColor.YELLOW + "イイネ : " + ChatColor.BLUE + Database.LikeNum );
                 sign.update();
                 break;

@@ -17,7 +17,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
 import com.mycompany.kumaisulibraries.Tools;
 import com.mycompany.thislike.database.Database;
-import com.mycompany.thislike.database.DatabaseUtil;
 import com.mycompany.thislike.database.SignData;
 import com.mycompany.thislike.database.LikePlayerData;
 import com.mycompany.thislike.control.OwnerControl;
@@ -52,10 +51,8 @@ public class ClickListener implements Listener {
 
         if ( !material.name().contains( "SIGN" ) ) { return; }
 
-        String SignLOC = DatabaseUtil.makeID( clickedBlock.getLocation() );
-        String SignWorld = clickedBlock.getLocation().getWorld().getName();
-        Tools.Prt( ChatColor.YELLOW + "Sign LOC = " + SignLOC + " : " + SignWorld, Tools.consoleMode.full, programCode );
-        if ( SignData.GetSQL( SignLOC, SignWorld ) ) {
+        Tools.Prt( ChatColor.YELLOW + "Sign LOC = " + clickedBlock.getLocation().toString(), Tools.consoleMode.full, programCode );
+        if ( SignData.GetSQL( clickedBlock.getLocation() ) ) {
             Sign sign = (Sign) clickedBlock.getState();
 
             Tools.Prt( ChatColor.YELLOW + "Sign Line 1 : " + sign.getLine( 0 ), Tools.consoleMode.max, programCode );
@@ -81,7 +78,7 @@ public class ClickListener implements Listener {
             }
 
             //  看板内容更新
-            SignData.GetSQL( SignLOC, SignWorld );
+            SignData.GetSQL( clickedBlock.getLocation() );
             sign.setLine( 3, ChatColor.YELLOW + "イイネ : " + ChatColor.BLUE + Database.LikeNum );
             sign.update();
         }

@@ -16,7 +16,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import com.mycompany.kumaisulibraries.Tools;
 import com.mycompany.thislike.database.Database;
 import com.mycompany.thislike.database.SignData;
-import com.mycompany.thislike.database.DatabaseUtil;
 import static com.mycompany.thislike.config.Config.programCode;
 
 /**
@@ -46,10 +45,8 @@ public class BreakListener implements Listener {
         if ( !material.name().contains( "SIGN" ) ) { return; }
         
         //  DBからデータ取得
-        String SignLOC = DatabaseUtil.makeID( block.getLocation() );
-        String SignWorld = block.getLocation().getWorld().getName();
-        Tools.Prt( ChatColor.YELLOW + "Sign LOC = " + SignLOC + " : " + SignWorld, Tools.consoleMode.max, programCode );
-        if ( SignData.GetSQL( SignLOC, SignWorld ) ) {
+        Tools.Prt( ChatColor.YELLOW + "Sign LOC = " + block.getLocation().toString(), Tools.consoleMode.max, programCode );
+        if ( SignData.GetSQL( block.getLocation() ) ) {
             Tools.Prt( ChatColor.GOLD + "get [" + ChatColor.AQUA + "ThisLike"+ ChatColor.GOLD + "] Sign", Tools.consoleMode.max, programCode );
 
             Tools.Prt( player.getUniqueId().toString() + " : " + Database.OwnerUUID.toString(), Tools.consoleMode.max, programCode );

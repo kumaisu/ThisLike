@@ -7,6 +7,7 @@ package com.mycompany.thislike.database;
 
 import java.util.UUID;
 import java.util.Date;
+import org.bukkit.Location;
 import com.zaxxer.hikari.HikariDataSource;
 
 /**
@@ -27,8 +28,7 @@ public class Database {
     //  存在すれば、無視される
     //  String sql = "CREATE TABLE IF NOT EXISTS sign( id int auto_increment, loc varchar(20), world varchar(20), uuid varchar(36), name varchar(20), date DATETIME, likenum int, index( id ) );";
     public static int ID = 0;
-    public static String LOC = "";
-    public static String WORLD = "";
+    public static Location LOC = null;
     //  public static String TITLE = "";
     public static String OwnerName;
     public static UUID OwnerUUID;

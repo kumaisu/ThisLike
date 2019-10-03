@@ -13,7 +13,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import static java.util.UUID.fromString;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import com.mycompany.kumaisulibraries.Tools;
 import static com.mycompany.thislike.config.Config.programCode;
@@ -21,7 +23,16 @@ import static com.mycompany.thislike.config.Config.programCode;
 /**
  * @author sugichan
  *
- * CREATE TABLE IF NOT EXISTS sign( id int auto_increment, loc varchar(20), world varchar(20), uuid varchar(36), name varchar(20), date DATETIME, likenum int, index( id ) );
+ * いいね看板テーブル
+ *      id : int                auto increment
+ *      world : varchar(20)     world name
+ *      x : int
+ *      y : int
+ *      z : int
+ *      uuid : varchar(36)      owner player uuid
+ *      name : varchar(20)      owner player name
+ *      date : DATETIME
+ *      like : int
  */
 public class SignData {
     private static final SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
@@ -31,25 +42,25 @@ public class SignData {
      *
      * @param player
      * @param LOC
-     * @param WORLD
      */
-    public static void AddSQL( Player player, String LOC, String WORLD ) {
+    public static void AddSQL( Player player, Location LOC ) {
         try ( Connection con = Database.dataSource.getConnection() ) {
-            String sql = "INSERT INTO sign (loc, world, uuid, name, date, likenum) VALUES (?, ?, ?, ?, ?, ?);";
+            String sql = "INSERT INTO sign (world, x, y, z, uuid, name, date, likenum) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             PreparedStatement preparedStatement = con.prepareStatement( sql );
-            preparedStatement.setString( 1, LOC );
-            preparedStatement.setString( 2, WORLD );
-            preparedStatement.setString( 3, player.getUniqueId().toString() );
-            preparedStatement.setString( 4, player.getName() );
-            preparedStatement.setString( 5, sdf.format( new Date() ) );
-            preparedStatement.setInt( 6, 0 );
+            preparedStatement.setString( 1, LOC.getWorld().getName() );
+            preparedStatement.setInt( 2, LOC.getBlockX() );
+            preparedStatement.setInt( 3, LOC.getBlockY() );
+            preparedStatement.setInt( 4, LOC.getBlockZ() );
+            preparedStatement.setString( 5, player.getUniqueId().toString() );
+            preparedStatement.setString( 6, player.getName() );
+            preparedStatement.setString( 7, sdf.format( new Date() ) );
+            preparedStatement.setInt( 8, 0 );
 
             preparedStatement.executeUpdate();
             con.close();
 
             Database.LOC = LOC;
-            Database.WORLD = WORLD;
             Database.OwnerName = player.getName();
             Database.SignDate = new Date();
             Database.LikeNum = 0;
@@ -85,20 +96,25 @@ public class SignData {
      * UUIDからプレイヤー情報を取得する
      *
      * @param LOC
-     * @param WORLD
      * @return
      */
-    public static boolean GetSQL( String LOC, String WORLD ) {
+    public static boolean GetSQL( Location LOC ) {
         try ( Connection con = Database.dataSource.getConnection() ) {
             boolean retStat = false;
             Statement stmt = con.createStatement();
-            String sql = "SELECT * FROM sign WHERE loc = '" + LOC + "' AND world = '" + WORLD + "';";
+            String sql = "SELECT * FROM sign WHERE x = " + LOC.getBlockX() +
+                    " AND y = " + LOC.getBlockY() +
+                    " AND z = " + LOC.getBlockZ() +
+                    " AND world = '" + LOC.getWorld().getName() + "';";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             ResultSet rs = stmt.executeQuery( sql );
             if ( rs.next() ) {
                 Database.ID             = rs.getInt( "id" );
-                Database.LOC            = rs.getString( "loc" );
-                Database.WORLD          = rs.getString( "world" );
+                Database.LOC    = new Location(
+                        Bukkit.getWorld( rs.getString( "world" ) ),
+                        rs.getInt( "x" ),
+                        rs.getInt( "y" ),
+                        rs.getInt( "z" ) );
                 Database.OwnerUUID      = fromString( rs.getString( "uuid" ) );
                 Database.OwnerName      = rs.getString( "name" );
                 Database.SignDate       = rs.getTimestamp( "date" );
@@ -147,6 +163,36 @@ public class SignData {
             con.close();
         } catch ( SQLException e ) {
             Tools.Prt( ChatColor.RED + "Error sub LikeNum : " + e.getMessage(), programCode );
+        }
+    }
+
+    /**
+     * イイネ看板リスト
+     *
+     * @param player 
+     */
+    public static void SignList( Player player ) {
+        try ( Connection con = Database.dataSource.getConnection() ) {
+            Tools.Prt( player, ChatColor.GREEN + "List for Signs ...", programCode );
+            Statement stmt = con.createStatement();
+            String sql = "SELECT * FROM sign ORDER BY world ASC;";
+            ResultSet rs = stmt.executeQuery( sql );
+            while( rs.next() ) {
+                Tools.Prt( player, 
+                    ChatColor.WHITE + String.format( "%6d", rs.getInt( "id" ) ) + ": " +
+                    ChatColor.GREEN + rs.getString( "date" ) + " " +
+                    ChatColor.AQUA + rs.getString( "name" ) + " " +
+                    ChatColor.YELLOW + rs.getString( "world" ) + " [" +
+                    rs.getInt( "x" ) + "," + 
+                    rs.getInt( "y" ) + "," +
+                    rs.getInt( "z" ) + "]",
+                    programCode
+                );
+            }
+            con.close();
+            Tools.Prt( player, ChatColor.GREEN + "List [EOF]", programCode );
+        } catch ( SQLException e ) {
+            Tools.Prt( ChatColor.RED + "Error SignList : " + e.getMessage(), programCode );
         }
     }
 }

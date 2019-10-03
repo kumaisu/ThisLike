@@ -13,7 +13,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import com.mycompany.thislike.database.SignData;
-import com.mycompany.thislike.database.DatabaseUtil;
 import com.mycompany.kumaisulibraries.Tools;
 import static com.mycompany.thislike.config.Config.programCode;
 
@@ -53,11 +52,7 @@ public class PlaceListener implements Listener {
             event.setLine( 2, ChatColor.GREEN + player.getName() );
             event.setLine( 3, ChatColor.GOLD + "イイネ : " + ChatColor.BLUE + "0" );
 
-            SignData.AddSQL(
-                player,
-                DatabaseUtil.makeID( event.getBlock().getLocation() ),
-                event.getBlock().getLocation().getWorld().getName()
-            );
+            SignData.AddSQL( player, event.getBlock().getLocation() );
         }
     }
 

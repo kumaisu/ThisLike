@@ -11,6 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import com.mycompany.thislike.ThisLike;
+import com.mycompany.thislike.database.SignData;
 import com.mycompany.kumaisulibraries.Tools;
 import static com.mycompany.thislike.config.Config.programCode;
 
@@ -33,9 +34,12 @@ public class ThislikeCommand implements CommandExecutor {
         String commandString = "";
         String itemName = "";
         if ( args.length > 0 ) commandString = args[0];
-
+        if ( args.length > 1 ) itemName = args[1];
+  
         switch ( commandString ) {
-            case "status":
+            case "list":
+                SignData.SignList( player );
+                return true;            case "status":
                 instance.config.Status( player );
                 return true;
             case "reload":
@@ -52,9 +56,10 @@ public class ThislikeCommand implements CommandExecutor {
                 return true;
             case "help":
                 Tools.Prt( player, ChatColor.GREEN + "/ThisLike Command List", programCode );
-                Tools.Prt( player, ChatColor.YELLOW + "status           : " + ChatColor.WHITE + "システム設定閲覧", programCode );
-                Tools.Prt( player, ChatColor.YELLOW + "Console [Mode]   : " + ChatColor.WHITE + "コンソールデバッグ設定 [max,full,normal,none]", programCode );
-                Tools.Prt( player, ChatColor.YELLOW + "reload           : " + ChatColor.WHITE + "Configリロード", programCode );
+                Tools.Prt( player, ChatColor.YELLOW + "list           : " + ChatColor.WHITE + "いいね看板リスト", programCode );
+                Tools.Prt( player, ChatColor.YELLOW + "status         : " + ChatColor.WHITE + "システム設定閲覧", programCode );
+                Tools.Prt( player, ChatColor.YELLOW + "Console [Mode] : " + ChatColor.WHITE + "コンソールデバッグ設定 [max,full,normal,none]", programCode );
+                Tools.Prt( player, ChatColor.YELLOW + "reload         : " + ChatColor.WHITE + "Configリロード", programCode );
                 return true;
             default:
                 break;
