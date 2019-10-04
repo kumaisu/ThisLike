@@ -8,7 +8,10 @@ api-version: 1.14
 commands:
     ThisLike:
         description: ThisLike Control Command
+        permission: ThisLike.admin
+        permission-message: You do not have permission.
         usage: /<command> help
+        default: op
 permissions:
     ThisLike.admin:
         description: Command Permission
