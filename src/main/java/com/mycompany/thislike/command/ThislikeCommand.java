@@ -37,6 +37,9 @@ public class ThislikeCommand implements CommandExecutor {
         if ( args.length > 1 ) itemName = args[1];
 
         switch ( commandString ) {
+            case "top":
+                SignData.LikeTop( player );
+                return true;
             case "list":
                 SignData.SignList( player );
                 return true;
