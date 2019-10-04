@@ -179,13 +179,16 @@ public class SignData {
             ResultSet rs = stmt.executeQuery( sql );
             while( rs.next() ) {
                 Tools.Prt( player, 
-                    ChatColor.WHITE + String.format( "%6d", rs.getInt( "id" ) ) + ": " +
-                    ChatColor.GREEN + rs.getString( "date" ) + " " +
-                    ChatColor.AQUA + rs.getString( "name" ) + " " +
-                    ChatColor.YELLOW + rs.getString( "world" ) + " [" +
+                    ChatColor.WHITE + String.format( "%4d", rs.getInt( "id" ) ) + ": " +
+                    ChatColor.AQUA + rs.getString( "name" ) + " (" +
+                    ChatColor.BLUE + String.format( "%2d", rs.getInt( "likenum" ) ) +
+                    ChatColor.AQUA + ") " +
+                    ChatColor.YELLOW + "[" +
+                    rs.getString( "world" ) + " " +
                     rs.getInt( "x" ) + "," + 
                     rs.getInt( "y" ) + "," +
-                    rs.getInt( "z" ) + "]",
+                    rs.getInt( "z" ) + "] " +
+                    ChatColor.GREEN + rs.getString( "date" ),
                     programCode
                 );
             }
@@ -193,6 +196,41 @@ public class SignData {
             Tools.Prt( player, ChatColor.GREEN + "List [EOF]", programCode );
         } catch ( SQLException e ) {
             Tools.Prt( ChatColor.RED + "Error SignList : " + e.getMessage(), programCode );
+        }
+    }
+
+    /**
+     * イイネ看板リスト
+     *
+     * @param player 
+     */
+    public static void LikeTop( Player player ) {
+        try ( Connection con = Database.dataSource.getConnection() ) {
+            Tools.Prt( player, ChatColor.GREEN + "Like Top List ...", programCode );
+            Statement stmt = con.createStatement();
+            String sql = "SELECT * FROM sign ORDER BY likenum DESC;";
+            ResultSet rs = stmt.executeQuery( sql );
+
+            int Rank = 0;
+            while( rs.next() && ( Rank<10 ) ) {
+                Rank++;
+                Tools.Prt( player, 
+                    ChatColor.WHITE + String.format( "%3d", Rank ) + ": " +
+                    ChatColor.AQUA + rs.getString( "name" ) + " (" +
+                    ChatColor.BLUE + String.format( "%2d", rs.getInt( "likenum" ) ) +
+                    ChatColor.AQUA + ") " +
+                    ChatColor.YELLOW + "[" +
+                    rs.getString( "world" ) + " " +
+                    String.format( "%6d", rs.getInt( "x" ) ) + "," + 
+                    String.format( "%3d", rs.getInt( "y" ) ) + "," +
+                    String.format( "%6d", rs.getInt( "z" ) ) + "] ",
+                    programCode
+                );
+            }
+            con.close();
+            Tools.Prt( player, ChatColor.GREEN + "Top List [EOF]", programCode );
+        } catch ( SQLException e ) {
+            Tools.Prt( ChatColor.RED + "Error LikeTop : " + e.getMessage(), programCode );
         }
     }
 }
