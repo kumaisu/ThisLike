@@ -7,8 +7,7 @@ database: true
 commands:
     ThisLike:
         description: ThisLike Control Command
+        permissions: ThisLike.admin
+        permission-message: You do not have permission.
         usage: /<command> help
-permissions:
-    ThisLike.admin:
-        description: Command Permission
         default: op

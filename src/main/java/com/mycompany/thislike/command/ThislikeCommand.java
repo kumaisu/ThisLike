@@ -29,14 +29,7 @@ public class ThislikeCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand( CommandSender sender, Command cmd, String commandLabel, String[] args ) {
-        Player player;
-        
-        if ( sender instanceof Player ) {
-            player = ( Player ) sender;
-            if ( ( !player.isOp() ) && ( !player.hasPermission( "ThisLike.admin" ) ) ) return false;
-        } else {
-            player = null;
-        }
+        Player player = ( sender instanceof Player ? ( Player ) sender : null );
 
         String commandString = "";
         String itemName = "";
