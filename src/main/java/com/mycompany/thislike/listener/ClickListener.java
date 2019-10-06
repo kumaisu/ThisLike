@@ -53,6 +53,7 @@ public class ClickListener implements Listener {
 
         Tools.Prt( ChatColor.YELLOW + "Sign LOC = " + clickedBlock.getLocation().toString(), Tools.consoleMode.full, programCode );
         if ( SignData.GetSQL( clickedBlock.getLocation() ) ) {
+            Tools.Prt( ChatColor.YELLOW + "This Like Sign", Tools.consoleMode.max, programCode );
             Sign sign = (Sign) clickedBlock.getState();
 
             Tools.Prt( ChatColor.YELLOW + "Sign Line 1 : " + sign.getLine( 0 ), Tools.consoleMode.max, programCode );
@@ -81,6 +82,6 @@ public class ClickListener implements Listener {
             SignData.GetSQL( clickedBlock.getLocation() );
             sign.setLine( 3, ChatColor.YELLOW + "イイネ : " + ChatColor.BLUE + Database.LikeNum );
             sign.update();
-        }
+        } else Tools.Prt( ChatColor.YELLOW + "Not Like Sign", Tools.consoleMode.max, programCode );
     }
 }
