@@ -28,10 +28,10 @@ public class MySQLControl {
     public static void connect() {
         if ( Database.dataSource != null ) {
             if ( Database.dataSource.isClosed() ) {
-                Tools.Prt( ChatColor.RED + "database closed.", Tools.consoleMode.full, programCode );
+                Tools.Prt( ChatColor.RED + "database closed.", programCode );
                 disconnect();
             } else {
-                Tools.Prt( ChatColor.AQUA + "dataSource is not null", Tools.consoleMode.max, programCode );
+                Tools.Prt( ChatColor.AQUA + "dataSource is not null", programCode );
                 return;
             }
         }
@@ -114,7 +114,7 @@ public class MySQLControl {
             preparedStatement = con.prepareStatement( sql );
             preparedStatement.executeUpdate();
 
-            Tools.Prt( ChatColor.AQUA + "dataSource Open Success.", Tools.consoleMode.full, programCode );
+            Tools.Prt( ChatColor.AQUA + "dataSource Open Success.", programCode );
             con.close();
         } catch( SQLException e ) {
             Tools.Prt( ChatColor.RED + "Connection Error : " + e.getMessage(), programCode);

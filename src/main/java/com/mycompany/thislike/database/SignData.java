@@ -13,12 +13,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import static java.util.UUID.fromString;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import com.mycompany.kumaisulibraries.Tools;
 import static com.mycompany.thislike.config.Config.programCode;
-import org.bukkit.Bukkit;
 
 /**
  * @author sugichan
@@ -65,7 +65,7 @@ public class SignData {
             Database.SignDate = new Date();
             Database.LikeNum = 0;
 
-            Tools.Prt( "Sign Add Data to SQL Success.", Tools.consoleMode.full , programCode );
+            Tools.Prt( "Sign Add Data to SQL Success.", Tools.consoleMode.max, programCode );
         } catch ( SQLException e ) {
             Tools.Prt( ChatColor.RED + "Error AddToSQL" + e.getMessage(), programCode );
         }
@@ -83,7 +83,7 @@ public class SignData {
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             PreparedStatement preparedStatement = con.prepareStatement( sql );
             preparedStatement.executeUpdate();
-            Tools.Prt( "Sign Delete Data from SQL Success.", Tools.consoleMode.full , programCode );
+            Tools.Prt( "Sign Delete Data from SQL Success.", Tools.consoleMode.max, programCode );
             con.close();
             return true;
         } catch ( SQLException e ) {
@@ -119,7 +119,7 @@ public class SignData {
                 Database.OwnerName      = rs.getString( "name" );
                 Database.SignDate       = rs.getTimestamp( "date" );
                 Database.LikeNum        = rs.getInt( "likenum" );
-                Tools.Prt( "Sign Get Data from SQL Success.", Tools.consoleMode.full , programCode );
+                Tools.Prt( "Sign Get Data from SQL Success.", Tools.consoleMode.max, programCode );
                 retStat = true;
             }
             con.close();
@@ -141,7 +141,7 @@ public class SignData {
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             PreparedStatement preparedStatement = con.prepareStatement(sql);
             preparedStatement.executeUpdate();
-            Tools.Prt( "Sign Like Inc Success.", Tools.consoleMode.full , programCode );
+            Tools.Prt( "Sign Like Inc Success.", Tools.consoleMode.max, programCode );
             con.close();
         } catch ( SQLException e ) {
             Tools.Prt( ChatColor.RED + "Error Add LikeNum : " + e.getMessage(), programCode );
@@ -159,7 +159,7 @@ public class SignData {
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             PreparedStatement preparedStatement = con.prepareStatement(sql);
             preparedStatement.executeUpdate();
-            Tools.Prt( "Sign Like Sub Success.", Tools.consoleMode.full , programCode );
+            Tools.Prt( "Sign Like Sub Success.", Tools.consoleMode.max, programCode );
             con.close();
         } catch ( SQLException e ) {
             Tools.Prt( ChatColor.RED + "Error sub LikeNum : " + e.getMessage(), programCode );
@@ -170,12 +170,17 @@ public class SignData {
      * イイネ看板リスト
      *
      * @param player 
+     * @param name 
      */
-    public static void SignList( Player player ) {
+    public static void SignList( Player player, String name ) {
         try ( Connection con = Database.dataSource.getConnection() ) {
             Tools.Prt( player, ChatColor.GREEN + "List for Signs ...", programCode );
             Statement stmt = con.createStatement();
-            String sql = "SELECT * FROM sign ORDER BY world ASC;";
+            String sql = "SELECT * FROM sign";
+            if ( !"".equals( name ) ) { sql += " WHERE name = '" + name + "'"; }
+            sql += " ORDER BY world ASC;";
+            Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
+
             ResultSet rs = stmt.executeQuery( sql );
             while( rs.next() ) {
                 Tools.Prt( player, 
@@ -203,8 +208,9 @@ public class SignData {
      * イイネ看板リスト
      *
      * @param player 
+     * @param LineSet 
      */
-    public static void LikeTop( Player player ) {
+    public static void LikeTop( Player player, int LineSet ) {
         try ( Connection con = Database.dataSource.getConnection() ) {
             Tools.Prt( player, ChatColor.GREEN + "Like Top List ...", programCode );
             Statement stmt = con.createStatement();
@@ -212,7 +218,7 @@ public class SignData {
             ResultSet rs = stmt.executeQuery( sql );
 
             int Rank = 0;
-            while( rs.next() && ( Rank<10 ) ) {
+            while( rs.next() && ( Rank < LineSet ) ) {
                 Rank++;
                 Tools.Prt( player, 
                     ChatColor.WHITE + String.format( "%3d", Rank ) + ": " +
@@ -228,7 +234,7 @@ public class SignData {
                 );
             }
             con.close();
-            Tools.Prt( player, ChatColor.GREEN + "Top List [EOF]", programCode );
+            if ( Rank == 0 ) Tools.Prt( player, ChatColor.GREEN + "Top List [EOF]", programCode );
         } catch ( SQLException e ) {
             Tools.Prt( ChatColor.RED + "Error LikeTop : " + e.getMessage(), programCode );
         }

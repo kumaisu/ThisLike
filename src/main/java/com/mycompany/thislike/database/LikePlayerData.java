@@ -57,7 +57,7 @@ public class LikePlayerData {
             Database.LikeName   = player.getName();
             Database.StampDate  = new Date();
 
-            Tools.Prt( "Like Add Data to SQL Success.", Tools.consoleMode.full , programCode );
+            Tools.Prt( "Like Add Data to SQL Success.", Tools.consoleMode.max , programCode );
         } catch ( SQLException e ) {
             Tools.Prt( ChatColor.RED + "Error AddToSQL" + e.getMessage(), programCode );
         }
@@ -76,7 +76,7 @@ public class LikePlayerData {
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             PreparedStatement preparedStatement = con.prepareStatement( sql );
             preparedStatement.executeUpdate();
-            Tools.Prt( "Like Delete Data from SQL Success.", Tools.consoleMode.full , programCode );
+            Tools.Prt( "Like Delete Data from SQL Success.", Tools.consoleMode.max , programCode );
             con.close();
             return true;
         } catch ( SQLException e ) {
@@ -97,7 +97,7 @@ public class LikePlayerData {
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             PreparedStatement preparedStatement = con.prepareStatement( sql );
             preparedStatement.executeUpdate();
-            Tools.Prt( "Like Delete Data from SQL Success.", Tools.consoleMode.full , programCode );
+            Tools.Prt( "Like Delete Data from SQL Success.", Tools.consoleMode.max , programCode );
             con.close();
             return true;
         } catch ( SQLException e ) {
@@ -123,7 +123,7 @@ public class LikePlayerData {
                 Database.LikeUUID   = fromString( rs.getString( "uuid" ) );
                 Database.LikeName   = rs.getString( "name" );
                 Database.StampDate  = rs.getTimestamp( "date" );
-                Tools.Prt( "Like Get Data from SQL Success.", Tools.consoleMode.full , programCode );
+                Tools.Prt( "Like Get Data from SQL Success.", Tools.consoleMode.max , programCode );
                 retStat = true;
             }
             con.close();
@@ -149,7 +149,7 @@ public class LikePlayerData {
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             ResultSet rs = stmt.executeQuery( sql );
             if ( rs.next() ) {
-                Tools.Prt( "Get Data from SQL Success.", Tools.consoleMode.full , programCode );
+                Tools.Prt( "Get Data from SQL Success.", Tools.consoleMode.max , programCode );
                 retStat = true;
             }
             con.close();
@@ -181,7 +181,7 @@ public class LikePlayerData {
                 Tools.Prt( "get Liker : " + liker, Tools.consoleMode.max, programCode );
                 likeP.put( liker, likeD );
             }
-            Tools.Prt( "get Like Player List from SQL Success.", Tools.consoleMode.full , programCode );
+            Tools.Prt( "get Like Player List from SQL Success.", Tools.consoleMode.max , programCode );
             con.close();
         } catch ( SQLException e ) {
             Tools.Prt( ChatColor.RED + "Error listSQL" + e.getMessage(), programCode );

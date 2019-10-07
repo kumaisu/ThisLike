@@ -83,8 +83,8 @@ public class OwnerControl {
             TempInv.addItem( getPlayerHead( player, key, Lore ) );
         } );
 
-        inv.put( player.getUniqueId(), TempInv );
         player.openInventory( TempInv );
+        inv.put( player.getUniqueId(), TempInv );
     }
 
     /**
