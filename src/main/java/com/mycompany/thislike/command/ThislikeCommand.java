@@ -38,7 +38,7 @@ public class ThislikeCommand implements CommandExecutor {
   
         switch ( commandString ) {
             case "top":
-                int lineSet = 5;
+                int lineSet;
                 try {
                     lineSet = Integer.valueOf( itemName );
                 } catch ( NumberFormatException e ) {
@@ -66,6 +66,7 @@ public class ThislikeCommand implements CommandExecutor {
                 return true;
             case "help":
                 Tools.Prt( player, ChatColor.GREEN + "/ThisLike Command List", programCode );
+                Tools.Prt( player, ChatColor.YELLOW + "top [num]      : " + ChatColor.WHITE + "いいねトップリスト", programCode );
                 Tools.Prt( player, ChatColor.YELLOW + "list           : " + ChatColor.WHITE + "いいね看板リスト", programCode );
                 Tools.Prt( player, ChatColor.YELLOW + "status         : " + ChatColor.WHITE + "システム設定閲覧", programCode );
                 Tools.Prt( player, ChatColor.YELLOW + "Console [Mode] : " + ChatColor.WHITE + "コンソールデバッグ設定 [max,full,normal,none]", programCode );

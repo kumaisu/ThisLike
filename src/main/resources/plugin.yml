@@ -1,7 +1,7 @@
-name: ThisLike
-version: 0.2.2
 main: com.mycompany.thislike.ThisLike
-description: This Like Event Control plugin
+name: ThisLike
+version: ${project.version}
+description: ${project.description}
 author: Kumaisu
 database: true
 commands:
