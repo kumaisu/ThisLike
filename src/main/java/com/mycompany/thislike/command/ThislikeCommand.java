@@ -47,7 +47,7 @@ public class ThislikeCommand implements CommandExecutor {
                 SignData.LikeTop( player, lineSet );
                 return true;
             case "list":
-                SignData.SignList( player );
+                SignData.SignList( player, ( ( args.length > 1 ) ? args[1] : "" ) );
                 return true;            
             case "status":
                 instance.config.Status( player );

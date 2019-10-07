@@ -170,12 +170,17 @@ public class SignData {
      * イイネ看板リスト
      *
      * @param player 
+     * @param name 
      */
-    public static void SignList( Player player ) {
+    public static void SignList( Player player, String name ) {
         try ( Connection con = Database.dataSource.getConnection() ) {
             Tools.Prt( player, ChatColor.GREEN + "List for Signs ...", programCode );
             Statement stmt = con.createStatement();
-            String sql = "SELECT * FROM sign ORDER BY world ASC;";
+            String sql = "SELECT * FROM sign";
+            if ( !"".equals( name ) ) { sql += " WHERE name = '" + name + "'"; }
+            sql += " ORDER BY world ASC;";
+            Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
+
             ResultSet rs = stmt.executeQuery( sql );
             while( rs.next() ) {
                 Tools.Prt( player, 
