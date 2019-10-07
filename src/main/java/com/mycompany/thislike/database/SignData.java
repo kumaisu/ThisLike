@@ -203,8 +203,9 @@ public class SignData {
      * イイネ看板リスト
      *
      * @param player 
+     * @param LineSet 
      */
-    public static void LikeTop( Player player ) {
+    public static void LikeTop( Player player, int LineSet ) {
         try ( Connection con = Database.dataSource.getConnection() ) {
             Tools.Prt( player, ChatColor.GREEN + "Like Top List ...", programCode );
             Statement stmt = con.createStatement();
@@ -212,7 +213,7 @@ public class SignData {
             ResultSet rs = stmt.executeQuery( sql );
 
             int Rank = 0;
-            while( rs.next() && ( Rank<10 ) ) {
+            while( rs.next() && ( Rank<LineSet ) ) {
                 Rank++;
                 Tools.Prt( player, 
                     ChatColor.WHITE + String.format( "%3d", Rank ) + ": " +

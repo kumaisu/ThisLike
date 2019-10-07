@@ -38,7 +38,13 @@ public class ThislikeCommand implements CommandExecutor {
   
         switch ( commandString ) {
             case "top":
-                SignData.LikeTop( player );
+                int lineSet = 5;
+                try {
+                    lineSet = Integer.valueOf( itemName );
+                } catch ( NumberFormatException e ) {
+                    lineSet = 5;
+                }
+                SignData.LikeTop( player, lineSet );
                 return true;
             case "list":
                 SignData.SignList( player );
