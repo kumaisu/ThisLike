@@ -65,7 +65,7 @@ public class SignData {
             Database.SignDate = new Date();
             Database.LikeNum = 0;
 
-            Tools.Prt( "Sign Add Data to SQL Success.", Tools.consoleMode.full , programCode );
+            Tools.Prt( "Sign Add Data to SQL Success.", Tools.consoleMode.max, programCode );
         } catch ( SQLException e ) {
             Tools.Prt( ChatColor.RED + "Error AddToSQL" + e.getMessage(), programCode );
         }
@@ -83,7 +83,7 @@ public class SignData {
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             PreparedStatement preparedStatement = con.prepareStatement( sql );
             preparedStatement.executeUpdate();
-            Tools.Prt( "Sign Delete Data from SQL Success.", Tools.consoleMode.full , programCode );
+            Tools.Prt( "Sign Delete Data from SQL Success.", Tools.consoleMode.max, programCode );
             con.close();
             return true;
         } catch ( SQLException e ) {
@@ -119,7 +119,7 @@ public class SignData {
                 Database.OwnerName      = rs.getString( "name" );
                 Database.SignDate       = rs.getTimestamp( "date" );
                 Database.LikeNum        = rs.getInt( "likenum" );
-                Tools.Prt( "Sign Get Data from SQL Success.", Tools.consoleMode.full , programCode );
+                Tools.Prt( "Sign Get Data from SQL Success.", Tools.consoleMode.max , programCode );
                 retStat = true;
             }
             con.close();
@@ -141,7 +141,7 @@ public class SignData {
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             PreparedStatement preparedStatement = con.prepareStatement(sql);
             preparedStatement.executeUpdate();
-            Tools.Prt( "Sign Like Inc Success.", Tools.consoleMode.full , programCode );
+            Tools.Prt( "Sign Like Inc Success.", Tools.consoleMode.max , programCode );
             con.close();
         } catch ( SQLException e ) {
             Tools.Prt( ChatColor.RED + "Error Add LikeNum : " + e.getMessage(), programCode );
@@ -159,7 +159,7 @@ public class SignData {
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             PreparedStatement preparedStatement = con.prepareStatement(sql);
             preparedStatement.executeUpdate();
-            Tools.Prt( "Sign Like Sub Success.", Tools.consoleMode.full , programCode );
+            Tools.Prt( "Sign Like Sub Success.", Tools.consoleMode.max , programCode );
             con.close();
         } catch ( SQLException e ) {
             Tools.Prt( ChatColor.RED + "Error sub LikeNum : " + e.getMessage(), programCode );
@@ -229,7 +229,7 @@ public class SignData {
                 );
             }
             con.close();
-            Tools.Prt( player, ChatColor.GREEN + "Top List [EOF]", programCode );
+            if ( Rank == 0 ) Tools.Prt( player, ChatColor.GREEN + "Top List [EOF]", programCode );
         } catch ( SQLException e ) {
             Tools.Prt( ChatColor.RED + "Error LikeTop : " + e.getMessage(), programCode );
         }
