@@ -16,17 +16,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Location;
+import org.bukkit.DyeColor;
+import org.bukkit.material.Wool;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import com.mycompany.thislike.database.LikePlayerData;
 import com.mycompany.kumaisulibraries.Tools;
+import com.mycompany.thislike.Absorption;
 import static com.mycompany.thislike.config.Config.programCode;
 
-import org.bukkit.SkullType;
-import org.bukkit.material.Wool;
-import org.bukkit.DyeColor;
 
 /**
  *
@@ -84,30 +83,10 @@ public class OwnerControl {
             SimpleDateFormat ddf = new SimpleDateFormat( "yyyy/MM/dd" );
             SimpleDateFormat tdf = new SimpleDateFormat( "HH:mm:ss" );
             List< String > Lore = Arrays.asList( ddf.format( liker.get( key ) ),tdf.format( liker.get( key ) ) );
-            TempInv.addItem( getPlayerHead( player, key, Lore ) );
+            TempInv.addItem( Absorption.getPlayerHead( player, key, Lore ) );
         } );
 
         player.openInventory( TempInv );
         inv.put( player.getUniqueId(), TempInv );
-    }
-
-    /**
-     * プレイヤーHead取得
-     * 
-     * @param player
-     * @param target
-     * @param Lore
-     * @return 
-     */
-    public static ItemStack getPlayerHead( Player player, String target, List<String> Lore ) {
-        SkullMeta skull = ( SkullMeta ) Bukkit.getItemFactory().getItemMeta( Material.SKULL_ITEM );         //  1.12.2
-        //  SkullMeta skull = ( SkullMeta ) Bukkit.getItemFactory().getItemMeta( Material.PLAYER_HEAD );
-        skull.setOwner( target );
-        skull.setDisplayName( target );
-        skull.setLore( Lore );
-        ItemStack i = new ItemStack( Material.SKULL_ITEM, 1, ( byte ) SkullType.PLAYER.ordinal() );         //  1.12.2
-        //  ItemStack i = new ItemStack( Material.PLAYER_HEAD, 1 );
-        i.setItemMeta( skull );
-        return i;
     }
 }
