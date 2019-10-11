@@ -80,6 +80,18 @@ public class InventoryListener implements Listener {
                     LikeControl.SetUnlike( Database.ID, player, sign.getLine( 2 ), sign.getLine( 1 ) );
                 }
                 break;
+            case "WOOL":    // 1.12.2 対応
+                Tools.Prt( "WOOL", Tools.consoleMode.max, programCode );
+                event.getWhoClicked().closeInventory();
+                switch( event.getCurrentItem().getItemMeta().getDisplayName() ) { 
+                    case "いいね":
+                        LikeControl.SetLike( Database.ID, player, sign.getLine( 2 ), sign.getLine( 1 ) );
+                        break;
+                    case "解除":
+                        LikeControl.SetUnlike( Database.ID, player, sign.getLine( 2 ), sign.getLine( 1 ) );
+                        break;
+                }
+                break;
             default:
                 Tools.Prt( event.getCurrentItem().getType().name(), Tools.consoleMode.max, programCode );
         }

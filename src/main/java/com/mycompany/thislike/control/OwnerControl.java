@@ -19,9 +19,9 @@ import org.bukkit.Location;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import com.mycompany.thislike.database.LikePlayerData;
 import com.mycompany.kumaisulibraries.Tools;
+import com.mycompany.thislike.Absorption;
 import static com.mycompany.thislike.config.Config.programCode;
 
 /**
@@ -53,7 +53,7 @@ public class OwnerControl {
         if ( hasOwner ) {
             //  Remove Icon 作成
             ItemStack DelIcon = new ItemStack( Material.BARRIER, 1 );
-            ItemMeta DelMeta = Bukkit.getItemFactory().getItemMeta(Material.BARRIER);
+            ItemMeta DelMeta = Bukkit.getItemFactory().getItemMeta( Material.BARRIER );
             DelMeta.setDisplayName( "Remove" );
             List<String> DelLore = Arrays.asList( ChatColor.RED + "いいね看板を", ChatColor.RED + "削除します" );
             DelMeta.setLore( DelLore );
@@ -62,46 +62,20 @@ public class OwnerControl {
         }
 
         //  イイネ解除
-        ItemStack Unlike = new ItemStack( Material.RED_WOOL, 1 );
-        ItemMeta um = Unlike.getItemMeta();
-        um.setDisplayName( "解除" );
-        Unlike.setItemMeta( um );
-        TempInv.setItem( slot - 8, Unlike );
+        TempInv.setItem( slot - 8, Absorption.Unlike() );
 
         //  イイネ解除
-        ItemStack Like = new ItemStack( Material.BLUE_WOOL, 1 );
-        ItemMeta lm = Like.getItemMeta();
-        lm.setDisplayName( "いいね" );
-        Like.setItemMeta( lm );
-        TempInv.setItem( slot - 9, Like );
+        TempInv.setItem( slot - 9, Absorption.Like() );
 
         liker.keySet().forEach( ( key ) -> {
             Tools.Prt( ChatColor.GREEN + key + " : " + ChatColor.WHITE + liker.get( key ), Tools.consoleMode.max, programCode );
             SimpleDateFormat ddf = new SimpleDateFormat( "yyyy/MM/dd" );
             SimpleDateFormat tdf = new SimpleDateFormat( "HH:mm:ss" );
             List< String > Lore = Arrays.asList( ddf.format( liker.get( key ) ),tdf.format( liker.get( key ) ) );
-            TempInv.addItem( getPlayerHead( player, key, Lore ) );
+            TempInv.addItem( Absorption.getPlayerHead( player, key, Lore ) );
         } );
 
         player.openInventory( TempInv );
         inv.put( player.getUniqueId(), TempInv );
-    }
-
-    /**
-     * プレイヤーHead取得
-     * 
-     * @param player
-     * @param target
-     * @param Lore
-     * @return 
-     */
-    public static ItemStack getPlayerHead( Player player, String target, List<String> Lore ) {
-        SkullMeta skull = ( SkullMeta ) Bukkit.getItemFactory().getItemMeta( Material.PLAYER_HEAD );
-        skull.setOwner( target );
-        skull.setDisplayName( target );
-        skull.setLore( Lore );
-        ItemStack i = new ItemStack( Material.PLAYER_HEAD, 1 );
-        i.setItemMeta( skull );
-        return i;
     }
 }

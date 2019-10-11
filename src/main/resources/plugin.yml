@@ -1,7 +1,7 @@
 main: com.mycompany.thislike.ThisLike
 name: ThisLike
-version: ${project.version}
-description: ${project.description}
+version: 0.4.1
+description: This Like Event Control plugin
 author: Kumaisu
 database: true
 api-version: 1.14

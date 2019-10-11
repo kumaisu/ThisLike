@@ -35,7 +35,6 @@ public class ThislikeCommand implements CommandExecutor {
         String itemName = "";
         if ( args.length > 0 ) commandString = args[0];
         if ( args.length > 1 ) itemName = args[1];
-
         switch ( commandString ) {
             case "top":
                 int lineSet;
