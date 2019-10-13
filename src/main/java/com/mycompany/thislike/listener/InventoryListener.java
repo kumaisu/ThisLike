@@ -50,54 +50,56 @@ public class InventoryListener implements Listener {
 
         Sign sign = (Sign) OwnerControl.loc.get( player.getUniqueId() ).getBlock().getState();
 
-        switch( event.getCurrentItem().getType().name() ) {
-            case "BARRIER":
-                if ( event.getCurrentItem().getItemMeta().getDisplayName().contains( "Remove" ) ) {
-                    event.getWhoClicked().closeInventory();
-                    Tools.Prt( ChatColor.YELLOW + player.getName() + " Signloc = " + OwnerControl.loc.get( player.getUniqueId() ).toString(), Tools.consoleMode.full, programCode );
-                    if ( SignData.GetSQL( OwnerControl.loc.get( player.getUniqueId() ) ) ) {
-                        //  Owner か Admin なら DBから看板削除 & イイネDBをクリアー
-                        SignData.DelSQL( Database.ID );
-                        LikePlayerData.DelSQL( Database.ID );
-                        //  対象看板を破壊する操作※追加予定　暫定的に1行目を赤にして破壊可能にする
-                        sign.setLine( 0, ChatColor.RED + "#[ThisLike]#" );
-                        sign.update();
-                        Tools.Prt( player, Utility.ReplaceString( Config.Remove ), Tools.consoleMode.full, programCode );
+        try {
+            switch( event.getCurrentItem().getType().name() ) {
+                case "BARRIER":
+                    if ( event.getCurrentItem().getItemMeta().getDisplayName().contains( "Remove" ) ) {
+                        event.getWhoClicked().closeInventory();
+                        Tools.Prt( ChatColor.YELLOW + player.getName() + " Signloc = " + OwnerControl.loc.get( player.getUniqueId() ).toString(), Tools.consoleMode.full, programCode );
+                        if ( SignData.GetSQL( OwnerControl.loc.get( player.getUniqueId() ) ) ) {
+                            //  Owner か Admin なら DBから看板削除 & イイネDBをクリアー
+                            SignData.DelSQL( Database.ID );
+                            LikePlayerData.DelSQL( Database.ID );
+                            //  対象看板を破壊する操作※追加予定　暫定的に1行目を赤にして破壊可能にする
+                            sign.setLine( 0, ChatColor.RED + "#[ThisLike]#" );
+                            sign.update();
+                            Tools.Prt( player, Utility.ReplaceString( Config.Remove ), Tools.consoleMode.full, programCode );
+                        }
                     }
-                }
-                break;
-            case "BLUE_WOOL":
-                event.getWhoClicked().closeInventory();
-                if ( event.getCurrentItem().getItemMeta().getDisplayName().contains( Config.like ) ) {
-                    LikeControl.SetLike( Database.ID, player, sign.getLine( 2 ), sign.getLine( 1 ) );
-                }
-                break;
-            case "RED_WOOL":
-                event.getWhoClicked().closeInventory();
-                if ( event.getCurrentItem().getItemMeta().getDisplayName().contains( Config.unlike ) ) {
-                    LikeControl.SetUnlike( Database.ID, player, sign.getLine( 2 ), sign.getLine( 1 ) );
-                }
-                break;
-            case "WOOL":    // 1.12.2 対応
-                Tools.Prt( "WOOL", Tools.consoleMode.max, programCode );
-                event.getWhoClicked().closeInventory();
-                if ( event.getCurrentItem().getItemMeta().getDisplayName().equals( Config.like ) ) {
-                    LikeControl.SetLike( Database.ID, player, sign.getLine( 2 ), sign.getLine( 1 ) );
-                }
-                if ( event.getCurrentItem().getItemMeta().getDisplayName().equals( Config.unlike ) ) {
-                    LikeControl.SetUnlike( Database.ID, player, sign.getLine( 2 ), sign.getLine( 1 ) );
-                }
-                break;
-            default:
-                Tools.Prt( event.getCurrentItem().getType().name(), Tools.consoleMode.max, programCode );
-        }
+                    break;
+                case "BLUE_WOOL":
+                    event.getWhoClicked().closeInventory();
+                    if ( event.getCurrentItem().getItemMeta().getDisplayName().contains( Config.like ) ) {
+                        LikeControl.SetLike( Database.ID, player, sign.getLine( 2 ), sign.getLine( 1 ) );
+                    }
+                    break;
+                case "RED_WOOL":
+                    event.getWhoClicked().closeInventory();
+                    if ( event.getCurrentItem().getItemMeta().getDisplayName().contains( Config.unlike ) ) {
+                        LikeControl.SetUnlike( Database.ID, player, sign.getLine( 2 ), sign.getLine( 1 ) );
+                    }
+                    break;
+                case "WOOL":    // 1.12.2 対応
+                    Tools.Prt( "WOOL", Tools.consoleMode.max, programCode );
+                    event.getWhoClicked().closeInventory();
+                    if ( event.getCurrentItem().getItemMeta().getDisplayName().equals( Config.like ) ) {
+                        LikeControl.SetLike( Database.ID, player, sign.getLine( 2 ), sign.getLine( 1 ) );
+                    }
+                    if ( event.getCurrentItem().getItemMeta().getDisplayName().equals( Config.unlike ) ) {
+                        LikeControl.SetUnlike( Database.ID, player, sign.getLine( 2 ), sign.getLine( 1 ) );
+                    }
+                    break;
+                default:
+                    Tools.Prt( event.getCurrentItem().getType().name(), Tools.consoleMode.max, programCode );
+            }
 
-        //  看板内容更新
-        SignData.GetSQL( OwnerControl.loc.get( player.getUniqueId() ) );
-        sign.setLine( 0, Utility.ReplaceString( Config.SignBase.get( 0 ) ) );
-        sign.setLine( 3, Utility.ReplaceString( Config.SignBase.get( 3 ) ) + ChatColor.BLUE + Database.LikeNum );
-        sign.update();
-        event.setCancelled( true );
+            //  看板内容更新
+            SignData.GetSQL( OwnerControl.loc.get( player.getUniqueId() ) );
+            sign.setLine( 0, Utility.ReplaceString( Config.SignBase.get( 0 ) ) );
+            sign.setLine( 3, Utility.ReplaceString( Config.SignBase.get( 3 ) ) + ChatColor.BLUE + Database.LikeNum );
+            sign.update();
+            event.setCancelled( true );
+        } catch ( NullPointerException e ) {}
     }
 
     /**
