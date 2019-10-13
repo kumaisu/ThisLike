@@ -81,7 +81,6 @@ public class ClickListener implements Listener {
 
             //  看板内容更新
             SignData.GetSQL( clickedBlock.getLocation() );
-            sign.setLine( 0, Utility.ReplaceString( Config.SignBase.get( 0 ) ) );
             sign.setLine( 3, Utility.ReplaceString( Config.SignBase.get( 3 ) ) + ChatColor.BLUE + Database.LikeNum );
             sign.update();
             event.setCancelled( true );

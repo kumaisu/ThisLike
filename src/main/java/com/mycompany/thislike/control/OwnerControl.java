@@ -63,6 +63,17 @@ public class OwnerControl {
             TempInv.setItem( slot - 1, DelIcon );
         }
 
+        if ( player.isOp() || player.hasPermission( "ThisLike.admin" ) ) {
+            //  Remove Icon 作成
+            ItemStack UpIcon = new ItemStack( Material.END_CRYSTAL, 1 );
+            ItemMeta UpMeta = Bukkit.getItemFactory().getItemMeta( Material.END_CRYSTAL );
+            UpMeta.setDisplayName( "Update" );
+            List<String> UpLore = Arrays.asList( ChatColor.AQUA + "Update Sign", ChatColor.AQUA + "Rewrite Infomation" );
+            UpMeta.setLore( UpLore );
+            UpIcon.setItemMeta( UpMeta );
+            TempInv.setItem( slot - 2, UpIcon );
+        }
+
         //  イイネ解除
         TempInv.setItem( slot - 8, Absorption.Unlike() );
 

@@ -67,6 +67,15 @@ public class InventoryListener implements Listener {
                         }
                     }
                     break;
+                case "END_CRYSTAL":
+                    if ( event.getCurrentItem().getItemMeta().getDisplayName().contains( "Update" ) ) {
+                        if ( SignData.GetSQL( OwnerControl.loc.get( player.getUniqueId() ) ) ) {
+                            sign.setLine( 0, Utility.ReplaceString( Config.SignBase.get( 0 ) ) );
+                            sign.setLine( 2, Utility.ReplaceString( Config.SignBase.get( 2 ), Database.OwnerName ) );
+                            sign.update();
+                        }
+                    }
+                    break;
                 case "BLUE_WOOL":
                     event.getWhoClicked().closeInventory();
                     if ( event.getCurrentItem().getItemMeta().getDisplayName().contains( Config.like ) ) {
@@ -95,9 +104,9 @@ public class InventoryListener implements Listener {
 
             //  看板内容更新
             SignData.GetSQL( OwnerControl.loc.get( player.getUniqueId() ) );
-            sign.setLine( 0, Utility.ReplaceString( Config.SignBase.get( 0 ) ) );
             sign.setLine( 3, Utility.ReplaceString( Config.SignBase.get( 3 ) ) + ChatColor.BLUE + Database.LikeNum );
             sign.update();
+
             event.setCancelled( true );
         } catch ( NullPointerException e ) {}
     }
