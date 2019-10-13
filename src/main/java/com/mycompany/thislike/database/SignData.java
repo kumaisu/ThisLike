@@ -110,7 +110,7 @@ public class SignData {
             ResultSet rs = stmt.executeQuery( sql );
             if ( rs.next() ) {
                 Database.ID             = rs.getInt( "id" );
-                Database.LOC    = new Location(
+                Database.LOC = new Location(
                         Bukkit.getWorld( rs.getString( "world" ) ),
                         rs.getInt( "x" ),
                         rs.getInt( "y" ),

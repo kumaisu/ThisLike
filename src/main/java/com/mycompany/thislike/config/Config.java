@@ -15,20 +15,22 @@ public class Config {
 
     public static String programCode = "TL";
 
-    public static String host = "local";
-    public static String port = "3306";
-    public static String database = "Citizenship";
-    public static String username = "root";
-    public static String password = "";
+    public static String host;
+    public static String port;
+    public static String database;
+    public static String username;
+    public static String password;
 
-    public static String like = "Error";
-    public static String unlike = "Error";
-    public static String SignSetKey = "Error";
-    public static String SetLike = "Error";
-    public static String SetUnlike = "Error";
-    public static String InventoryTitle = "Error";
-    public static String YourSign = "Error";
-    public static String Remove = "Error";
+    public static boolean OnDynmap;
+
+    public static String like;
+    public static String unlike;
+    public static String SignSetKey;
+    public static String SetLike;
+    public static String SetUnlike;
+    public static String InventoryTitle;
+    public static String YourSign;
+    public static String Remove;
     public static List<String> RemoveSignLore;
     public static List<String> SignBase;
 }

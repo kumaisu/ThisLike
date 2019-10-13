@@ -56,7 +56,7 @@ public class OwnerControl {
             //  Remove Icon 作成
             ItemStack DelIcon = new ItemStack( Material.BARRIER, 1 );
             ItemMeta DelMeta = Bukkit.getItemFactory().getItemMeta( Material.BARRIER );
-            DelMeta.setDisplayName( "Remove" );
+            DelMeta.setDisplayName( ChatColor.WHITE + "Remove" );
             //  List<String> DelLore = Arrays.asList( ChatColor.RED + "いいね看板を", ChatColor.RED + "削除します" );
             DelMeta.setLore( Config.RemoveSignLore );
             DelIcon.setItemMeta( DelMeta );
@@ -67,7 +67,7 @@ public class OwnerControl {
             //  Remove Icon 作成
             ItemStack UpIcon = new ItemStack( Material.END_CRYSTAL, 1 );
             ItemMeta UpMeta = Bukkit.getItemFactory().getItemMeta( Material.END_CRYSTAL );
-            UpMeta.setDisplayName( "Update" );
+            UpMeta.setDisplayName( ChatColor.WHITE + "Update" );
             List<String> UpLore = Arrays.asList( ChatColor.AQUA + "Update Sign", ChatColor.AQUA + "Rewrite Infomation" );
             UpMeta.setLore( UpLore );
             UpIcon.setItemMeta( UpMeta );

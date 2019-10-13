@@ -18,9 +18,10 @@ import com.mycompany.thislike.database.SignData;
 import com.mycompany.thislike.database.LikePlayerData;
 import com.mycompany.thislike.control.OwnerControl;
 import com.mycompany.thislike.control.LikeControl;
+import com.mycompany.thislike.control.DynmapControl;
+import com.mycompany.thislike.config.Config;
 import com.mycompany.kumaisulibraries.Tools;
 import com.mycompany.kumaisulibraries.Utility;
-import com.mycompany.thislike.config.Config;
 import static com.mycompany.thislike.config.Config.programCode;
 
 /**
@@ -60,6 +61,9 @@ public class InventoryListener implements Listener {
                             //  Owner か Admin なら DBから看板削除 & イイネDBをクリアー
                             SignData.DelSQL( Database.ID );
                             LikePlayerData.DelSQL( Database.ID );
+                            if ( Config.OnDynmap ) {
+                                DynmapControl.DelDynmapArea( Database.ID );
+                            }
                             //  対象看板を破壊する操作※追加予定　暫定的に1行目を赤にして破壊可能にする
                             sign.setLine( 0, ChatColor.RED + "#[ThisLike]#" );
                             sign.update();

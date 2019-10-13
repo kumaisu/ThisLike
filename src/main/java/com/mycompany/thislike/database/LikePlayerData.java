@@ -171,7 +171,7 @@ public class LikePlayerData {
 
         try ( Connection con = Database.dataSource.getConnection() ) {
             Statement stmt = con.createStatement();
-            String sql = "SELECT * FROM likes WHERE id = " + ID + ";";
+            String sql = "SELECT * FROM likes WHERE id = " + ID + " ORDER BY date DESC;";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             ResultSet rs = stmt.executeQuery( sql );
             int i = 0;

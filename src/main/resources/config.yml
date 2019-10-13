@@ -11,6 +11,9 @@ mysql:
   username: root
   password: password
 
+#   Dynmap へ MarkerIcon 表示するか？
+OnDynmap: false
+
 #   基本的なメッセージの文字列
 like: "いいね"
 unlike: "解除"
@@ -47,8 +50,6 @@ InventoryTitle: "『%title%』のいいね"
 YourSign: "%$aあなたのイイネ看板です"
 
 #   看板登録を削除した時のメッセージ
-#   有効な置換文字列    &$n = カラーコード
 RemoveSignLore:
-    - "%$4いいね看板を"
-    - "%$4削除します"
-
+    - "§4いいね看板を"
+    - "§4削除します"

@@ -40,20 +40,21 @@ public class ConfigManager {
         }
         config = plugin.getConfig();
 
-        Config.host     = config.getString( "mysql.host" );
-        Config.port     = config.getString( "mysql.port" );
-        Config.database = config.getString( "mysql.database" );
-        Config.username = config.getString( "mysql.username" );
-        Config.password = config.getString( "mysql.password" );
+        Config.host     = config.getString( "mysql.host", "local" );
+        Config.port     = config.getString( "mysql.port", "3306" );
+        Config.database = config.getString( "mysql.database", "Citizenship" );
+        Config.username = config.getString( "mysql.username", "root" );
+        Config.password = config.getString( "mysql.password", "" );
+        Config.OnDynmap = config.getBoolean( "OnDynmap", false );
 
-        Config.like             = config.getString( "like" );
-        Config.unlike           = config.getString( "unlike" );
-        Config.SignSetKey       = config.getString( "SignSetKey" );
-        Config.SetLike          = config.getString( "SetLike" );
-        Config.SetUnlike        = config.getString( "SetUnlike" );
-        Config.InventoryTitle   = config.getString( "InventoryTitle" );
-        Config.YourSign         = config.getString( "YourSign" );
-        Config.Remove           = config.getString( "Remove" );
+        Config.like             = config.getString( "like", "Error" );
+        Config.unlike           = config.getString( "unlike", "Error" );
+        Config.SignSetKey       = config.getString( "SignSetKey", "Error" );
+        Config.SetLike          = config.getString( "SetLike", "Error" );
+        Config.SetUnlike        = config.getString( "SetUnlike", "Error" );
+        Config.InventoryTitle   = config.getString( "InventoryTitle", "Error" );
+        Config.YourSign         = config.getString( "YourSign", "Error" );
+        Config.Remove           = config.getString( "Remove", "Error" );
         Config.RemoveSignLore   = config.getStringList( "RemoveSignLore" );
         Config.SignBase         = config.getStringList( "SignBase" );
 
@@ -76,6 +77,7 @@ public class ConfigManager {
             Tools.Prt( p, ChatColor.WHITE + "DB UserName : " + ChatColor.YELLOW + Config.username, programCode );
             Tools.Prt( p, ChatColor.WHITE + "DB Password : " + ChatColor.YELLOW + Config.password, programCode );
         }
+        Tools.Prt( p, ChatColor.WHITE + "Dynmap Icon : " + ChatColor.YELLOW + ( Config.OnDynmap ? "True":"False" ), programCode );
         Tools.Prt( p, ChatColor.WHITE + "LIKE        : " + ChatColor.YELLOW + Config.like, programCode );
         Tools.Prt( p, ChatColor.WHITE + "UNLIKE      : " + ChatColor.YELLOW + Config.unlike, programCode );
         Tools.Prt( p, ChatColor.WHITE + "SignSetKey  : " + ChatColor.YELLOW + Config.SignSetKey, programCode );
