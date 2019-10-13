@@ -65,11 +65,11 @@ public class ThislikeCommand implements CommandExecutor {
                 return true;
             case "help":
                 Tools.Prt( player, ChatColor.GREEN + "/ThisLike Command List", programCode );
-                Tools.Prt( player, ChatColor.YELLOW + "top [num]      : " + ChatColor.WHITE + "いいねトップリスト", programCode );
-                Tools.Prt( player, ChatColor.YELLOW + "list [player]  : " + ChatColor.WHITE + "いいね看板リスト", programCode );
-                Tools.Prt( player, ChatColor.YELLOW + "status         : " + ChatColor.WHITE + "システム設定閲覧", programCode );
-                Tools.Prt( player, ChatColor.YELLOW + "Console [Mode] : " + ChatColor.WHITE + "コンソールデバッグ設定 [max,full,normal,none]", programCode );
-                Tools.Prt( player, ChatColor.YELLOW + "reload         : " + ChatColor.WHITE + "Configリロード", programCode );
+                Tools.Prt( player, ChatColor.YELLOW + "top [num]      : " + ChatColor.WHITE + "ThisLike Top List", programCode );
+                Tools.Prt( player, ChatColor.YELLOW + "list [player]  : " + ChatColor.WHITE + "Signs List", programCode );
+                Tools.Prt( player, ChatColor.YELLOW + "status         : " + ChatColor.WHITE + "System status", programCode );
+                Tools.Prt( player, ChatColor.YELLOW + "Console [Mode] : " + ChatColor.WHITE + "Console Mode [max,full,normal,stop]", programCode );
+                Tools.Prt( player, ChatColor.YELLOW + "reload         : " + ChatColor.WHITE + "Config Reload", programCode );
                 return true;
             default:
                 break;

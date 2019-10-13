@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.mycompany</groupId>
     <artifactId>ThisLike</artifactId>
-    <version>0.4.2</version>
+    <version>0.5.1</version>
     <description>This Like Event Control plugin</description>
     <packaging>jar</packaging>
     <properties>
@@ -133,30 +133,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>buildnumber-maven-plugin</artifactId>
-                <version>1.4</version>
-                <executions>
-                    <execution>
-                        <id>buildnumber</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>create</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <format>{0,number}</format>
-                    <items>
-                        <item>buildNumber</item>
-                    </items>                    
-                    <doCheck>false</doCheck>
-                    <doUpdate>false</doUpdate>
-                    <revisionOnScmFailure>unknownbuild</revisionOnScmFailure>   
-                </configuration>
-            </plugin>    
         </plugins>
-        <finalName>${project.artifactId}-${project.version}-${bukkitVersion}.b${buildNumber}</finalName>
+        <finalName>${project.artifactId}-${project.version}-${bukkitVersion}</finalName>
     </build>
 </project>

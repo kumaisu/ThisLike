@@ -14,6 +14,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import com.mycompany.thislike.database.SignData;
 import com.mycompany.kumaisulibraries.Tools;
+import com.mycompany.kumaisulibraries.Utility;
+import com.mycompany.thislike.config.Config;
 import static com.mycompany.thislike.config.Config.programCode;
 
 /**
@@ -47,11 +49,12 @@ public class PlaceListener implements Listener {
         Tools.Prt( ChatColor.YELLOW + "Sign Line 2 : " + event.getLine( 1 ), Tools.consoleMode.max, programCode );
         Tools.Prt( ChatColor.YELLOW + "Sign Line 3 : " + event.getLine( 2 ), Tools.consoleMode.max, programCode );
         Tools.Prt( ChatColor.YELLOW + "Sign Line 4 : " + event.getLine( 3 ), Tools.consoleMode.max, programCode );
-        if ( event.getLine( 0 ).equals( "ThisLike" ) ) {
-            event.setLine( 0, ChatColor.AQUA + "[ThisLike]" );
-            event.setLine( 2, ChatColor.GREEN + player.getName() );
-            event.setLine( 3, ChatColor.GOLD + "イイネ : " + ChatColor.BLUE + "0" );
 
+        if ( event.getLine( 0 ).equals( Config.SignSetKey ) ) {
+            event.setLine( 0, Utility.ReplaceString( Config.SignBase.get( 0 ) ) );
+            event.setLine( 1, Utility.ReplaceString( Config.SignBase.get( 1 ) ) + event.getLine( 1 ) );
+            event.setLine( 2, Utility.ReplaceString( Config.SignBase.get( 2 ), player.getName() ) );
+            event.setLine( 3, Utility.ReplaceString( Config.SignBase.get( 3 ) ) + ChatColor.BLUE + "0" );
             SignData.AddSQL( player, event.getBlock().getLocation() );
         }
     }

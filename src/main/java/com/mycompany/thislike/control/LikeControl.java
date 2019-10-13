@@ -5,12 +5,13 @@
  */
 package com.mycompany.thislike.control;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import com.mycompany.thislike.database.Database;
 import com.mycompany.thislike.database.SignData;
 import com.mycompany.thislike.database.LikePlayerData;
 import com.mycompany.kumaisulibraries.Tools;
+import com.mycompany.kumaisulibraries.Utility;
+import com.mycompany.thislike.config.Config;
 import static com.mycompany.thislike.config.Config.programCode;
 
 /**
@@ -33,14 +34,7 @@ public class LikeControl {
         if ( !LikePlayerData.hasSQL( Database.ID, player ) ) {
             SignData.incLike( Database.ID );
             LikePlayerData.AddSQL( player, Database.ID );
-            Tools.Prt( player,
-                Owner + "さんの" +
-                ChatColor.YELLOW + "『" + Title + "』" +
-                ChatColor.GREEN + "に" +
-                ChatColor.AQUA + "イイネ" +
-                ChatColor.GREEN + "しました",
-                Tools.consoleMode.full, programCode
-            );
+            Tools.Prt( player, Utility.ReplaceString( Config.SetLike, Owner ).replace( "%title%", Title ), Tools.consoleMode.full, programCode );
             return true;
         } else return false;
     }
@@ -59,15 +53,7 @@ public class LikeControl {
         if ( LikePlayerData.hasSQL( Database.ID, player ) ) {
             SignData.subLike( Database.ID );
             LikePlayerData.DelPlayerSQL( Database.ID, player );
-            Tools.Prt( player,
-                Owner +
-                ChatColor.LIGHT_PURPLE + "さんの" +
-                ChatColor.YELLOW + "『" + Title + "』" +
-                ChatColor.LIGHT_PURPLE + "から" +
-                ChatColor.AQUA + "イイネ" +
-                ChatColor.LIGHT_PURPLE + "をやめました",
-                Tools.consoleMode.full, programCode
-            );
+            Tools.Prt( player, Utility.ReplaceString( Config.SetUnlike, Owner ).replace( "%title%", Title ), Tools.consoleMode.full, programCode );
             return true;
         } else return false;
     }

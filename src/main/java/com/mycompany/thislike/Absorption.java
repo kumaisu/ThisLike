@@ -16,6 +16,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.DyeColor;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.Wool;
+import com.mycompany.thislike.config.Config;
 
 /**
  *
@@ -32,8 +33,8 @@ public class Absorption {
     }
 
     /**
-     * 繝励Ξ繧､繝､繝ｼHead蜿門ｾ�
-     * 
+     * プレイヤーHead取得
+     *
      * @param player
      * @param target
      * @param Lore
@@ -68,7 +69,7 @@ public class Absorption {
             Like = new Wool( DyeColor.BLUE ).toItemStack( 1 );
         }
         ItemMeta lm = Like.getItemMeta();
-        lm.setDisplayName( "いいね" );
+        lm.setDisplayName( Config.like );
         Like.setItemMeta( lm );
         return Like;
     }
@@ -82,7 +83,7 @@ public class Absorption {
             Unlike = new Wool( DyeColor.RED ).toItemStack( 1 );
         }
         ItemMeta um = Unlike.getItemMeta();
-        um.setDisplayName( "解除" );
+        um.setDisplayName( Config.unlike );
         Unlike.setItemMeta( um );
         return Unlike;
     }

@@ -16,6 +16,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
 import com.mycompany.kumaisulibraries.Tools;
+import com.mycompany.kumaisulibraries.Utility;
+import com.mycompany.thislike.config.Config;
 import com.mycompany.thislike.database.Database;
 import com.mycompany.thislike.database.SignData;
 import com.mycompany.thislike.database.LikePlayerData;
@@ -51,7 +53,7 @@ public class ClickListener implements Listener {
 
         if ( !material.name().contains( "SIGN" ) ) { return; }
 
-        Tools.Prt( ChatColor.YELLOW + "Sign LOC = " + clickedBlock.getLocation().toString(), Tools.consoleMode.full, programCode );
+        Tools.Prt( ChatColor.YELLOW + player.getName() + " SignLOC = " + clickedBlock.getLocation().toString(), Tools.consoleMode.full, programCode );
         if ( SignData.GetSQL( clickedBlock.getLocation() ) ) {
             Sign sign = (Sign) clickedBlock.getState();
 
@@ -67,7 +69,7 @@ public class ClickListener implements Listener {
             }
 
             if ( Database.OwnerName.equals( player.getName() ) ) {
-                Tools.Prt( player, ChatColor.GREEN + "あなたのイイネ看板です", Tools.consoleMode.max, programCode );
+                Tools.Prt( player, Utility.ReplaceString( Config.YourSign ), Tools.consoleMode.max, programCode );
                 return;
             }
 
@@ -77,9 +79,10 @@ public class ClickListener implements Listener {
                 LikeControl.SetLike( Database.ID, player, sign.getLine( 2 ), sign.getLine( 1 ) );
             }
 
-            //  逵区攸蜀�螳ｹ譖ｴ譁ｰ
+            //  看板内容更新
             SignData.GetSQL( clickedBlock.getLocation() );
-            sign.setLine( 3, ChatColor.YELLOW + "イイネ : " + ChatColor.BLUE + Database.LikeNum );
+            sign.setLine( 0, Config.SignBase.get( 0 ) );
+            sign.setLine( 3, Config.SignBase.get( 3 ) + ChatColor.BLUE + Database.LikeNum );
             sign.update();
         }
     }

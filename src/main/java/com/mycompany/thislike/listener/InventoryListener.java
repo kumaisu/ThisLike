@@ -19,6 +19,8 @@ import com.mycompany.thislike.database.LikePlayerData;
 import com.mycompany.thislike.control.OwnerControl;
 import com.mycompany.thislike.control.LikeControl;
 import com.mycompany.kumaisulibraries.Tools;
+import com.mycompany.kumaisulibraries.Utility;
+import com.mycompany.thislike.config.Config;
 import static com.mycompany.thislike.config.Config.programCode;
 
 /**
@@ -52,7 +54,7 @@ public class InventoryListener implements Listener {
             case "BARRIER":
                 if ( event.getCurrentItem().getItemMeta().getDisplayName().contains( "Remove" ) ) {
                     event.getWhoClicked().closeInventory();
-                    Tools.Prt( ChatColor.YELLOW + "Sign LOC = " + OwnerControl.loc.get( player.getUniqueId() ).toString(), Tools.consoleMode.full, programCode );
+                    Tools.Prt( ChatColor.YELLOW + player.getName() + " Signloc = " + OwnerControl.loc.get( player.getUniqueId() ).toString(), Tools.consoleMode.full, programCode );
                     if ( SignData.GetSQL( OwnerControl.loc.get( player.getUniqueId() ) ) ) {
                         //  Owner か Admin なら DBから看板削除 & イイネDBをクリアー
                         SignData.DelSQL( Database.ID );
@@ -60,36 +62,30 @@ public class InventoryListener implements Listener {
                         //  対象看板を破壊する操作※追加予定　暫定的に1行目を赤にして破壊可能にする
                         sign.setLine( 0, ChatColor.RED + "#[ThisLike]#" );
                         sign.update();
-                        Tools.Prt( player,
-                            ChatColor.LIGHT_PURPLE + "イイネ看板を無効にしました。" +
-                            ChatColor.GREEN + "破壊可能です",
-                            Tools.consoleMode.full, programCode
-                        );
+                        Tools.Prt( player, Utility.ReplaceString( Config.Remove ), Tools.consoleMode.full, programCode );
                     }
                 }
                 break;
             case "BLUE_WOOL":
                 event.getWhoClicked().closeInventory();
-                if ( event.getCurrentItem().getItemMeta().getDisplayName().contains( "いいね" ) ) {
+                if ( event.getCurrentItem().getItemMeta().getDisplayName().contains( Config.like ) ) {
                     LikeControl.SetLike( Database.ID, player, sign.getLine( 2 ), sign.getLine( 1 ) );
                 }
                 break;
             case "RED_WOOL":
                 event.getWhoClicked().closeInventory();
-                if ( event.getCurrentItem().getItemMeta().getDisplayName().contains( "解除" ) ) {
+                if ( event.getCurrentItem().getItemMeta().getDisplayName().contains( Config.unlike ) ) {
                     LikeControl.SetUnlike( Database.ID, player, sign.getLine( 2 ), sign.getLine( 1 ) );
                 }
                 break;
             case "WOOL":    // 1.12.2 対応
                 Tools.Prt( "WOOL", Tools.consoleMode.max, programCode );
                 event.getWhoClicked().closeInventory();
-                switch( event.getCurrentItem().getItemMeta().getDisplayName() ) { 
-                    case "いいね":
-                        LikeControl.SetLike( Database.ID, player, sign.getLine( 2 ), sign.getLine( 1 ) );
-                        break;
-                    case "解除":
-                        LikeControl.SetUnlike( Database.ID, player, sign.getLine( 2 ), sign.getLine( 1 ) );
-                        break;
+                if ( event.getCurrentItem().getItemMeta().getDisplayName().equals( Config.like ) ) {
+                    LikeControl.SetLike( Database.ID, player, sign.getLine( 2 ), sign.getLine( 1 ) );
+                }
+                if ( event.getCurrentItem().getItemMeta().getDisplayName().equals( Config.unlike ) ) {
+                    LikeControl.SetUnlike( Database.ID, player, sign.getLine( 2 ), sign.getLine( 1 ) );
                 }
                 break;
             default:
@@ -98,7 +94,8 @@ public class InventoryListener implements Listener {
 
         //  看板内容更新
         SignData.GetSQL( OwnerControl.loc.get( player.getUniqueId() ) );
-        sign.setLine( 3, ChatColor.YELLOW + "イイネ : " + ChatColor.BLUE + Database.LikeNum );
+        sign.setLine( 0, Config.SignBase.get( 0 ) );
+        sign.setLine( 3, Config.SignBase.get( 3 ) + ChatColor.BLUE + Database.LikeNum );
         sign.update();
 
         event.setCancelled( true );

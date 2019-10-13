@@ -21,7 +21,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import com.mycompany.thislike.database.LikePlayerData;
 import com.mycompany.kumaisulibraries.Tools;
+import com.mycompany.kumaisulibraries.Utility;
 import com.mycompany.thislike.Absorption;
+import com.mycompany.thislike.config.Config;
 import static com.mycompany.thislike.config.Config.programCode;
 
 /**
@@ -48,15 +50,15 @@ public class OwnerControl {
         if ( slot>54 ) { slot = 54; }
 
         Inventory TempInv;
-        TempInv = Bukkit.createInventory( null, slot, "『" + Title + "』いいね" );
+        TempInv = Bukkit.createInventory( null, slot, Utility.ReplaceString( Config.InventoryTitle ).replace( "%title%", Title ) );
 
         if ( hasOwner ) {
             //  Remove Icon 作成
             ItemStack DelIcon = new ItemStack( Material.BARRIER, 1 );
             ItemMeta DelMeta = Bukkit.getItemFactory().getItemMeta( Material.BARRIER );
             DelMeta.setDisplayName( "Remove" );
-            List<String> DelLore = Arrays.asList( ChatColor.RED + "いいね看板を", ChatColor.RED + "削除します" );
-            DelMeta.setLore( DelLore );
+            //  List<String> DelLore = Arrays.asList( ChatColor.RED + "いいね看板を", ChatColor.RED + "削除します" );
+            DelMeta.setLore( Config.RemoveSignLore );
             DelIcon.setItemMeta( DelMeta );
             TempInv.setItem( slot - 1, DelIcon );
         }
