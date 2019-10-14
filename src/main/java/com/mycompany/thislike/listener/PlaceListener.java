@@ -14,7 +14,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import com.mycompany.thislike.database.SignData;
 import com.mycompany.kumaisulibraries.Tools;
-import com.mycompany.kumaisulibraries.Utility;
 import com.mycompany.thislike.config.Config;
 import com.mycompany.thislike.database.Database;
 import com.mycompany.thislike.control.DynmapControl;
@@ -54,11 +53,8 @@ public class PlaceListener implements Listener {
         Tools.Prt( ChatColor.YELLOW + "Sign Line 4 : " + event.getLine( 3 ), Tools.consoleMode.max, programCode );
 
         if ( event.getLine( 0 ).equals( Config.SignSetKey ) ) {
-            event.setLine( 0, Utility.ReplaceString( Config.SignBase.get( 0 ) ) );
-            event.setLine( 1, Utility.ReplaceString( Config.SignBase.get( 1 ) ) + Title );
-            event.setLine( 2, Utility.ReplaceString( Config.SignBase.get( 2 ), player.getName() ) );
-            event.setLine( 3, Utility.ReplaceString( Config.SignBase.get( 3 ) ) + ChatColor.BLUE + "0" );
-            SignData.AddSQL( player, event.getBlock().getLocation() );
+            SignData.AddSQL( player, event.getBlock().getLocation(), Title );
+            for ( int i = 0; i < 3; i++ ) { event.setLine( i, Config.ReplaceString( Config.SignBase.get( i ) ) ); }
             if( Config.OnDynmap ) {
                 SignData.GetSQL( event.getBlock().getLocation() );
                 DynmapControl.SetDynmapMarker( Database.ID, Title, event.getBlock().getLocation() );

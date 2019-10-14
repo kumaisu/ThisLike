@@ -25,7 +25,8 @@ import static com.mycompany.thislike.config.Config.programCode;
  *
  * いいね看板テーブル
  *      id : int                auto increment
- *      world : varchar(20)     world name
+ *      title : varchar(40)     Sign Title
+ *      world : varchar(30)     world name
  *      x : int
  *      y : int
  *      z : int
@@ -42,25 +43,28 @@ public class SignData {
      *
      * @param player
      * @param LOC
+     * @param Title
      */
-    public static void AddSQL( Player player, Location LOC ) {
+    public static void AddSQL( Player player, Location LOC, String Title ) {
         try ( Connection con = Database.dataSource.getConnection() ) {
-            String sql = "INSERT INTO sign (world, x, y, z, uuid, name, date, likenum) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+            String sql = "INSERT INTO sign (title, world, x, y, z, uuid, name, date, likenum) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             PreparedStatement preparedStatement = con.prepareStatement( sql );
-            preparedStatement.setString( 1, LOC.getWorld().getName() );
-            preparedStatement.setInt( 2, LOC.getBlockX() );
-            preparedStatement.setInt( 3, LOC.getBlockY() );
-            preparedStatement.setInt( 4, LOC.getBlockZ() );
-            preparedStatement.setString( 5, player.getUniqueId().toString() );
-            preparedStatement.setString( 6, player.getName() );
-            preparedStatement.setString( 7, sdf.format( new Date() ) );
-            preparedStatement.setInt( 8, 0 );
+            preparedStatement.setString( 1, Title );
+            preparedStatement.setString( 2, LOC.getWorld().getName() );
+            preparedStatement.setInt( 3, LOC.getBlockX() );
+            preparedStatement.setInt( 4, LOC.getBlockY() );
+            preparedStatement.setInt( 5, LOC.getBlockZ() );
+            preparedStatement.setString( 6, player.getUniqueId().toString() );
+            preparedStatement.setString( 7, player.getName() );
+            preparedStatement.setString( 8, sdf.format( new Date() ) );
+            preparedStatement.setInt( 9, 0 );
 
             preparedStatement.executeUpdate();
             con.close();
 
             Database.LOC = LOC;
+            Database.TITLE = Title;
             Database.OwnerName = player.getName();
             Database.SignDate = new Date();
             Database.LikeNum = 0;
@@ -115,6 +119,7 @@ public class SignData {
                         rs.getInt( "x" ),
                         rs.getInt( "y" ),
                         rs.getInt( "z" ) );
+                Database.TITLE          = rs.getString( "title" );
                 Database.OwnerUUID      = fromString( rs.getString( "uuid" ) );
                 Database.OwnerName      = rs.getString( "name" );
                 Database.SignDate       = rs.getTimestamp( "date" );
@@ -143,6 +148,7 @@ public class SignData {
             preparedStatement.executeUpdate();
             Tools.Prt( "Sign Like Inc Success.", Tools.consoleMode.max, programCode );
             con.close();
+            Database.LikeNum++;
         } catch ( SQLException e ) {
             Tools.Prt( ChatColor.RED + "Error Add LikeNum : " + e.getMessage(), programCode );
         }
@@ -161,8 +167,29 @@ public class SignData {
             preparedStatement.executeUpdate();
             Tools.Prt( "Sign Like Sub Success.", Tools.consoleMode.max, programCode );
             con.close();
+            Database.LikeNum--;
         } catch ( SQLException e ) {
             Tools.Prt( ChatColor.RED + "Error sub LikeNum : " + e.getMessage(), programCode );
+        }
+    }
+
+    /**
+     * Sifn Title 再設定
+     *
+     * @param ID
+     * @param Title
+     */
+    public static void chgTitle( int ID, String Title ) {
+        try ( Connection con = Database.dataSource.getConnection() ) {
+            String sql = "UPDATE sign SET title = '" + Title + "' WHERE id = " + ID + ";";
+            Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
+            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            preparedStatement.executeUpdate();
+            Tools.Prt( "Sign Title Update Success.", Tools.consoleMode.max, programCode );
+            con.close();
+            Database.TITLE = Title;
+        } catch ( SQLException e ) {
+            Tools.Prt( ChatColor.RED + "Error Sign Title Update : " + e.getMessage(), programCode );
         }
     }
 
@@ -185,6 +212,7 @@ public class SignData {
             while( rs.next() ) {
                 Tools.Prt( player, 
                     ChatColor.WHITE + String.format( "%4d", rs.getInt( "id" ) ) + ": " +
+                    ChatColor.GREEN + rs.getString( "title" ) + " " +
                     ChatColor.AQUA + rs.getString( "name" ) + " (" +
                     ChatColor.BLUE + String.format( "%2d", rs.getInt( "likenum" ) ) +
                     ChatColor.AQUA + ") " +
@@ -222,6 +250,7 @@ public class SignData {
                 Rank++;
                 Tools.Prt( player, 
                     ChatColor.WHITE + String.format( "%3d", Rank ) + ": " +
+                    ChatColor.GREEN + rs.getString( "title" ) + " " +
                     ChatColor.AQUA + rs.getString( "name" ) + " (" +
                     ChatColor.BLUE + String.format( "%2d", rs.getInt( "likenum" ) ) +
                     ChatColor.AQUA + ") " +

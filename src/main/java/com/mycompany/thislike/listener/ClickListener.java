@@ -16,7 +16,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
 import com.mycompany.kumaisulibraries.Tools;
-import com.mycompany.kumaisulibraries.Utility;
 import com.mycompany.thislike.config.Config;
 import com.mycompany.thislike.database.Database;
 import com.mycompany.thislike.database.SignData;
@@ -64,24 +63,24 @@ public class ClickListener implements Listener {
 
             if ( player.isSneaking() ) {
                 OwnerControl.loc.put( player.getUniqueId(), clickedBlock.getLocation() );
-                OwnerControl.printLiker( player, Database.ID, sign.getLine( 1 ), Database.OwnerName.equals( player.getName() ) );
+                OwnerControl.printLiker( player, Database.ID );
                 return;
             }
 
             if ( Database.OwnerName.equals( player.getName() ) ) {
-                Tools.Prt( player, Utility.ReplaceString( Config.YourSign ), Tools.consoleMode.max, programCode );
+                Tools.Prt( player, Config.ReplaceString( Config.YourSign ), Tools.consoleMode.max, programCode );
                 return;
             }
 
             if ( LikePlayerData.hasSQL( Database.ID, player ) ) {
-                LikeControl.SetUnlike( Database.ID, player, sign.getLine( 2 ), sign.getLine( 1 ) );
+                LikeControl.SetUnlike( Database.ID, player );
             } else {
-                LikeControl.SetLike( Database.ID, player, sign.getLine( 2 ), sign.getLine( 1 ) );
+                LikeControl.SetLike( Database.ID, player );
             }
 
             //  看板内容更新
             SignData.GetSQL( clickedBlock.getLocation() );
-            sign.setLine( 3, Utility.ReplaceString( Config.SignBase.get( 3 ) ) + ChatColor.BLUE + Database.LikeNum );
+            sign.setLine( 3, Config.ReplaceString( Config.SignBase.get( 3 ) ) );
             sign.update();
             event.setCancelled( true );
         }

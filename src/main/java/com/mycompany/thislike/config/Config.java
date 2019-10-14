@@ -6,6 +6,7 @@
 package com.mycompany.thislike.config;
 
 import java.util.List;
+import com.mycompany.thislike.database.Database;
 
 /**
  *
@@ -33,4 +34,16 @@ public class Config {
     public static String Remove;
     public static List<String> RemoveSignLore;
     public static List<String> SignBase;
+
+    /**
+     * 文字列置換
+     * @param data  書き換え元の文章
+     * @return      書き換え後の文章
+     */
+    public static String ReplaceString( String data ) {
+        data = data.replace( "%player%", Database.OwnerName );
+        data = data.replace( "%title%", Database.TITLE );
+        data = data.replace( "%num%", String.valueOf( Database.LikeNum ) );
+        return data.replace( "%$", "§" );
+    }   
 }

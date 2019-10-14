@@ -89,7 +89,8 @@ public class MySQLControl {
         try ( Connection con = Database.dataSource.getConnection() ) {
             //  いいね看板テーブル
             //      id : int                auto increment
-            //      world : varchar(20)     world name
+            //      title : varchar(40)     Sign Title
+            //      world : varchar(30)     world name
             //      x : int
             //      y : int
             //      z : int
@@ -98,7 +99,18 @@ public class MySQLControl {
             //      date : DATETIME
             //      like : int
             //  存在すれば、無視される
-            String sql = "CREATE TABLE IF NOT EXISTS sign( id int auto_increment, world varchar(20), x int, y int, z int, uuid varchar(36), name varchar(20), date DATETIME, likenum int, index( id ) );";
+            String sql = "CREATE TABLE IF NOT EXISTS sign( "
+                    + "id int auto_increment, "
+                    + "title varchar(40), "
+                    + "world varchar(30), "
+                    + "x int, "
+                    + "y int, "
+                    + "z int, "
+                    + "uuid varchar(36), "
+                    + "name varchar(20), "
+                    + "date DATETIME, "
+                    + "likenum int, "
+                    + "index( id ) );";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             PreparedStatement preparedStatement = con.prepareStatement( sql );
             preparedStatement.executeUpdate();

@@ -48,6 +48,11 @@ public class ThislikeCommand implements CommandExecutor {
             case "list":
                 SignData.SignList( player, ( ( args.length > 1 ) ? args[1] : "" ) );
                 return true;
+            case "title":
+                if ( args.length > 2 ) {
+                    SignData.chgTitle( Integer.valueOf( args[1] ), args[2] );
+                    return true;
+                }
             case "status":
                 instance.config.Status( player );
                 return true;

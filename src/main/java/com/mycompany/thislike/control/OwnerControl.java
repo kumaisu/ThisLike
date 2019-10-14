@@ -5,6 +5,10 @@
  */
 package com.mycompany.thislike.control;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.Date;
 import java.util.Map;
@@ -19,11 +23,11 @@ import org.bukkit.Location;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import com.mycompany.thislike.database.LikePlayerData;
 import com.mycompany.kumaisulibraries.Tools;
-import com.mycompany.kumaisulibraries.Utility;
 import com.mycompany.thislike.Absorption;
 import com.mycompany.thislike.config.Config;
+import com.mycompany.thislike.database.Database;
+import com.mycompany.thislike.database.LikePlayerData;
 import static com.mycompany.thislike.config.Config.programCode;
 
 /**
@@ -40,19 +44,19 @@ public class OwnerControl {
      *
      * @param player
      * @param ID
-     * @param Title
-     * @param hasOwner
     */
-    public static void printLiker( Player player, int ID, String Title, boolean hasOwner ) {
+    public static void printLiker( Player player, int ID ) {
         Map< String, Date > liker = LikePlayerData.listSQL( ID );
 
+        boolean hasOwner = Database.OwnerName.equals( player.getName() );
+        boolean hasPerm = ( player.isOp() || player.hasPermission( "ThisLike.admin" ) );
         int slot = liker.size() + ( 9 - ( liker.size() % 9 ) ) + 9;
         if ( slot>54 ) { slot = 54; }
 
         Inventory TempInv;
-        TempInv = Bukkit.createInventory( null, slot, Utility.ReplaceString( Config.InventoryTitle ).replace( "%title%", Title ) );
+        TempInv = Bukkit.createInventory( null, slot, Config.ReplaceString( Config.InventoryTitle ) );
 
-        if ( hasOwner ) {
+        if ( hasOwner || hasPerm ) {
             //  Remove Icon 作成
             ItemStack DelIcon = new ItemStack( Material.BARRIER, 1 );
             ItemMeta DelMeta = Bukkit.getItemFactory().getItemMeta( Material.BARRIER );
@@ -63,7 +67,7 @@ public class OwnerControl {
             TempInv.setItem( slot - 1, DelIcon );
         }
 
-        if ( player.isOp() || player.hasPermission( "ThisLike.admin" ) ) {
+        if ( hasPerm ) {
             //  Remove Icon 作成
             ItemStack UpIcon = new ItemStack( Material.END_CRYSTAL, 1 );
             ItemMeta UpMeta = Bukkit.getItemFactory().getItemMeta( Material.END_CRYSTAL );
@@ -80,13 +84,25 @@ public class OwnerControl {
         //  イイネ解除
         TempInv.setItem( slot - 9, Absorption.Like() );
 
-        liker.keySet().forEach( ( key ) -> {
-            Tools.Prt( ChatColor.GREEN + key + " : " + ChatColor.WHITE + liker.get( key ), Tools.consoleMode.max, programCode );
+       // List 生成 (ソート用)
+        List< Map.Entry< String, Date > > entries = new ArrayList< Map.Entry< String,Date > >( liker.entrySet() );
+        Collections.sort( entries, new Comparator< Map.Entry< String, Date > >() {
+ 
+            @Override
+            public int compare(
+                Entry< String, Date > entry1, Entry< String, Date > entry2 ) {
+                return ( ( Date ) entry2.getValue() ).compareTo( ( Date ) entry1.getValue() );
+            }
+        });
+         
+        // 内容を表示
+        for ( Entry< String, Date > s : entries ) {
+            Tools.Prt( ChatColor.GREEN + s.getKey() + " : " + ChatColor.WHITE + s.getValue(), Tools.consoleMode.max, programCode );
             SimpleDateFormat ddf = new SimpleDateFormat( "yyyy/MM/dd" );
             SimpleDateFormat tdf = new SimpleDateFormat( "HH:mm:ss" );
-            List< String > Lore = Arrays.asList( ddf.format( liker.get( key ) ),tdf.format( liker.get( key ) ) );
-            TempInv.addItem( Absorption.getPlayerHead( player, key, Lore ) );
-        } );
+            List< String > Lore = Arrays.asList( ddf.format( s.getValue() ),tdf.format( s.getValue() ) );
+            TempInv.addItem( Absorption.getPlayerHead( player, s.getKey(), Lore ) );
+        }
 
         player.openInventory( TempInv );
         inv.put( player.getUniqueId(), TempInv );

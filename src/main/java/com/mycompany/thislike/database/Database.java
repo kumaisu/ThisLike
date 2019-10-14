@@ -19,17 +19,19 @@ public class Database {
 
     //  いいね看板テーブル
     //      id : int                auto increment
-    //      loc : varchar(20)        x y z x16 { max ffffffffffff }
-    //      world : varchar(20)     world name
+    //      title : varchar(40)     Sign Title
+    //      world : varchar(30)     world name
+    //      x : int
+    //      y : int
+    //      z : int
     //      uuid : varchar(36)      owner player uuid
     //      name : varchar(20)      owner player name
     //      date : DATETIME
     //      like : int
     //  存在すれば、無視される
-    //  String sql = "CREATE TABLE IF NOT EXISTS sign( id int auto_increment, loc varchar(20), world varchar(20), uuid varchar(36), name varchar(20), date DATETIME, likenum int, index( id ) );";
     public static int ID = 0;
     public static Location LOC = null;
-    //  public static String TITLE = "";
+    public static String TITLE = "";
     public static String OwnerName;
     public static UUID OwnerUUID;
     public static Date SignDate;
