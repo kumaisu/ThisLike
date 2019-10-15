@@ -58,14 +58,10 @@ public class ConfigManager {
         Config.RemoveSignLore   = config.getStringList( "RemoveSignLore" );
         Config.SignBase         = config.getStringList( "SignBase" );
 
-        Tools.consoleMode DebugFlag;
-        try {
-            DebugFlag = Tools.consoleMode.valueOf( config.getString( "Debug" ) );
-        } catch( IllegalArgumentException e ) {
+        if ( !Tools.setDebug( config.getString( "Debug" ), programCode ) ) {
+            Tools.entryDebugFlag( programCode, Tools.consoleMode.normal );
             Tools.Prt( ChatColor.RED + "Config Debugモードの指定値が不正なので、normal設定にしました", programCode );
-            DebugFlag = Tools.consoleMode.normal;
         }
-        Tools.entryDebugFlag( programCode, DebugFlag );
     }
 
     public static void Status( Player p ) {

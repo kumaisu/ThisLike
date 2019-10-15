@@ -59,7 +59,7 @@ public class InventoryListener implements Listener {
                 case "BARRIER":
                     if ( event.getCurrentItem().getItemMeta().getDisplayName().contains( "Remove" ) ) {
                         event.getWhoClicked().closeInventory();
-                        Tools.Prt( ChatColor.YELLOW + player.getName() + " Signloc = " + OwnerControl.loc.get( player.getUniqueId() ).toString(), Tools.consoleMode.full, programCode );
+                        Tools.Prt( ChatColor.YELLOW + player.getName() + " Signloc = " + OwnerControl.loc.get( player.getUniqueId() ).toString(), Tools.consoleMode.max, programCode );
                         //  DBから看板削除 & イイネDBをクリアー
                         SignData.DelSQL( Database.ID );
                         LikePlayerData.DelSQL( Database.ID );

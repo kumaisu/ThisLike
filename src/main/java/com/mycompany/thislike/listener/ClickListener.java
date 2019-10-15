@@ -52,7 +52,7 @@ public class ClickListener implements Listener {
 
         if ( !material.name().contains( "SIGN" ) ) { return; }
 
-        Tools.Prt( ChatColor.YELLOW + player.getName() + " SignLOC = " + clickedBlock.getLocation().toString(), Tools.consoleMode.full, programCode );
+        Tools.Prt( ChatColor.YELLOW + player.getName() + " SignLOC = " + clickedBlock.getLocation().toString(), Tools.consoleMode.max, programCode );
         if ( SignData.GetSQL( clickedBlock.getLocation() ) ) {
             Sign sign = (Sign) clickedBlock.getState();
 

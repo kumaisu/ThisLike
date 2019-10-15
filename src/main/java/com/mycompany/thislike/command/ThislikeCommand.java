@@ -60,7 +60,10 @@ public class ThislikeCommand implements CommandExecutor {
                 instance.config.load();
                 return true;
             case "Console":
-                Tools.setDebug( itemName, programCode );
+                if ( !Tools.setDebug( itemName, programCode ) ) {
+                    Tools.entryDebugFlag( programCode, Tools.consoleMode.normal );
+                    Tools.Prt( ChatColor.RED + "Config Debugモードの指定値が不正なので、normal設定にしました", programCode );
+                }
                 Tools.Prt( player,
                     ChatColor.GREEN + "System Debug Mode is [ " +
                     ChatColor.RED + Tools.consoleFlag.get( programCode ).toString() +
@@ -79,8 +82,6 @@ public class ThislikeCommand implements CommandExecutor {
             default:
                 break;
         }
-
-        Tools.Prt( player, ChatColor.RED + "Not supported yet.", programCode );
         Tools.Prt( player, ChatColor.RED + "[ThisLike] Unknown Command [" + commandString + "]", Tools.consoleMode.full, programCode );
         return false;
     }

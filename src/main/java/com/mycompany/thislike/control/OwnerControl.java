@@ -85,15 +85,8 @@ public class OwnerControl {
         TempInv.setItem( slot - 9, Absorption.Like() );
 
        // List 生成 (ソート用)
-        List< Map.Entry< String, Date > > entries = new ArrayList< Map.Entry< String,Date > >( liker.entrySet() );
-        Collections.sort( entries, new Comparator< Map.Entry< String, Date > >() {
- 
-            @Override
-            public int compare(
-                Entry< String, Date > entry1, Entry< String, Date > entry2 ) {
-                return ( ( Date ) entry2.getValue() ).compareTo( ( Date ) entry1.getValue() );
-            }
-        });
+        List< Map.Entry< String, Date > > entries = new ArrayList<>( liker.entrySet() );
+        Collections.sort( entries, ( Entry< String, Date > entry1, Entry< String, Date > entry2 ) -> ( ( Date ) entry2.getValue() ).compareTo( ( Date ) entry1.getValue() ) );
          
         // 内容を表示
         for ( Entry< String, Date > s : entries ) {
