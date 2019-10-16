@@ -76,7 +76,7 @@ public class InventoryListener implements Listener {
                 case "END_CRYSTAL":
                     event.getWhoClicked().closeInventory();
                     if ( event.getCurrentItem().getItemMeta().getDisplayName().contains( "Update" ) ) {
-                        for ( int i = 0; i < 3; i++ ) { sign.setLine( i, Config.ReplaceString( Config.SignBase.get( i ) ) ); }
+                        for ( int i = 0; i < 4; i++ ) { sign.setLine( i, Config.ReplaceString( Config.SignBase.get( i ) ) ); }
                         sign.update();
                         return;
                     }

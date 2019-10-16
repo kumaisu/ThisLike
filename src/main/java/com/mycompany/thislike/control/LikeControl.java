@@ -8,11 +8,11 @@ package com.mycompany.thislike.control;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import com.mycompany.kumaisulibraries.Tools;
+import com.mycompany.thislike.config.Config;
 import com.mycompany.thislike.database.Database;
 import com.mycompany.thislike.database.SignData;
 import com.mycompany.thislike.database.LikePlayerData;
-import com.mycompany.kumaisulibraries.Tools;
-import com.mycompany.thislike.config.Config;
 import static com.mycompany.thislike.config.Config.programCode;
 
 /**

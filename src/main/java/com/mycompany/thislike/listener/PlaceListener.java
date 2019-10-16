@@ -12,10 +12,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
-import com.mycompany.thislike.database.SignData;
 import com.mycompany.kumaisulibraries.Tools;
 import com.mycompany.thislike.config.Config;
 import com.mycompany.thislike.database.Database;
+import com.mycompany.thislike.database.SignData;
 import com.mycompany.thislike.control.DynmapControl;
 import static com.mycompany.thislike.config.Config.programCode;
 
@@ -41,20 +41,19 @@ public class PlaceListener implements Listener {
     @EventHandler
     public void onSignChange( SignChangeEvent event ) {
         Tools.Prt( ChatColor.GOLD + "get Sign Change Event", Tools.consoleMode.max, programCode );
-
         Player player = event.getPlayer();
         Material material = event.getBlock().getType();
         String Title = event.getLine( 1 );
         Tools.Prt( ChatColor.YELLOW + "Material = " + material.name(), Tools.consoleMode.max, programCode );
-
-        Tools.Prt( ChatColor.YELLOW + "Sign Line 1 : " + event.getLine( 0 ), Tools.consoleMode.max, programCode );
-        Tools.Prt( ChatColor.YELLOW + "Sign Line 2 : " + Title, Tools.consoleMode.max, programCode );
-        Tools.Prt( ChatColor.YELLOW + "Sign Line 3 : " + event.getLine( 2 ), Tools.consoleMode.max, programCode );
-        Tools.Prt( ChatColor.YELLOW + "Sign Line 4 : " + event.getLine( 3 ), Tools.consoleMode.max, programCode );
+        for ( int i = 0; i < 4; i++ ) { Tools.Prt( ChatColor.YELLOW + "Old Sign " + i + " : " + event.getLine( i ), Tools.consoleMode.max, programCode ); }
 
         if ( event.getLine( 0 ).equals( Config.SignSetKey ) ) {
             SignData.AddSQL( player, event.getBlock().getLocation(), Title );
-            for ( int i = 0; i < 3; i++ ) { event.setLine( i, Config.ReplaceString( Config.SignBase.get( i ) ) ); }
+            for ( int i = 0; i < 4; i++ ) {
+                String SignMsg = Config.ReplaceString( Config.SignBase.get( i ) );
+                Tools.Prt( ChatColor.YELLOW + "New Sign " + i + " : " + SignMsg, Tools.consoleMode.max, programCode );
+                event.setLine( i, SignMsg );
+            }
             if( Config.OnDynmap ) {
                 SignData.GetSQL( event.getBlock().getLocation() );
                 DynmapControl.SetDynmapMarker( Database.ID, Title, event.getBlock().getLocation() );

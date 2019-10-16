@@ -7,7 +7,6 @@ package com.mycompany.thislike.control;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.Date;

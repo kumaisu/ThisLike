@@ -56,10 +56,9 @@ public class ClickListener implements Listener {
         if ( SignData.GetSQL( clickedBlock.getLocation() ) ) {
             Sign sign = (Sign) clickedBlock.getState();
 
-            Tools.Prt( ChatColor.YELLOW + "Sign Line 1 : " + sign.getLine( 0 ), Tools.consoleMode.max, programCode );
-            Tools.Prt( ChatColor.YELLOW + "Sign Line 2 : " + sign.getLine( 1 ), Tools.consoleMode.max, programCode );
-            Tools.Prt( ChatColor.YELLOW + "Sign Line 3 : " + sign.getLine( 2 ), Tools.consoleMode.max, programCode );
-            Tools.Prt( ChatColor.YELLOW + "Sign Line 4 : " + sign.getLine( 3 ), Tools.consoleMode.max, programCode );
+            for ( int i = 0; i < 4; i++ ) {
+                Tools.Prt( ChatColor.YELLOW + "Sign Line " + i + " : " + sign.getLine( i ), Tools.consoleMode.max, programCode );
+            }
 
             if ( player.isSneaking() ) {
                 OwnerControl.loc.put( player.getUniqueId(), clickedBlock.getLocation() );
