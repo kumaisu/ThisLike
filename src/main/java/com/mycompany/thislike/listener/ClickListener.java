@@ -60,6 +60,8 @@ public class ClickListener implements Listener {
                 Tools.Prt( ChatColor.YELLOW + "Sign Line " + i + " : " + sign.getLine( i ), Tools.consoleMode.max, programCode );
             }
 
+            event.setCancelled( true );
+
             if ( player.isSneaking() ) {
                 OwnerControl.loc.put( player.getUniqueId(), clickedBlock.getLocation() );
                 OwnerControl.printLiker( player, Database.ID );
@@ -81,7 +83,6 @@ public class ClickListener implements Listener {
             SignData.GetSQL( clickedBlock.getLocation() );
             sign.setLine( 3, Config.ReplaceString( Config.SignBase.get( 3 ) ) );
             sign.update();
-            event.setCancelled( true );
         }
     }
 }
