@@ -47,14 +47,18 @@ public class ConfigManager {
         Config.password = config.getString( "mysql.password", "" );
         Config.OnDynmap = config.getBoolean( "OnDynmap", false );
 
-        Config.like             = config.getString( "like", "Error" );
-        Config.unlike           = config.getString( "unlike", "Error" );
-        Config.SignSetKey       = config.getString( "SignSetKey", "Error" );
-        Config.SetLike          = config.getString( "SetLike", "Error" );
-        Config.SetUnlike        = config.getString( "SetUnlike", "Error" );
-        Config.InventoryTitle   = config.getString( "InventoryTitle", "Error" );
-        Config.YourSign         = config.getString( "YourSign", "Error" );
-        Config.Remove           = config.getString( "Remove", "Error" );
+        Config.LikeBroadcast    = config.getBoolean( "LikeBroadcast", true );
+        Config.UnlikeBroadcast  = config.getBoolean( "UnlikeBroadcast", false );
+        Config.like             = config.getString( "like", "like" );
+        Config.unlike           = config.getString( "unlike", "unlike" );
+        Config.SignSetKey       = config.getString( "SignSetKey", "SignSetKey" );
+        Config.SetLike          = config.getString( "SetLike", "SetLike" );
+        Config.InfoLike         = config.getString( "InfoLike", "InfoLike" );
+        Config.SetUnlike        = config.getString( "SetUnlike", "SetUnlike" );
+        Config.InfoUnlike       = config.getString( "InfoUnlike", "InfoUnlike" );
+        Config.InventoryTitle   = config.getString( "InventoryTitle", "InventoryTitle" );
+        Config.YourSign         = config.getString( "YourSign", "YourSign" );
+        Config.Remove           = config.getString( "Remove", "Remove" );
         Config.RemoveSignLore   = config.getStringList( "RemoveSignLore" );
         Config.SignBase         = config.getStringList( "SignBase" );
 
@@ -80,8 +84,12 @@ public class ConfigManager {
         Tools.Prt( p, ChatColor.WHITE + "Inventory   : " + ChatColor.YELLOW + Config.InventoryTitle, programCode );
         
         Tools.Prt( p, ChatColor.WHITE + "YourSignMessage     : " + ChatColor.YELLOW + Config.YourSign, programCode );
+        Tools.Prt( p, ChatColor.WHITE + "Like Broadcast      : " + ChatColor.YELLOW + ( Config.LikeBroadcast ? "Yes" : "No" ), programCode );
         Tools.Prt( p, ChatColor.WHITE + "PlayerMessageLike   : " + ChatColor.YELLOW + Config.SetLike, programCode );
+        Tools.Prt( p, ChatColor.WHITE + "OwnerMessageLike    : " + ChatColor.YELLOW + Config.InfoLike, programCode );
+        Tools.Prt( p, ChatColor.WHITE + "Unlike Broadcast    : " + ChatColor.YELLOW + ( Config.UnlikeBroadcast ? "Yes" : "No" ), programCode );
         Tools.Prt( p, ChatColor.WHITE + "PlayerMessageUnlike : " + ChatColor.YELLOW + Config.SetUnlike, programCode );
+        Tools.Prt( p, ChatColor.WHITE + "OwnerMessageUnlike  : " + ChatColor.YELLOW + Config.InfoUnlike, programCode );
         Tools.Prt( p, ChatColor.WHITE + "RemoveMessage       : " + ChatColor.YELLOW + Config.Remove, programCode );
 
         Tools.Prt( p, ChatColor.WHITE + "Remove Sign Switch Lore", programCode );

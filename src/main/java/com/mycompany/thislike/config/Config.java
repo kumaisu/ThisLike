@@ -23,12 +23,16 @@ public class Config {
     public static String password;
 
     public static boolean OnDynmap;
+    public static boolean LikeBroadcast;
+    public static boolean UnlikeBroadcast;
 
     public static String like;
     public static String unlike;
     public static String SignSetKey;
     public static String SetLike;
+    public static String InfoLike;
     public static String SetUnlike;
+    public static String InfoUnlike;
     public static String InventoryTitle;
     public static String YourSign;
     public static String Remove;
@@ -41,7 +45,8 @@ public class Config {
      * @return      書き換え後の文章
      */
     public static String ReplaceString( String data ) {
-        data = data.replace( "%player%", Database.OwnerName );
+        data = data.replace( "%owner%", Database.OwnerName );
+        data = data.replace( "%liker%", Database.LikeName );
         data = data.replace( "%title%", Database.TITLE );
         data = data.replace( "%num%", String.valueOf( Database.LikeNum ) );
         return data.replace( "%$", "§" );

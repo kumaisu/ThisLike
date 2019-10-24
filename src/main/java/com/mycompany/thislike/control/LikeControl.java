@@ -48,7 +48,23 @@ public class LikeControl {
         if ( !LikePlayerData.hasSQL( Database.ID, player ) ) {
             SignData.incLike( Database.ID );
             LikePlayerData.AddSQL( player, Database.ID );
-            SendMessage( player, Config.ReplaceString( Config.SetLike ) );
+            Tools.Prt( player, Config.ReplaceString( Config.SetLike ), Tools.consoleMode.max, programCode );
+            if ( ( Bukkit.getPlayer( Database.OwnerUUID ) != null ) && ( !Config.InfoLike.equals( "none" ) ) ) {
+                Tools.Prt( Bukkit.getPlayer( Database.OwnerUUID), Config.ReplaceString( Config.InfoLike ), Tools.consoleMode.max, programCode );
+            }
+
+            if ( Config.LikeBroadcast ) {
+                Tools.Prt( "Owner UUID : " + Database.OwnerUUID.toString(), Tools.consoleMode.max, programCode );
+                Tools.Prt( "Liker UUID : " + Database.LikeUUID.toString(), Tools.consoleMode.max, programCode );
+                Bukkit.getOnlinePlayers().stream().forEachOrdered( ( p ) -> {
+                    String getUUID = p.getUniqueId().toString();
+                    Tools.Prt( "Get UUID : " + getUUID, Tools.consoleMode.max, programCode );
+                    if ( !Database.OwnerUUID.toString().equals( getUUID ) && !Database.LikeUUID.toString().equals( getUUID ) ) {
+                        Tools.Prt( "send to Message : " + p.getDisplayName(), Tools.consoleMode.max, programCode );
+                        Tools.Prt( p, Config.ReplaceString( Config.SetLike ), Tools.consoleMode.max, programCode );
+                    }
+                } );
+            }
             return true;
         } else return false;
     }
@@ -69,7 +85,23 @@ public class LikeControl {
         if ( LikePlayerData.hasSQL( Database.ID, player ) ) {
             SignData.subLike( Database.ID );
             LikePlayerData.DelPlayerSQL( Database.ID, player );
-            SendMessage( player, Config.ReplaceString( Config.SetUnlike ) );
+            Tools.Prt( player, Config.ReplaceString( Config.SetUnlike ), Tools.consoleMode.max, programCode );
+            if ( ( Bukkit.getPlayer( Database.OwnerUUID ) != null ) && ( !Config.InfoUnlike.equals( "none" ) ) ) {
+                Tools.Prt( Bukkit.getPlayer( Database.OwnerUUID), Config.ReplaceString( Config.InfoUnlike ), Tools.consoleMode.max, programCode );
+            }
+
+            if ( Config.UnlikeBroadcast ) {
+                Tools.Prt( "Owner UUID : " + Database.OwnerUUID.toString(), Tools.consoleMode.max, programCode );
+                Tools.Prt( "Liker UUID : " + Database.LikeUUID.toString(), Tools.consoleMode.max, programCode );
+                Bukkit.getOnlinePlayers().stream().forEachOrdered( ( p ) -> {
+                    String getUUID = p.getUniqueId().toString();
+                    Tools.Prt( "Get UUID : " + getUUID, Tools.consoleMode.max, programCode );
+                    if ( !Database.OwnerUUID.toString().equals( getUUID ) && !Database.LikeUUID.toString().equals( getUUID ) ) {
+                        Tools.Prt( "send to Message : " + p.getDisplayName(), Tools.consoleMode.max, programCode );
+                        Tools.Prt( p, Config.ReplaceString( Config.SetUnlike ), Tools.consoleMode.max, programCode );
+                    }
+                } );
+            }
             return true;
         } else return false;
     }

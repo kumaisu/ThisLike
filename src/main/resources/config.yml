@@ -31,16 +31,33 @@ SignSetKey: "ThisLike"
 SignBase:
     - "[%$b これイイネ!! %$r]"
     - "%$0%title%"
-    - "%$0看板主:%$a%player%"
+    - "%$0看板主:%$a%owner%"
     - "%$cイイネ : %$1%num%"
+
+#   いいねをBroadcastで報告する
+LikeBroadcast: true
 
 #   いいねした時のプレイヤーメッセージ
 #   有効な置換文字列有効
-SetLike: "%player% %$aさんの%$e『%title%』%$aに%$bイイネ%$aしました"
+SetLike: "%owner% %$aさんの%$e『%title%』%$aに%$bイイネ%$aしました"
+
+#   いいねした時、オーナーがオンラインならば通知する時のメッセージ
+#   有効な置換文字列有効
+#   "none" で非通知
+InfoLike: "%liker% %$aさんが%$e『%title%』%$aに%$bイイネ%$aしました"
+
+#   解除をBroadcastで報告する
+#   ネガティブ要素なのでディフォルトは false
+UnlikeBroadcast: false
 
 #   いいね解除した時のプレイヤーメッセージ
 #   有効な置換文字列有効
-SetUnlike: "%player% %$dさんの%$e『%title%』%$dから%$bイイネ%$dをやめました"
+SetUnlike: "%owner% %$dさんの%$e『%title%』%$dから%$bイイネ%$dをやめました"
+
+#   いいねした時、オーナーがオンラインならば通知する時のメッセージ
+#   有効な置換文字列有効
+#   "none" で非通知
+InfoUnlike: "%liker% %$dさんが%$e『%title%』%$dから%$bイイネ%$dをやめました"
 
 #   削除可能時のプレイヤーメッセージ
 #   有効な置換文字列有効
