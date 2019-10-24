@@ -32,8 +32,8 @@ public class Database {
     public static int ID = 0;
     public static Location LOC = null;
     public static String TITLE = "";
-    public static String OwnerName;
-    public static UUID OwnerUUID;
+    public static String OwnerName = "OWNER";
+    public static UUID OwnerUUID = null;
     public static Date SignDate;
     public static int LikeNum = 0;
 
@@ -43,7 +43,7 @@ public class Database {
     //      name : varchar(20)      player name
     //      date : DATETIME         update Date
     //  CREATE TABLE IF NOT EXISTS likes( id int, uuid varchar(36), name varchar(20), date DATETIME );
-    public static UUID LikeUUID;
-    public static String LikeName;
+    public static UUID LikeUUID = null;
+    public static String LikeName = "LIKER";
     public static Date StampDate;
 }
