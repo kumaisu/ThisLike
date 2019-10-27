@@ -22,17 +22,6 @@ import static com.mycompany.thislike.config.Config.programCode;
 public class LikeControl {
 
     /**
-     * 共通プレイヤー向けメッセージ
-     *
-     * @param player 
-     */
-    private static void SendMessage( Player player, String Msg ) {
-        Tools.Prt( player, Msg, Tools.consoleMode.full, programCode );
-        Player OwnerPlayer = Bukkit.getServer().getPlayer( Database.OwnerName );
-        if ( OwnerPlayer != null ) Tools.Prt( OwnerPlayer, Msg, Tools.consoleMode.max, programCode );
-    }
-
-    /**
      * いいね設定
      *
      * @param ID
@@ -49,8 +38,12 @@ public class LikeControl {
             SignData.incLike( Database.ID );
             LikePlayerData.AddSQL( player, Database.ID );
             Tools.Prt( player, Config.ReplaceString( Config.SetLike ), Tools.consoleMode.max, programCode );
-            if ( ( Bukkit.getPlayer( Database.OwnerUUID ) != null ) && ( !Config.InfoLike.equals( "none" ) ) ) {
-                Tools.Prt( Bukkit.getPlayer( Database.OwnerUUID), Config.ReplaceString( Config.InfoLike ), Tools.consoleMode.max, programCode );
+            if (
+                ( !Config.InfoLike.equals( "none" ) ) &&
+                ( Bukkit.getPlayer( Database.OwnerUUID ) != null ) &&
+                ( !player.getUniqueId().toString().equals( Database.OwnerUUID.toString() ) )
+            ) {
+                Tools.Prt( Bukkit.getPlayer( Database.OwnerUUID ), Config.ReplaceString( Config.InfoLike ), Tools.consoleMode.max, programCode );
             }
 
             if ( Config.LikeBroadcast ) {
@@ -86,8 +79,12 @@ public class LikeControl {
             SignData.subLike( Database.ID );
             LikePlayerData.DelPlayerSQL( Database.ID, player );
             Tools.Prt( player, Config.ReplaceString( Config.SetUnlike ), Tools.consoleMode.max, programCode );
-            if ( ( Bukkit.getPlayer( Database.OwnerUUID ) != null ) && ( !Config.InfoUnlike.equals( "none" ) ) ) {
-                Tools.Prt( Bukkit.getPlayer( Database.OwnerUUID), Config.ReplaceString( Config.InfoUnlike ), Tools.consoleMode.max, programCode );
+            if (
+                ( !Config.InfoUnlike.equals( "none" ) ) &&
+                ( Bukkit.getPlayer( Database.OwnerUUID ) != null ) &&
+                ( !player.getUniqueId().toString().equals( Database.OwnerUUID.toString() ) )
+            ) {
+                Tools.Prt( Bukkit.getPlayer( Database.OwnerUUID ), Config.ReplaceString( Config.InfoUnlike ), Tools.consoleMode.max, programCode );
             }
 
             if ( Config.UnlikeBroadcast ) {

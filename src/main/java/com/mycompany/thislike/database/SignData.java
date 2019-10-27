@@ -144,7 +144,7 @@ public class SignData {
         try ( Connection con = Database.dataSource.getConnection() ) {
             String sql = "UPDATE sign SET likenum = likenum + 1 WHERE id = " + ID + ";";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
-            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            PreparedStatement preparedStatement = con.prepareStatement( sql );
             preparedStatement.executeUpdate();
             Tools.Prt( "Sign Like Inc Success.", Tools.consoleMode.max, programCode );
             con.close();
@@ -163,7 +163,7 @@ public class SignData {
         try ( Connection con = Database.dataSource.getConnection() ) {
             String sql = "UPDATE sign SET likenum = likenum - 1 WHERE id = " + ID + ";";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
-            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            PreparedStatement preparedStatement = con.prepareStatement( sql );
             preparedStatement.executeUpdate();
             Tools.Prt( "Sign Like Sub Success.", Tools.consoleMode.max, programCode );
             con.close();
@@ -183,7 +183,7 @@ public class SignData {
         try ( Connection con = Database.dataSource.getConnection() ) {
             String sql = "UPDATE sign SET title = '" + Title + "' WHERE id = " + ID + ";";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
-            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            PreparedStatement preparedStatement = con.prepareStatement( sql );
             preparedStatement.executeUpdate();
             Tools.Prt( "Sign Title Update Success.", Tools.consoleMode.max, programCode );
             con.close();

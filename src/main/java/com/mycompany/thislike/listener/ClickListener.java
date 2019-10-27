@@ -81,7 +81,12 @@ public class ClickListener implements Listener {
 
             //  看板内容更新
             SignData.GetSQL( clickedBlock.getLocation() );
-            sign.setLine( 3, Config.ReplaceString( Config.SignBase.get( 3 ) ) );
+
+            for ( int i = 0; i < 4; i++ ) {
+                String SignMsg = Config.ReplaceString( Config.SignBase.get( i ) );
+                Tools.Prt( ChatColor.YELLOW + "Rewrite Sign " + i + " : " + SignMsg, Tools.consoleMode.max, programCode );
+                sign.setLine( i, SignMsg );
+            }
             sign.update();
         }
     }
