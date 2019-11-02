@@ -49,7 +49,8 @@ public class OwnerControl {
 
         boolean hasOwner = Database.OwnerName.equals( player.getName() );
         boolean hasPerm = ( player.isOp() || player.hasPermission( "ThisLike.admin" ) );
-        int slot = liker.size() + ( 9 - ( liker.size() % 9 ) ) + 9;
+        
+        int slot = liker.size() + ( ( ( liker.size() % 9 ) == 0 ) ? 0 : ( 9 - ( liker.size() % 9 ) ) ) + 9;
         if ( slot>54 ) { slot = 54; }
 
         Inventory TempInv;
