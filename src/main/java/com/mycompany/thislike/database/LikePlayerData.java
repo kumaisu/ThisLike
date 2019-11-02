@@ -149,6 +149,9 @@ public class LikePlayerData {
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             ResultSet rs = stmt.executeQuery( sql );
             if ( rs.next() ) {
+                Database.LikeUUID   = fromString( rs.getString( "uuid" ) );
+                Database.LikeName   = rs.getString( "name" );
+                Database.StampDate  = rs.getTimestamp( "date" );
                 Tools.Prt( "Get Data from SQL Success.", Tools.consoleMode.max , programCode );
                 retStat = true;
             }

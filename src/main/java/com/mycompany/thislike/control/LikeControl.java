@@ -90,6 +90,7 @@ public class LikeControl {
             if ( Config.UnlikeBroadcast ) {
                 Tools.Prt( "Owner UUID : " + Database.OwnerUUID.toString(), Tools.consoleMode.max, programCode );
                 Tools.Prt( "Liker UUID : " + Database.LikeUUID.toString(), Tools.consoleMode.max, programCode );
+
                 Bukkit.getOnlinePlayers().stream().forEachOrdered( ( p ) -> {
                     String getUUID = p.getUniqueId().toString();
                     Tools.Prt( "Get UUID : " + getUUID, Tools.consoleMode.max, programCode );
