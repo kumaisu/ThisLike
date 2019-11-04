@@ -123,12 +123,6 @@
                                 </relocation>
                             </relocations>
                             <minimizeJar>true</minimizeJar>
-                            <artifactSet>
-                                <includes>
-                                    <include>org.slf4j:*</include>
-                                    <include>com.zaxxer:*</include>
-                                </includes>
-                            </artifactSet>
                         </configuration>
                     </execution>
                 </executions>
