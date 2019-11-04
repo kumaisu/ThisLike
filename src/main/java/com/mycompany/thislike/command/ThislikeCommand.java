@@ -31,28 +31,46 @@ public class ThislikeCommand implements CommandExecutor {
     public boolean onCommand( CommandSender sender, Command cmd, String commandLabel, String[] args ) {
         Player player = ( sender instanceof Player ? ( Player ) sender : null );
 
-        String commandString = "";
-        String itemName = "";
-        if ( args.length > 0 ) commandString = args[0];
-        if ( args.length > 1 ) itemName = args[1];
-        switch ( commandString ) {
-            case "top":
-                int lineSet;
-                try {
-                    lineSet = Integer.valueOf( itemName );
-                } catch ( NumberFormatException e ) {
-                    lineSet = 5;
+        int PrtLine = 9;
+        String LikeName = "";
+        String LikeDate = "";
+        String LikeKey  = "";
+
+        if ( args.length > 0 ) {
+            for ( String arg : args ) {
+                String[] param = arg.split( ":" );
+                switch ( param[0] ) {
+                    case "u":
+                        LikeName = param[1];
+                        break;
+                    case "d":
+                        LikeDate = param[1];
+                        break;
+                    case "k":
+                        LikeKey = param[1];
+                        break;
+                    case "l":
+                        try {
+                            PrtLine = Integer.valueOf( param[1] );
+                        } catch( NumberFormatException e ) {}
+                    default:
                 }
-                SignData.LikeTop( player, lineSet );
+            }
+        }
+
+        switch( args[0].toLowerCase() ) {
+            case "top":
+                SignData.LikeTop( player, PrtLine );
                 return true;
             case "list":
-                SignData.SignList( player, ( ( args.length > 1 ) ? args[1] : "" ) );
+                SignData.SignList( player, LikeName, LikeDate, LikeKey, PrtLine );
                 return true;
             case "title":
                 if ( args.length > 2 ) {
                     SignData.chgTitle( Integer.valueOf( args[1] ), args[2] );
                     return true;
                 }
+                return false;
             case "status":
                 instance.config.Status( player );
                 return true;
@@ -60,7 +78,7 @@ public class ThislikeCommand implements CommandExecutor {
                 instance.config.load();
                 return true;
             case "Console":
-                if ( !Tools.setDebug( itemName, programCode ) ) {
+                if ( !Tools.setDebug( args[1], programCode ) ) {
                     Tools.entryDebugFlag( programCode, Tools.consoleMode.normal );
                     Tools.Prt( ChatColor.RED + "Config Debugモードの指定値が不正なので、normal設定にしました", programCode );
                 }
@@ -73,17 +91,17 @@ public class ThislikeCommand implements CommandExecutor {
                 return true;
             case "help":
                 Tools.Prt( player, ChatColor.GREEN + "/ThisLike Command List", programCode );
-                Tools.Prt( player, ChatColor.YELLOW + "top [num]      : " + ChatColor.WHITE + "ThisLike Top List", programCode );
-                Tools.Prt( player, ChatColor.YELLOW + "list [player]  : " + ChatColor.WHITE + "Signs List", programCode );
-                Tools.Prt( player, ChatColor.YELLOW + "title [title]  : " + ChatColor.WHITE + "Change Signs Title", programCode );
-                Tools.Prt( player, ChatColor.YELLOW + "status         : " + ChatColor.WHITE + "System status", programCode );
-                Tools.Prt( player, ChatColor.YELLOW + "Console [Mode] : " + ChatColor.WHITE + "Console Mode [max,full,normal,stop]", programCode );
-                Tools.Prt( player, ChatColor.YELLOW + "reload         : " + ChatColor.WHITE + "Config Reload", programCode );
+                Tools.Prt( player, ChatColor.WHITE + "Signs List         : " + ChatColor.YELLOW + "list [u:<player>] [d:<date>] [k:<Keyword>] [l:<line>]", programCode );
+                Tools.Prt( player, ChatColor.WHITE + "Change Signs Title : " + ChatColor.YELLOW + "title [id] [new title]", programCode );
+                Tools.Prt( player, ChatColor.WHITE + "ThisLike Top List  : " + ChatColor.YELLOW + "top [l:<line>]", programCode );
+                Tools.Prt( player, ChatColor.WHITE + "System status      : " + ChatColor.YELLOW + "status: ", programCode );
+                Tools.Prt( player, ChatColor.WHITE + "Console Mode       : " + ChatColor.YELLOW + "Console [max/full/normal/stop]", programCode );
+                Tools.Prt( player, ChatColor.WHITE + "Config Reload      : " + ChatColor.YELLOW + "reload", programCode );
                 return true;
             default:
                 break;
         }
-        Tools.Prt( player, ChatColor.RED + "[ThisLike] Unknown Command [" + commandString + "]", Tools.consoleMode.full, programCode );
+        Tools.Prt( player, ChatColor.RED + "[ThisLike] Unknown Command [" + args[0] + "]", Tools.consoleMode.full, programCode );
         return false;
     }
 }

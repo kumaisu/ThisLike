@@ -19,6 +19,8 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import com.mycompany.kumaisulibraries.Tools;
 import static com.mycompany.thislike.config.Config.programCode;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author sugichan
@@ -198,19 +200,47 @@ public class SignData {
      *
      * @param player 
      * @param name 
+     * @param date 
+     * @param keyword 
+     * @param line 
+     * @return  
      */
-    public static void SignList( Player player, String name ) {
-        try ( Connection con = Database.dataSource.getConnection() ) {
-            Tools.Prt( player, ChatColor.GREEN + "List for Signs ...", programCode );
-            Statement stmt = con.createStatement();
-            String sql = "SELECT * FROM sign";
-            if ( !"".equals( name ) ) { sql += " WHERE name = '" + name + "'"; }
-            sql += " ORDER BY world ASC;";
-            Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
+    public static void SignList( Player player, String name, String date, String keyword, int line ) {
+        String TitleString = ChatColor.WHITE + "== Sign List == ";
+        String sqlCmd = "SELECT * FROM sign";
+        boolean sqlAdd = false;
 
-            ResultSet rs = stmt.executeQuery( sql );
-            while( rs.next() ) {
-                Tools.Prt( player, 
+        if ( !"".equals( name ) ) {
+            TitleString += "[Name:" + name + "] ";
+            sqlCmd += " WHERE name LIKE '%" + name +"%'";
+            sqlAdd = true;
+        }
+
+        if ( !"".equals( date ) ) {
+            if ( sqlAdd ) { sqlCmd += " ADD "; } else { sqlCmd += " WHERE "; }
+            TitleString += "[Date:" + date + "]";
+            sqlCmd += "date BETWEEN '" + date + " 00:00:00' AND '" + date + " 23:59:59'";
+            sqlAdd = true;
+        }
+
+        if ( !"".equals( keyword ) ) {
+            if ( sqlAdd ) { sqlCmd += " ADD "; } else { sqlCmd += " WHERE "; }
+            TitleString += "[Keyword:" + keyword + "]";
+            sqlCmd += "title LIKE '%" + keyword + "%'";
+        }
+
+        sqlCmd +=  " ORDER BY date DESC;";
+
+        List< String > StringData = new ArrayList<>();
+        Tools.Prt( "SQL : " + sqlCmd, Tools.consoleMode.max, programCode );
+
+        try ( Connection con = Database.dataSource.getConnection() ) {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery( sqlCmd );
+
+            int loopCount = 0;
+            while( rs.next() && ( loopCount<line ) ) {
+                StringData.add(
                     ChatColor.WHITE + String.format( "%4d", rs.getInt( "id" ) ) + ": " +
                     ChatColor.GREEN + rs.getString( "title" ) + " " +
                     ChatColor.AQUA + rs.getString( "name" ) + " (" +
@@ -221,14 +251,20 @@ public class SignData {
                     rs.getInt( "x" ) + "," + 
                     rs.getInt( "y" ) + "," +
                     rs.getInt( "z" ) + "] " +
-                    ChatColor.GREEN + rs.getString( "date" ),
-                    programCode
+                    ChatColor.GREEN + rs.getString( "date" )
                 );
+                loopCount++;
             }
+
             con.close();
-            Tools.Prt( player, ChatColor.GREEN + "List [EOF]", programCode );
         } catch ( SQLException e ) {
-            Tools.Prt( ChatColor.RED + "Error SignList : " + e.getMessage(), programCode );
+            Tools.Prt( ChatColor.RED + "Error GetList : " + e.getMessage(), programCode );
+            return;
+        }
+
+        if ( StringData.size() > 0 ) {
+            Tools.Prt( player, TitleString, programCode );
+            StringData.forEach( ( s ) -> { Tools.Prt( player, s, programCode ); } );
         }
     }
 
