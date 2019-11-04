@@ -15,7 +15,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.0</version>
+        <version>3.2.1</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -35,6 +35,12 @@
                 </relocation>
               </relocations>
               <minimizeJar>true</minimizeJar>
+              <artifactSet>
+                <includes>
+                  <include>org.slf4j:*</include>
+                  <include>com.zaxxer:*</include>
+                </includes>
+              </artifactSet>
             </configuration>
           </execution>
         </executions>
@@ -75,7 +81,7 @@
         </dependency>
       </dependencies>
       <properties>
-        <bukkitVersion>1.12.2-R0.1-SNAPSHOT</bukkitVersion>
+        <bukkitVersion>1.12.2</bukkitVersion>
       </properties>
     </profile>
     <profile>
@@ -89,7 +95,7 @@
         </dependency>
       </dependencies>
       <properties>
-        <bukkitVersion>1.14.4-R0.1-SNAPSHOT</bukkitVersion>
+        <bukkitVersion>1.14.4</bukkitVersion>
       </properties>
     </profile>
   </profiles>
@@ -118,15 +124,9 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>com.zaxxer</groupId>
-      <artifactId>HikariCP</artifactId>
-      <version>2.5.0</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-jdk14</artifactId>
-      <version>1.7.16</version>
+      <groupId>com.mycompany</groupId>
+      <artifactId>KumaisuLibraries</artifactId>
+      <version>0.2</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
