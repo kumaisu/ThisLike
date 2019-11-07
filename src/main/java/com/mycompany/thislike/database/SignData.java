@@ -6,6 +6,8 @@
 package com.mycompany.thislike.database;
 
 import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,8 +21,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import com.mycompany.kumaisulibraries.Tools;
 import static com.mycompany.thislike.config.Config.programCode;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author sugichan
@@ -196,6 +196,59 @@ public class SignData {
     }
 
     /**
+     * DBからリストを取得する
+     *
+     * @param player
+     * @param sqlCmd
+     * @param Title
+     * @param line
+     * @param IDPRT
+     * @param DatePrt
+     */
+    public static void GetList( Player player, String sqlCmd, String Title, int line, boolean IDPRT, boolean DatePrt ) {
+        List< String > StringData = new ArrayList<>();
+        Tools.Prt( "SQL : " + sqlCmd, Tools.consoleMode.max, programCode );
+
+        try ( Connection con = Database.dataSource.getConnection() ) {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery( sqlCmd );
+
+            int loopCount = 0;
+            while( rs.next() && ( loopCount<line ) ) {
+                loopCount++;
+                String Lines;
+                if ( IDPRT ) {
+                    Lines = ChatColor.WHITE + String.format( "%4d", rs.getInt( "id" ) );
+                } else {
+                    Lines = ChatColor.WHITE + String.format( "%3d", loopCount );
+                }
+                Lines += ": " +
+                    ChatColor.GREEN + rs.getString( "title" ) + " " +
+                    ChatColor.AQUA + rs.getString( "name" ) + "(" +
+                    ChatColor.BLUE + String.format( "%2d", rs.getInt( "likenum" ) ) +
+                    ChatColor.AQUA + ")" +
+                    ChatColor.YELLOW + "[" +
+                    rs.getString( "world" ) + " " +
+                    rs.getInt( "x" ) + "," + 
+                    rs.getInt( "y" ) + "," +
+                    rs.getInt( "z" ) + "]";
+                if ( DatePrt ) Lines += rs.getString( "date" );
+                StringData.add( Lines );
+            }
+
+            con.close();
+        } catch ( SQLException e ) {
+            Tools.Prt( ChatColor.RED + "Error GetList : " + e.getMessage(), programCode );
+            return;
+        }
+
+        if ( StringData.size() > 0 ) {
+            Tools.Prt( player, Title, programCode );
+            StringData.forEach( ( s ) -> { Tools.Prt( player, s, programCode ); } );
+        }
+    }
+
+    /**
      * イイネ看板リスト
      *
      * @param player 
@@ -203,9 +256,9 @@ public class SignData {
      * @param date 
      * @param keyword 
      * @param line 
-     * @return  
+     * @param DatePrt 
      */
-    public static void SignList( Player player, String name, String date, String keyword, int line ) {
+    public static void SignList( Player player, String name, String date, String keyword, int line, boolean DatePrt ) {
         String TitleString = ChatColor.WHITE + "== Sign List == ";
         String sqlCmd = "SELECT * FROM sign";
         boolean sqlAdd = false;
@@ -231,77 +284,16 @@ public class SignData {
 
         sqlCmd +=  " ORDER BY date DESC;";
 
-        List< String > StringData = new ArrayList<>();
-        Tools.Prt( "SQL : " + sqlCmd, Tools.consoleMode.max, programCode );
-
-        try ( Connection con = Database.dataSource.getConnection() ) {
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery( sqlCmd );
-
-            int loopCount = 0;
-            while( rs.next() && ( loopCount<line ) ) {
-                StringData.add(
-                    ChatColor.WHITE + String.format( "%4d", rs.getInt( "id" ) ) + ": " +
-                    ChatColor.GREEN + rs.getString( "title" ) + " " +
-                    ChatColor.AQUA + rs.getString( "name" ) + " (" +
-                    ChatColor.BLUE + String.format( "%2d", rs.getInt( "likenum" ) ) +
-                    ChatColor.AQUA + ") " +
-                    ChatColor.YELLOW + "[" +
-                    rs.getString( "world" ) + " " +
-                    rs.getInt( "x" ) + "," + 
-                    rs.getInt( "y" ) + "," +
-                    rs.getInt( "z" ) + "] " +
-                    ChatColor.GREEN + rs.getString( "date" )
-                );
-                loopCount++;
-            }
-
-            con.close();
-        } catch ( SQLException e ) {
-            Tools.Prt( ChatColor.RED + "Error GetList : " + e.getMessage(), programCode );
-            return;
-        }
-
-        if ( StringData.size() > 0 ) {
-            Tools.Prt( player, TitleString, programCode );
-            StringData.forEach( ( s ) -> { Tools.Prt( player, s, programCode ); } );
-        }
+        GetList( player, sqlCmd, TitleString, line, true, DatePrt );
     }
 
     /**
-     * イイネ看板リスト
+     * イイネ看板トップリスト
      *
      * @param player 
      * @param LineSet 
      */
     public static void LikeTop( Player player, int LineSet ) {
-        try ( Connection con = Database.dataSource.getConnection() ) {
-            Tools.Prt( player, ChatColor.GREEN + "Like Top List ...", programCode );
-            Statement stmt = con.createStatement();
-            String sql = "SELECT * FROM sign ORDER BY likenum DESC;";
-            ResultSet rs = stmt.executeQuery( sql );
-
-            int Rank = 0;
-            while( rs.next() && ( Rank < LineSet ) ) {
-                Rank++;
-                Tools.Prt( player, 
-                    ChatColor.WHITE + String.format( "%3d", Rank ) + ": " +
-                    ChatColor.GREEN + rs.getString( "title" ) + " " +
-                    ChatColor.AQUA + rs.getString( "name" ) + " (" +
-                    ChatColor.BLUE + String.format( "%2d", rs.getInt( "likenum" ) ) +
-                    ChatColor.AQUA + ") " +
-                    ChatColor.YELLOW + "[" +
-                    rs.getString( "world" ) + " " +
-                    String.format( "%6d", rs.getInt( "x" ) ) + "," + 
-                    String.format( "%3d", rs.getInt( "y" ) ) + "," +
-                    String.format( "%6d", rs.getInt( "z" ) ) + "] ",
-                    programCode
-                );
-            }
-            con.close();
-            if ( Rank == 0 ) Tools.Prt( player, ChatColor.GREEN + "Top List [EOF]", programCode );
-        } catch ( SQLException e ) {
-            Tools.Prt( ChatColor.RED + "Error LikeTop : " + e.getMessage(), programCode );
-        }
+        GetList( player, "SELECT * FROM sign ORDER BY likenum DESC;", ChatColor.GREEN + "Like Top List ...", LineSet, false, false );
     }
 }

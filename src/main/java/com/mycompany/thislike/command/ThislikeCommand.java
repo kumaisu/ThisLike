@@ -32,14 +32,20 @@ public class ThislikeCommand implements CommandExecutor {
         Player player = ( sender instanceof Player ? ( Player ) sender : null );
 
         int PrtLine = 9;
+        boolean LikeFull = false;
         String LikeName = "";
         String LikeDate = "";
         String LikeKey  = "";
+        String CmdLine  = "help";
 
         if ( args.length > 0 ) {
+            CmdLine = args[0];
             for ( String arg : args ) {
                 String[] param = arg.split( ":" );
                 switch ( param[0] ) {
+                    case "f":
+                        LikeFull = true;
+                        break;
                     case "u":
                         LikeName = param[1];
                         break;
@@ -58,19 +64,21 @@ public class ThislikeCommand implements CommandExecutor {
             }
         }
 
-        switch( args[0].toLowerCase() ) {
+        switch( CmdLine.toLowerCase() ) {
             case "top":
                 SignData.LikeTop( player, PrtLine );
                 return true;
             case "list":
-                SignData.SignList( player, LikeName, LikeDate, LikeKey, PrtLine );
+                SignData.SignList( player, LikeName, LikeDate, LikeKey, PrtLine, LikeFull );
                 return true;
             case "title":
                 if ( args.length > 2 ) {
                     SignData.chgTitle( Integer.valueOf( args[1] ), args[2] );
                     return true;
+                } else {
+                    Tools.Prt( player, ChatColor.GREEN + "Title Change Error, Check Paramerter", programCode );
+                    return false;
                 }
-                return false;
             case "status":
                 instance.config.Status( player );
                 return true;
@@ -101,7 +109,7 @@ public class ThislikeCommand implements CommandExecutor {
             default:
                 break;
         }
-        Tools.Prt( player, ChatColor.RED + "[ThisLike] Unknown Command [" + args[0] + "]", Tools.consoleMode.full, programCode );
+        Tools.Prt( player, ChatColor.RED + "[ThisLike] Unknown Command [" + CmdLine + "]", Tools.consoleMode.full, programCode );
         return false;
     }
 }
