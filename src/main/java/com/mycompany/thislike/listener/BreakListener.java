@@ -46,7 +46,7 @@ public class BreakListener implements Listener {
 
         //  DBからデータ取得
         Tools.Prt( ChatColor.YELLOW + player.getName() + " SignLoc = " + block.getLocation().toString(), Tools.consoleMode.max, programCode );
-        if ( SignData.GetSQL( block.getLocation() ) ) {
+        if ( SignData.GetSignLoc( block.getLocation() ) ) {
             Tools.Prt( ChatColor.GOLD + "get [" + ChatColor.AQUA + "ThisLike"+ ChatColor.GOLD + "] Sign", Tools.consoleMode.max, programCode );
 
             Tools.Prt( player.getUniqueId().toString() + " : " + Database.OwnerUUID.toString(), Tools.consoleMode.max, programCode );

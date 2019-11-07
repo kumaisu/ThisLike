@@ -50,7 +50,7 @@ public class InventoryListener implements Listener {
 
         Sign sign = (Sign) OwnerControl.loc.get( player.getUniqueId() ).getBlock().getState();
         
-        if ( !SignData.GetSQL( OwnerControl.loc.get( player.getUniqueId() ) ) ) return;
+        if ( !SignData.GetSignLoc( OwnerControl.loc.get( player.getUniqueId() ) ) ) return;
 
         event.setCancelled( true );
 

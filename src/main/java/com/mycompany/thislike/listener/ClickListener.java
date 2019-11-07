@@ -53,7 +53,7 @@ public class ClickListener implements Listener {
         if ( !material.name().contains( "SIGN" ) ) { return; }
 
         Tools.Prt( ChatColor.YELLOW + player.getName() + " SignLOC = " + clickedBlock.getLocation().toString(), Tools.consoleMode.max, programCode );
-        if ( SignData.GetSQL( clickedBlock.getLocation() ) ) {
+        if ( SignData.GetSignLoc( clickedBlock.getLocation() ) ) {
             Sign sign = (Sign) clickedBlock.getState();
 
             for ( int i = 0; i < 4; i++ ) {
@@ -80,7 +80,7 @@ public class ClickListener implements Listener {
             }
 
             //  看板内容更新
-            SignData.GetSQL( clickedBlock.getLocation() );
+            SignData.GetSignLoc( clickedBlock.getLocation() );
 
             for ( int i = 0; i < 4; i++ ) {
                 String SignMsg = Config.ReplaceString( Config.SignBase.get( i ) );

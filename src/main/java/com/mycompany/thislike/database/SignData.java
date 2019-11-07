@@ -101,19 +101,15 @@ public class SignData {
     /**
      * UUIDからプレイヤー情報を取得する
      *
-     * @param LOC
+     * @param sqlCmd
      * @return
      */
-    public static boolean GetSQL( Location LOC ) {
+    public static boolean GetSQL( String sqlCmd ) {
         try ( Connection con = Database.dataSource.getConnection() ) {
             boolean retStat = false;
             Statement stmt = con.createStatement();
-            String sql = "SELECT * FROM sign WHERE x = " + LOC.getBlockX() +
-                    " AND y = " + LOC.getBlockY() +
-                    " AND z = " + LOC.getBlockZ() +
-                    " AND world = '" + LOC.getWorld().getName() + "';";
-            Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
-            ResultSet rs = stmt.executeQuery( sql );
+            Tools.Prt( "SQL : " + sqlCmd, Tools.consoleMode.max , programCode );
+            ResultSet rs = stmt.executeQuery( sqlCmd );
             if ( rs.next() ) {
                 Database.ID             = rs.getInt( "id" );
                 Database.LOC = new Location(
@@ -132,9 +128,34 @@ public class SignData {
             con.close();
             return retStat;
         } catch ( SQLException e ) {
-            Tools.Prt( ChatColor.RED + "Error GetPlayer" + e.getMessage(), programCode );
+            Tools.Prt( ChatColor.RED + "Error GetSQL" + e.getMessage(), programCode );
             return false;
         }
+    }
+
+    /**
+     * 看板のロケーションからデータを取得
+     *
+     * @param LOC
+     * @return 
+     */
+    public static boolean GetSignLoc( Location LOC ) {
+        String sql = "SELECT * FROM sign WHERE x = " + LOC.getBlockX() +
+            " AND y = " + LOC.getBlockY() +
+            " AND z = " + LOC.getBlockZ() +
+            " AND world = '" + LOC.getWorld().getName() + "';";
+        return GetSQL( sql );
+    }
+
+    /**
+     * 看板のIDからデータを取得
+     *
+     * @param ID
+     * @return 
+     */
+    public static boolean GetSignID( int ID ) {
+        String sql = "SELECT * FROM sign WHERE ID = " + ID;
+        return GetSQL( sql );
     }
 
     /**
@@ -232,7 +253,7 @@ public class SignData {
                     rs.getInt( "x" ) + "," + 
                     rs.getInt( "y" ) + "," +
                     rs.getInt( "z" ) + "]";
-                if ( DatePrt ) Lines += rs.getString( "date" );
+                if ( DatePrt ) Lines += ChatColor.LIGHT_PURPLE + " " + rs.getString( "date" );
                 StringData.add( Lines );
             }
 

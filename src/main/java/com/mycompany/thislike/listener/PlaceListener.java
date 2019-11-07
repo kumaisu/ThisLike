@@ -55,7 +55,7 @@ public class PlaceListener implements Listener {
                 event.setLine( i, SignMsg );
             }
             if( Config.OnDynmap ) {
-                SignData.GetSQL( event.getBlock().getLocation() );
+                SignData.GetSignLoc( event.getBlock().getLocation() );
                 DynmapControl.SetDynmapMarker( Database.ID, Title, event.getBlock().getLocation() );
             }
         }

@@ -14,6 +14,7 @@ import com.mycompany.thislike.ThisLike;
 import com.mycompany.thislike.database.SignData;
 import com.mycompany.kumaisulibraries.Tools;
 import static com.mycompany.thislike.config.Config.programCode;
+import com.mycompany.thislike.database.Database;
 
 /**
  *
@@ -71,6 +72,25 @@ public class ThislikeCommand implements CommandExecutor {
             case "list":
                 SignData.SignList( player, LikeName, LikeDate, LikeKey, PrtLine, LikeFull );
                 return true;
+            case "info":
+                if ( args.length > 1 ) {
+                    if ( SignData.GetSignID( Integer.valueOf( args[1] ) ) ) {
+                        Tools.Prt( player, ChatColor.GREEN + "ID       : " + ChatColor.WHITE + String.format( "%4d", Database.ID ), programCode );
+                        Tools.Prt( player, ChatColor.GREEN + "Title    : " + ChatColor.WHITE + Database.TITLE, programCode );
+                        Tools.Prt( player, ChatColor.GREEN + "Owner    : " + ChatColor.WHITE + Database.OwnerName, programCode );
+                        Tools.Prt( player, ChatColor.GREEN + "Like     : " + ChatColor.WHITE + String.format( "%2d", Database.LikeNum ), programCode );
+                        Tools.Prt( player, ChatColor.GREEN + "Location : " + ChatColor.WHITE +
+                            Database.LOC.getWorld().toString() + " , " +
+                            Database.LOC.getBlockX() + " , " +
+                            Database.LOC.getBlockY() + " , " +
+                            Database.LOC.getBlockZ(), programCode );
+                        Tools.Prt( player, ChatColor.GREEN + "Date     : " + ChatColor.WHITE + Database.SignDate.toString(), programCode );
+                        return true;
+                    } else {
+                        Tools.Prt( player, ChatColor.RED + "Unknown ID Data", programCode );
+                    }
+                }
+                return false;
             case "title":
                 if ( args.length > 2 ) {
                     SignData.chgTitle( Integer.valueOf( args[1] ), args[2] );
