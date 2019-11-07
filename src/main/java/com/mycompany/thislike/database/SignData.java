@@ -20,6 +20,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import com.mycompany.kumaisulibraries.Tools;
+import com.mycompany.kumaisulibraries.Utility;
 import static com.mycompany.thislike.config.Config.programCode;
 
 /**
@@ -224,9 +225,8 @@ public class SignData {
      * @param Title
      * @param line
      * @param IDPRT
-     * @param DatePrt
      */
-    public static void GetList( Player player, String sqlCmd, String Title, int line, boolean IDPRT, boolean DatePrt ) {
+    public static void GetList( Player player, String sqlCmd, String Title, int line, boolean IDPRT ) {
         List< String > StringData = new ArrayList<>();
         Tools.Prt( "SQL : " + sqlCmd, Tools.consoleMode.max, programCode );
 
@@ -241,19 +241,15 @@ public class SignData {
                 if ( IDPRT ) {
                     Lines = ChatColor.WHITE + String.format( "%4d", rs.getInt( "id" ) );
                 } else {
-                    Lines = ChatColor.WHITE + String.format( "%3d", loopCount );
-                }
-                Lines += ": " +
-                    ChatColor.GREEN + rs.getString( "title" ) + " " +
-                    ChatColor.AQUA + rs.getString( "name" ) + "(" +
+                    Lines = ChatColor.WHITE + String.format( "%2d", loopCount ) +
+                    ChatColor.GOLD + "(" +
                     ChatColor.BLUE + String.format( "%2d", rs.getInt( "likenum" ) ) +
-                    ChatColor.AQUA + ")" +
-                    ChatColor.YELLOW + "[" +
-                    rs.getString( "world" ) + " " +
-                    rs.getInt( "x" ) + "," + 
-                    rs.getInt( "y" ) + "," +
-                    rs.getInt( "z" ) + "]";
-                if ( DatePrt ) Lines += ChatColor.LIGHT_PURPLE + " " + rs.getString( "date" );
+                    ChatColor.GOLD + ")";
+                }
+                Lines += 
+                    ChatColor.WHITE + ": " +
+                    ChatColor.GREEN + rs.getString( "title" ) +
+                    ChatColor.AQUA +  " By." + rs.getString( "name" );
                 StringData.add( Lines );
             }
 
@@ -277,9 +273,8 @@ public class SignData {
      * @param date 
      * @param keyword 
      * @param line 
-     * @param DatePrt 
      */
-    public static void SignList( Player player, String name, String date, String keyword, int line, boolean DatePrt ) {
+    public static void SignList( Player player, String name, String date, String keyword, int line ) {
         String TitleString = ChatColor.WHITE + "== Sign List == ";
         String sqlCmd = "SELECT * FROM sign";
         boolean sqlAdd = false;
@@ -305,7 +300,7 @@ public class SignData {
 
         sqlCmd +=  " ORDER BY date DESC;";
 
-        GetList( player, sqlCmd, TitleString, line, true, DatePrt );
+        GetList( player, sqlCmd, TitleString, line, true );
     }
 
     /**
@@ -315,6 +310,6 @@ public class SignData {
      * @param LineSet 
      */
     public static void LikeTop( Player player, int LineSet ) {
-        GetList( player, "SELECT * FROM sign ORDER BY likenum DESC;", ChatColor.GREEN + "Like Top List ...", LineSet, false, false );
+        GetList( player, "SELECT * FROM sign ORDER BY likenum DESC;", ChatColor.GREEN + "Like Top List ...", LineSet, false );
     }
 }

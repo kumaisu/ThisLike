@@ -33,7 +33,6 @@ public class ThislikeCommand implements CommandExecutor {
         Player player = ( sender instanceof Player ? ( Player ) sender : null );
 
         int PrtLine = 9;
-        boolean LikeFull = false;
         String LikeName = "";
         String LikeDate = "";
         String LikeKey  = "";
@@ -44,9 +43,6 @@ public class ThislikeCommand implements CommandExecutor {
             for ( String arg : args ) {
                 String[] param = arg.split( ":" );
                 switch ( param[0] ) {
-                    case "f":
-                        LikeFull = true;
-                        break;
                     case "u":
                         LikeName = param[1];
                         break;
@@ -70,20 +66,20 @@ public class ThislikeCommand implements CommandExecutor {
                 SignData.LikeTop( player, PrtLine );
                 return true;
             case "list":
-                SignData.SignList( player, LikeName, LikeDate, LikeKey, PrtLine, LikeFull );
+                SignData.SignList( player, LikeName, LikeDate, LikeKey, PrtLine );
                 return true;
             case "info":
                 if ( args.length > 1 ) {
                     if ( SignData.GetSignID( Integer.valueOf( args[1] ) ) ) {
-                        Tools.Prt( player, ChatColor.GREEN + "ID       : " + ChatColor.WHITE + String.format( "%4d", Database.ID ), programCode );
+                        Tools.Prt( player, ChatColor.GREEN + "ID       : " + ChatColor.WHITE + Database.ID, programCode );
                         Tools.Prt( player, ChatColor.GREEN + "Title    : " + ChatColor.WHITE + Database.TITLE, programCode );
                         Tools.Prt( player, ChatColor.GREEN + "Owner    : " + ChatColor.WHITE + Database.OwnerName, programCode );
-                        Tools.Prt( player, ChatColor.GREEN + "Like     : " + ChatColor.WHITE + String.format( "%2d", Database.LikeNum ), programCode );
+                        Tools.Prt( player, ChatColor.GREEN + "Like     : " + ChatColor.WHITE + Database.LikeNum, programCode );
                         Tools.Prt( player, ChatColor.GREEN + "Location : " + ChatColor.WHITE +
-                            Database.LOC.getWorld().toString() + " , " +
                             Database.LOC.getBlockX() + " , " +
                             Database.LOC.getBlockY() + " , " +
-                            Database.LOC.getBlockZ(), programCode );
+                            Database.LOC.getBlockZ() + " : " +
+                            Database.LOC.getWorld().getName(), programCode );
                         Tools.Prt( player, ChatColor.GREEN + "Date     : " + ChatColor.WHITE + Database.SignDate.toString(), programCode );
                         return true;
                     } else {
