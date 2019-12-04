@@ -8,7 +8,9 @@ This plug-in is a tool for realizing the SNS good function.
   
 ## Operation check  
 Spigot Server 1.14.4  
-
+WorldGuard  
+Dynmap  
+  
 ## Support  
 Open a new issue here: [https//github.com/kumaisu/ThisLike/issues](https://github.com/kumaisu/ThisLike/issues)  
   
