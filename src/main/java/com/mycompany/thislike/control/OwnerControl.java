@@ -84,20 +84,25 @@ public class OwnerControl {
         //  イイネ解除
         TempInv.setItem( slot - 9, Absorption.Like() );
 
-       // List 生成 (ソート用)
+        player.openInventory( TempInv );
+
+        // List 生成 (ソート用)
         List< Map.Entry< String, Date > > entries = new ArrayList<>( liker.entrySet() );
         Collections.sort( entries, ( Entry< String, Date > entry1, Entry< String, Date > entry2 ) -> ( ( Date ) entry2.getValue() ).compareTo( ( Date ) entry1.getValue() ) );
          
+        int i = 0;
         // 内容を表示
         for ( Entry< String, Date > s : entries ) {
             Tools.Prt( ChatColor.GREEN + s.getKey() + " : " + ChatColor.WHITE + s.getValue(), Tools.consoleMode.max, programCode );
             SimpleDateFormat ddf = new SimpleDateFormat( "yyyy/MM/dd" );
             SimpleDateFormat tdf = new SimpleDateFormat( "HH:mm:ss" );
             List< String > Lore = Arrays.asList( ddf.format( s.getValue() ),tdf.format( s.getValue() ) );
-            TempInv.addItem( Absorption.getPlayerHead( player, s.getKey(), Lore ) );
+            TempInv.addItem( Absorption.getPlayerHead( s.getKey(), Lore ) );
+            player.openInventory( TempInv ).setItem( i, Absorption.getPlayerHead( s.getKey(), Lore ) );
+            i++;
         }
 
-        player.openInventory( TempInv );
+        //player.openInventory( TempInv );
         inv.put( player.getUniqueId(), TempInv );
     }
 }

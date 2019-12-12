@@ -35,16 +35,17 @@ public class Absorption {
     /**
      * プレイヤーHead取得
      *
-     * @param player
      * @param target
      * @param Lore
      * @return 
      */
-    public static ItemStack getPlayerHead( Player player, String target, List<String> Lore ) {
+    public static ItemStack getPlayerHead( String target, List<String> Lore ) {
         SkullMeta skull;
         try {
+            //  1.14.4
             skull = ( SkullMeta ) Bukkit.getItemFactory().getItemMeta( Material.valueOf( "PLAYER_HEAD" ) );
         } catch( Exception e ) {
+            //  1.12.2
             skull = ( SkullMeta ) Bukkit.getItemFactory().getItemMeta( Material.valueOf( "SKULL_ITEM" ) );
         }
         skull.setOwner( target );
@@ -52,8 +53,10 @@ public class Absorption {
         skull.setLore( Lore );
         ItemStack RetItem;
         try {
+            //  1.14.4
             RetItem = new ItemStack( Material.valueOf( "PLAYER_HEAD" ), 1 );
         } catch( Exception e ) {
+            //  1.12.2
             RetItem = new ItemStack( Material.valueOf( "SKULL_ITEM" ), 1, ( byte ) SkullType.PLAYER.ordinal() );
         }
         RetItem.setItemMeta( skull );
@@ -64,8 +67,10 @@ public class Absorption {
         //  イイネ解除
         ItemStack Like;
         try {
+            //  1.14.4
             Like = new ItemStack( Material.valueOf( "BLUE_WOOL" ), 1 );
         } catch( Exception e ) {
+            //  1.12.2
             Like = new Wool( DyeColor.BLUE ).toItemStack( 1 );
         }
         ItemMeta lm = Like.getItemMeta();
@@ -78,8 +83,10 @@ public class Absorption {
         //  イイネ解除
         ItemStack Unlike;
         try {
+            //  1.14.4
             Unlike = new ItemStack( Material.valueOf( "RED_WOOL" ), 1 );
         } catch( Exception e ) {
+            //  1.12.2
             Unlike = new Wool( DyeColor.RED ).toItemStack( 1 );
         }
         ItemMeta um = Unlike.getItemMeta();
