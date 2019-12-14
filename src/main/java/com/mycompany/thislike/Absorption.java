@@ -32,14 +32,7 @@ public class Absorption {
         }
     }
 
-    /**
-     * プレイヤーHead取得
-     *
-     * @param target
-     * @param Lore
-     * @return 
-     */
-    public static ItemStack getPlayerHead( String target, List<String> Lore ) {
+    public static ItemStack getPlainHead( String target, List<String> Lore ) {
         SkullMeta skull;
         try {
             //  1.14.4
@@ -57,7 +50,46 @@ public class Absorption {
             RetItem = new ItemStack( Material.valueOf( "PLAYER_HEAD" ), 1 );
         } catch( Exception e ) {
             //  1.12.2
-            RetItem = new ItemStack( Material.valueOf( "SKULL_ITEM" ), 1, ( byte ) SkullType.PLAYER.ordinal() );
+            RetItem = new ItemStack( Material.valueOf( "SKULL_ITEM" ), 1 );
+        }
+        RetItem.setItemMeta( skull );
+        return RetItem;
+    }
+
+    /**
+     * プレイヤーHead取得
+     *
+     * @param target
+     * @param Lore
+     * @param plain
+     * @return 
+     */
+    public static ItemStack getPlayerHead( String target, List<String> Lore, boolean plain ) {
+        SkullMeta skull;
+        try {
+            //  1.14.4
+            skull = ( SkullMeta ) Bukkit.getItemFactory().getItemMeta( Material.valueOf( "PLAYER_HEAD" ) );
+        } catch( Exception e ) {
+            //  1.12.2
+            skull = ( SkullMeta ) Bukkit.getItemFactory().getItemMeta( Material.valueOf( "SKULL_ITEM" ) );
+        }
+        
+        if ( !plain ) {
+            skull.setOwner( target );
+        }
+        skull.setDisplayName( target );
+        skull.setLore( Lore );
+        ItemStack RetItem;
+        try {
+            //  1.14.4
+            RetItem = new ItemStack( Material.valueOf( "PLAYER_HEAD" ), 1 );
+        } catch( Exception e ) {
+            //  1.12.2
+            if ( plain ) {
+                RetItem = new ItemStack( Material.valueOf( "SKULL_ITEM" ), 1 );
+            } else {
+                RetItem = new ItemStack( Material.valueOf( "SKULL_ITEM" ), 1, ( byte ) SkullType.PLAYER.ordinal() );
+            }
         }
         RetItem.setItemMeta( skull );
         return RetItem;

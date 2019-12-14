@@ -12,7 +12,6 @@ import org.bukkit.block.Sign;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import com.mycompany.thislike.database.Database;
 import com.mycompany.thislike.database.SignData;
 import com.mycompany.thislike.database.LikePlayerData;
@@ -111,19 +110,5 @@ public class InventoryListener implements Listener {
             sign.setLine( 3, Config.ReplaceString( Config.SignBase.get( 3 ) ) );
             sign.update();
         } catch ( NullPointerException e ) {}
-    }
-
-    /**
-     * インベントリを閉じた時の処理
-     *
-     * @param event
-     */
-    @EventHandler
-    public void onInventoryClose( InventoryCloseEvent event ) {
-        Tools.Prt( ChatColor.GOLD + "get Inventory Close Event", Tools.consoleMode.max, programCode );
-        Player player = ( Player ) event.getPlayer();
-        if ( event.getInventory().equals( OwnerControl.inv.get( player.getUniqueId() ) ) ) {
-            OwnerControl.inv.remove( player.getUniqueId() );
-        }
     }
 }

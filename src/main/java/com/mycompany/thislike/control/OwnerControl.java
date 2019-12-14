@@ -46,17 +46,15 @@ public class OwnerControl {
     */
     public static void printLiker( Player player, int ID ) {
         Map< String, Date > liker = LikePlayerData.listSQL( ID );
-
         boolean hasOwner = Database.OwnerName.equals( player.getName() );
-        boolean hasPerm = ( player.isOp() || player.hasPermission( "ThisLike.admin" ) );
         
         int slot = liker.size() + ( ( ( liker.size() % 9 ) == 0 ) ? 0 : ( 9 - ( liker.size() % 9 ) ) ) + 9;
         if ( slot>54 ) { slot = 54; }
 
         Inventory TempInv;
-        TempInv = Bukkit.createInventory( null, slot, Config.ReplaceString( Config.InventoryTitle ) );
+        TempInv = Bukkit.createInventory( null, slot, Config.ReplaceString( Config.InventoryTitle + " (" + liker.size() + ")" ) );
 
-        if ( hasOwner || hasPerm ) {
+        if ( hasOwner || player.hasPermission( "ThisLike.admin" ) ) {
             //  Remove Icon 作成
             ItemStack DelIcon = new ItemStack( Material.BARRIER, 1 );
             ItemMeta DelMeta = Bukkit.getItemFactory().getItemMeta( Material.BARRIER );
@@ -67,7 +65,7 @@ public class OwnerControl {
             TempInv.setItem( slot - 1, DelIcon );
         }
 
-        if ( hasPerm ) {
+        if ( player.hasPermission( "ThisLike.admin" ) ) {
             //  Remove Icon 作成
             ItemStack UpIcon = new ItemStack( Material.END_CRYSTAL, 1 );
             ItemMeta UpMeta = Bukkit.getItemFactory().getItemMeta( Material.END_CRYSTAL );
@@ -85,24 +83,26 @@ public class OwnerControl {
         TempInv.setItem( slot - 9, Absorption.Like() );
 
         player.openInventory( TempInv );
+        Tools.Prt( ChatColor.GREEN + "Inventory Title", Tools.consoleMode.max, programCode );
 
         // List 生成 (ソート用)
         List< Map.Entry< String, Date > > entries = new ArrayList<>( liker.entrySet() );
         Collections.sort( entries, ( Entry< String, Date > entry1, Entry< String, Date > entry2 ) -> ( ( Date ) entry2.getValue() ).compareTo( ( Date ) entry1.getValue() ) );
          
         int i = 0;
+        SimpleDateFormat ddf = new SimpleDateFormat( "yyyy/MM/dd" );
+        SimpleDateFormat tdf = new SimpleDateFormat( "HH:mm:ss" );
         // 内容を表示
         for ( Entry< String, Date > s : entries ) {
-            Tools.Prt( ChatColor.GREEN + s.getKey() + " : " + ChatColor.WHITE + s.getValue(), Tools.consoleMode.max, programCode );
-            SimpleDateFormat ddf = new SimpleDateFormat( "yyyy/MM/dd" );
-            SimpleDateFormat tdf = new SimpleDateFormat( "HH:mm:ss" );
-            List< String > Lore = Arrays.asList( ddf.format( s.getValue() ),tdf.format( s.getValue() ) );
-            TempInv.addItem( Absorption.getPlayerHead( s.getKey(), Lore ) );
-            player.openInventory( TempInv ).setItem( i, Absorption.getPlayerHead( s.getKey(), Lore ) );
+            Tools.Prt( ChatColor.AQUA + s.getKey() + " : " + s.getValue(), Tools.consoleMode.full, programCode );
+            if ( i<46 ) {
+                List< String > Lore = Arrays.asList( ddf.format( s.getValue() ),tdf.format( s.getValue() ) );
+                TempInv.setItem( i, Absorption.getPlayerHead( s.getKey(), Lore, Config.MakeHead ) );
+                player.openInventory( TempInv );
+                Tools.Prt( ChatColor.GREEN + "Player Head Inventory Menu " + i + " Done", Tools.consoleMode.max, programCode );
+            }
             i++;
         }
-
-        //player.openInventory( TempInv );
         inv.put( player.getUniqueId(), TempInv );
     }
 }

@@ -9,6 +9,7 @@ import java.util.HashMap;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.event.HandlerList;
 import com.mycompany.thislike.config.ConfigManager;
+import com.mycompany.thislike.listener.LoginListener;
 import com.mycompany.thislike.listener.BreakListener;
 import com.mycompany.thislike.listener.ClickListener;
 import com.mycompany.thislike.listener.PlaceListener;
@@ -33,6 +34,7 @@ public class ThisLike extends JavaPlugin {
         config = new ConfigManager( this );
         MySQLControl.connect();
         MySQLControl.TableUpdate();
+        new LoginListener( this );
         new PlaceListener( this );
         new ClickListener( this );
         new BreakListener( this );

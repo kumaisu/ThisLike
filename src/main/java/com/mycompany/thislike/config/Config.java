@@ -25,6 +25,7 @@ public class Config {
     public static boolean OnDynmap;
     public static boolean LikeBroadcast;
     public static boolean UnlikeBroadcast;
+    public static boolean MakeHead;
 
     public static String like;
     public static String unlike;

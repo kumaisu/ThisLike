@@ -101,7 +101,7 @@ public class ThislikeCommand implements CommandExecutor {
             case "reload":
                 instance.config.load();
                 return true;
-            case "Console":
+            case "console":
                 if ( !Tools.setDebug( args[1], programCode ) ) {
                     Tools.entryDebugFlag( programCode, Tools.consoleMode.normal );
                     Tools.Prt( ChatColor.RED + "Config Debugモードの指定値が不正なので、normal設定にしました", programCode );

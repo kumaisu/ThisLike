@@ -61,6 +61,7 @@ public class ConfigManager {
         Config.Remove           = config.getString( "Remove", "Remove" );
         Config.RemoveSignLore   = config.getStringList( "RemoveSignLore" );
         Config.SignBase         = config.getStringList( "SignBase" );
+        Config.MakeHead         = config.getBoolean( "MakeHead", false );
 
         if ( !Tools.setDebug( config.getString( "Debug" ), programCode ) ) {
             Tools.entryDebugFlag( programCode, Tools.consoleMode.normal );
@@ -82,6 +83,7 @@ public class ConfigManager {
         Tools.Prt( p, ChatColor.WHITE + "UNLIKE      : " + ChatColor.YELLOW + Config.unlike, programCode );
         Tools.Prt( p, ChatColor.WHITE + "SignSetKey  : " + ChatColor.YELLOW + Config.SignSetKey, programCode );
         Tools.Prt( p, ChatColor.WHITE + "Inventory   : " + ChatColor.YELLOW + Config.InventoryTitle, programCode );
+        Tools.Prt( p, ChatColor.WHITE + "Player Head : " + ChatColor.YELLOW + ( Config.MakeHead ? "Make" : "Plain") + " Icon", programCode );
         
         Tools.Prt( p, ChatColor.WHITE + "YourSignMessage     : " + ChatColor.YELLOW + Config.YourSign, programCode );
         Tools.Prt( p, ChatColor.WHITE + "Like Broadcast      : " + ChatColor.YELLOW + ( Config.LikeBroadcast ? "Yes" : "No" ), programCode );
