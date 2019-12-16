@@ -11,10 +11,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import com.mycompany.thislike.ThisLike;
+import com.mycompany.thislike.config.ConfigManager;
+import com.mycompany.thislike.database.Database;
 import com.mycompany.thislike.database.SignData;
 import com.mycompany.kumaisulibraries.Tools;
 import static com.mycompany.thislike.config.Config.programCode;
-import com.mycompany.thislike.database.Database;
 
 /**
  *
@@ -96,10 +97,13 @@ public class ThislikeCommand implements CommandExecutor {
                     return false;
                 }
             case "status":
-                instance.config.Status( player );
+                ConfigManager.Status( player );
+                return true;
+            case "message":
+                ConfigManager.Message( player );
                 return true;
             case "reload":
-                instance.config.load();
+                ConfigManager.load();
                 return true;
             case "console":
                 if ( !Tools.setDebug( args[1], programCode ) ) {
@@ -118,7 +122,8 @@ public class ThislikeCommand implements CommandExecutor {
                 Tools.Prt( player, ChatColor.WHITE + "Signs List         : " + ChatColor.YELLOW + "list [u:<player>] [d:<date>] [k:<Keyword>] [l:<line>]", programCode );
                 Tools.Prt( player, ChatColor.WHITE + "Change Signs Title : " + ChatColor.YELLOW + "title [id] [new title]", programCode );
                 Tools.Prt( player, ChatColor.WHITE + "ThisLike Top List  : " + ChatColor.YELLOW + "top [l:<line>]", programCode );
-                Tools.Prt( player, ChatColor.WHITE + "System status      : " + ChatColor.YELLOW + "status: ", programCode );
+                Tools.Prt( player, ChatColor.WHITE + "System Status      : " + ChatColor.YELLOW + "status", programCode );
+                Tools.Prt( player, ChatColor.WHITE + "System Message     : " + ChatColor.YELLOW + "message", programCode );
                 Tools.Prt( player, ChatColor.WHITE + "Console Mode       : " + ChatColor.YELLOW + "Console [max/full/normal/stop]", programCode );
                 Tools.Prt( player, ChatColor.WHITE + "Config Reload      : " + ChatColor.YELLOW + "reload", programCode );
                 return true;

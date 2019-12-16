@@ -85,14 +85,8 @@ public class ConfigManager {
         Tools.Prt( p, ChatColor.WHITE + "Inventory   : " + ChatColor.YELLOW + Config.InventoryTitle, programCode );
         Tools.Prt( p, ChatColor.WHITE + "Player Head : " + ChatColor.YELLOW + ( Config.MakeHead ? "Make" : "Plain" ) + " Icon", programCode );
         
-        Tools.Prt( p, ChatColor.WHITE + "YourSignMessage     : " + ChatColor.YELLOW + Config.YourSign, programCode );
-        Tools.Prt( p, ChatColor.WHITE + "Like Broadcast      : " + ChatColor.YELLOW + ( Config.LikeBroadcast ? "Yes" : "No" ), programCode );
-        Tools.Prt( p, ChatColor.WHITE + "PlayerMessageLike   : " + ChatColor.YELLOW + Config.SetLike, programCode );
-        Tools.Prt( p, ChatColor.WHITE + "OwnerMessageLike    : " + ChatColor.YELLOW + Config.InfoLike, programCode );
-        Tools.Prt( p, ChatColor.WHITE + "Unlike Broadcast    : " + ChatColor.YELLOW + ( Config.UnlikeBroadcast ? "Yes" : "No" ), programCode );
-        Tools.Prt( p, ChatColor.WHITE + "PlayerMessageUnlike : " + ChatColor.YELLOW + Config.SetUnlike, programCode );
-        Tools.Prt( p, ChatColor.WHITE + "OwnerMessageUnlike  : " + ChatColor.YELLOW + Config.InfoUnlike, programCode );
-        Tools.Prt( p, ChatColor.WHITE + "RemoveMessage       : " + ChatColor.YELLOW + Config.Remove, programCode );
+        Tools.Prt( p, ChatColor.WHITE + "Like Broadcast   : " + ChatColor.YELLOW + ( Config.LikeBroadcast ? "Yes" : "No" ), programCode );
+        Tools.Prt( p, ChatColor.WHITE + "Unlike Broadcast : " + ChatColor.YELLOW + ( Config.UnlikeBroadcast ? "Yes" : "No" ), programCode );
 
         Tools.Prt( p, ChatColor.WHITE + "Remove Sign Switch Lore", programCode );
         Config.RemoveSignLore.stream().forEach( CP -> { Tools.Prt( p, ChatColor.WHITE + " - " + ChatColor.YELLOW + CP, programCode ); } );
@@ -100,6 +94,17 @@ public class ConfigManager {
         Tools.Prt( p, ChatColor.WHITE + "This Like Sign Format", programCode );
         Config.SignBase.stream().forEach( CP -> { Tools.Prt( p, ChatColor.WHITE + " - " + ChatColor.YELLOW + CP, programCode ); } );
 
+        Tools.Prt( p, ChatColor.GREEN + "==========================", programCode );
+    }
+    
+    public static void Message( Player p ) {
+        Tools.Prt( p, ChatColor.GREEN + "=== ThisLike Message ===", programCode );
+        Tools.Prt( p, ChatColor.WHITE + "YourSignMessage     : " + ChatColor.YELLOW + Config.YourSign, programCode );
+        Tools.Prt( p, ChatColor.WHITE + "PlayerMessageLike   : " + ChatColor.YELLOW + Config.SetLike, programCode );
+        Tools.Prt( p, ChatColor.WHITE + "OwnerMessageLike    : " + ChatColor.YELLOW + Config.InfoLike, programCode );
+        Tools.Prt( p, ChatColor.WHITE + "PlayerMessageUnlike : " + ChatColor.YELLOW + Config.SetUnlike, programCode );
+        Tools.Prt( p, ChatColor.WHITE + "OwnerMessageUnlike  : " + ChatColor.YELLOW + Config.InfoUnlike, programCode );
+        Tools.Prt( p, ChatColor.WHITE + "RemoveMessage       : " + ChatColor.YELLOW + Config.Remove, programCode );
         Tools.Prt( p, ChatColor.GREEN + "==========================", programCode );
     }
 }
