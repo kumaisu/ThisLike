@@ -31,7 +31,7 @@ public class LikeControl {
     public static boolean SetLike( int ID, Player player ) {
         //  イイネ処理
         if ( Database.ID != ID ) {
-            Tools.Prt( ChatColor.RED + "Error Set Like: " + ID + " Database:" + Database.ID, Tools.consoleMode.max, programCode );
+            Tools.Prt( ChatColor.RED + "Error Set Like: " + ID + " Database:" + Database.ID, Tools.consoleMode.full, programCode );
             return false;
         }
         if ( !LikePlayerData.hasSQL( Database.ID, player ) ) {
@@ -72,7 +72,7 @@ public class LikeControl {
     public static boolean SetUnlike( int ID, Player player ) {
         //  イイネ解除処理
         if ( Database.ID != ID ) {
-            Tools.Prt( ChatColor.RED + "Error Set UnLike: " + ID + " Database:" + Database.ID, Tools.consoleMode.max, programCode );
+            Tools.Prt( ChatColor.RED + "Error Set UnLike: " + ID + " Database:" + Database.ID, Tools.consoleMode.full, programCode );
             return false;
         }
         if ( LikePlayerData.hasSQL( Database.ID, player ) ) {

@@ -11,11 +11,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import com.mycompany.thislike.ThisLike;
+import com.mycompany.thislike.config.Config;
 import com.mycompany.thislike.config.ConfigManager;
 import com.mycompany.thislike.database.Database;
 import com.mycompany.thislike.database.SignData;
 import com.mycompany.kumaisulibraries.Tools;
-import static com.mycompany.thislike.config.Config.programCode;
 
 /**
  *
@@ -72,19 +72,19 @@ public class ThislikeCommand implements CommandExecutor {
             case "info":
                 if ( args.length > 1 ) {
                     if ( SignData.GetSignID( Integer.valueOf( args[1] ) ) ) {
-                        Tools.Prt( player, ChatColor.GREEN + "ID       : " + ChatColor.WHITE + Database.ID, programCode );
-                        Tools.Prt( player, ChatColor.GREEN + "Title    : " + ChatColor.WHITE + Database.TITLE, programCode );
-                        Tools.Prt( player, ChatColor.GREEN + "Owner    : " + ChatColor.WHITE + Database.OwnerName, programCode );
-                        Tools.Prt( player, ChatColor.GREEN + "Like     : " + ChatColor.WHITE + Database.LikeNum, programCode );
+                        Tools.Prt( player, ChatColor.GREEN + "ID       : " + ChatColor.WHITE + Database.ID, Config.programCode );
+                        Tools.Prt( player, ChatColor.GREEN + "Title    : " + ChatColor.WHITE + Database.TITLE, Config.programCode );
+                        Tools.Prt( player, ChatColor.GREEN + "Owner    : " + ChatColor.WHITE + Database.OwnerName, Config.programCode );
+                        Tools.Prt( player, ChatColor.GREEN + "Like     : " + ChatColor.WHITE + Database.LikeNum, Config.programCode );
                         Tools.Prt( player, ChatColor.GREEN + "Location : " + ChatColor.WHITE +
                             Database.LOC.getBlockX() + " , " +
                             Database.LOC.getBlockY() + " , " +
                             Database.LOC.getBlockZ() + " : " +
-                            Database.LOC.getWorld().getName(), programCode );
-                        Tools.Prt( player, ChatColor.GREEN + "Date     : " + ChatColor.WHITE + Database.SignDate.toString(), programCode );
+                            Database.LOC.getWorld().getName(), Config.programCode );
+                        Tools.Prt( player, ChatColor.GREEN + "Date     : " + ChatColor.WHITE + Database.SignDate.toString(), Config.programCode );
                         return true;
                     } else {
-                        Tools.Prt( player, ChatColor.RED + "Unknown ID Data", programCode );
+                        Tools.Prt( player, ChatColor.RED + "Unknown ID Data", Config.programCode );
                     }
                 }
                 return false;
@@ -93,7 +93,7 @@ public class ThislikeCommand implements CommandExecutor {
                     SignData.chgTitle( Integer.valueOf( args[1] ), args[2] );
                     return true;
                 } else {
-                    Tools.Prt( player, ChatColor.GREEN + "Title Change Error, Check Paramerter", programCode );
+                    Tools.Prt( player, ChatColor.GREEN + "Title Change Error, Check Paramerter", Config.programCode );
                     return false;
                 }
             case "status":
@@ -106,31 +106,31 @@ public class ThislikeCommand implements CommandExecutor {
                 ConfigManager.load();
                 return true;
             case "console":
-                if ( !Tools.setDebug( args[1], programCode ) ) {
-                    Tools.entryDebugFlag( programCode, Tools.consoleMode.normal );
-                    Tools.Prt( ChatColor.RED + "Config Debugモードの指定値が不正なので、normal設定にしました", programCode );
+                if ( !Tools.setDebug( args[1], Config.programCode ) ) {
+                    Tools.entryDebugFlag( Config.programCode, Tools.consoleMode.normal );
+                    Tools.Prt( ChatColor.RED + "Config Debugモードの指定値が不正なので、normal設定にしました", Config.programCode );
                 }
                 Tools.Prt( player,
                     ChatColor.GREEN + "System Debug Mode is [ " +
-                    ChatColor.RED + Tools.consoleFlag.get( programCode ).toString() +
+                    ChatColor.RED + Tools.consoleFlag.get( Config.programCode ).toString() +
                     ChatColor.GREEN + " ]",
-                    programCode
+                    Config.programCode
                 );
                 return true;
             case "help":
-                Tools.Prt( player, ChatColor.GREEN + "/ThisLike Command List", programCode );
-                Tools.Prt( player, ChatColor.WHITE + "Signs List         : " + ChatColor.YELLOW + "list [u:<player>] [d:<date>] [k:<Keyword>] [l:<line>]", programCode );
-                Tools.Prt( player, ChatColor.WHITE + "Change Signs Title : " + ChatColor.YELLOW + "title [id] [new title]", programCode );
-                Tools.Prt( player, ChatColor.WHITE + "ThisLike Top List  : " + ChatColor.YELLOW + "top [l:<line>]", programCode );
-                Tools.Prt( player, ChatColor.WHITE + "System Status      : " + ChatColor.YELLOW + "status", programCode );
-                Tools.Prt( player, ChatColor.WHITE + "System Message     : " + ChatColor.YELLOW + "message", programCode );
-                Tools.Prt( player, ChatColor.WHITE + "Console Mode       : " + ChatColor.YELLOW + "Console [max/full/normal/stop]", programCode );
-                Tools.Prt( player, ChatColor.WHITE + "Config Reload      : " + ChatColor.YELLOW + "reload", programCode );
+                Tools.Prt( player, ChatColor.GREEN + "/ThisLike Command List", Config.programCode );
+                Tools.Prt( player, ChatColor.WHITE + "Signs List         : " + ChatColor.YELLOW + "list [u:<player>] [d:<date>] [k:<Keyword>] [l:<line>]", Config.programCode );
+                Tools.Prt( player, ChatColor.WHITE + "Change Signs Title : " + ChatColor.YELLOW + "title [id] [new title]", Config.programCode );
+                Tools.Prt( player, ChatColor.WHITE + "ThisLike Top List  : " + ChatColor.YELLOW + "top [l:<line>]", Config.programCode );
+                Tools.Prt( player, ChatColor.WHITE + "System Status      : " + ChatColor.YELLOW + "status", Config.programCode );
+                Tools.Prt( player, ChatColor.WHITE + "System Message     : " + ChatColor.YELLOW + "message", Config.programCode );
+                Tools.Prt( player, ChatColor.WHITE + "Console Mode       : " + ChatColor.YELLOW + "Console [max/full/normal/stop]", Config.programCode );
+                Tools.Prt( player, ChatColor.WHITE + "Config Reload      : " + ChatColor.YELLOW + "reload", Config.programCode );
                 return true;
             default:
                 break;
         }
-        Tools.Prt( player, ChatColor.RED + "[ThisLike] Unknown Command [" + CmdLine + "]", Tools.consoleMode.full, programCode );
+        Tools.Prt( player, ChatColor.RED + "[ThisLike] Unknown Command [" + CmdLine + "]", Tools.consoleMode.full, Config.programCode );
         return false;
     }
 }

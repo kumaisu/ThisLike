@@ -93,7 +93,7 @@ public class InventoryListener implements Listener {
                     }
                     break;
                 case "WOOL":    // 1.12.2 対応
-                    Tools.Prt( "WOOL", Tools.consoleMode.max, programCode );
+                    Tools.Prt( "WOOL", Tools.consoleMode.full, programCode );
                     event.getWhoClicked().closeInventory();
                     if ( event.getCurrentItem().getItemMeta().getDisplayName().equals( Config.like ) ) {
                         LikeControl.SetLike( Database.ID, player );
@@ -103,7 +103,7 @@ public class InventoryListener implements Listener {
                     }
                     break;
                 default:
-                    Tools.Prt( event.getCurrentItem().getType().name(), Tools.consoleMode.max, programCode );
+                    Tools.Prt( event.getCurrentItem().getType().name(), Tools.consoleMode.full, programCode );
             }
 
             //  看板内容更新

@@ -111,7 +111,7 @@ public class MySQLControl {
                     + "date DATETIME, "
                     + "likenum int, "
                     + "index( id ) );";
-            Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
+            Tools.Prt( "SQL : " + sql, Tools.consoleMode.max, programCode );
             PreparedStatement preparedStatement = con.prepareStatement( sql );
             preparedStatement.executeUpdate();
 
@@ -122,7 +122,7 @@ public class MySQLControl {
             //      date : DATETIME         update Date
             //  存在すれば、無視される
             sql = "CREATE TABLE IF NOT EXISTS likes( id int, uuid varchar(36), name varchar(20), date DATETIME );";
-            Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
+            Tools.Prt( "SQL : " + sql, Tools.consoleMode.max, programCode );
             preparedStatement = con.prepareStatement( sql );
             preparedStatement.executeUpdate();
 

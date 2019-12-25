@@ -1,6 +1,6 @@
 main: com.mycompany.thislike.ThisLike
 name: ThisLike
-version: 0.6.12
+version: 0.7.1
 description: This Like Event Control plugin
 author: Kumaisu
 database: true

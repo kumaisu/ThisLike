@@ -45,6 +45,7 @@ public class OwnerControl {
      * @param ID
     */
     public static void printLiker( Player player, int ID ) {
+        Tools.Prt( ChatColor.RED + "Inventory Making", Tools.consoleMode.max, programCode );
         Map< String, Date > liker = LikePlayerData.listSQL( ID );
         boolean hasOwner = Database.OwnerName.equals( player.getName() );
         
@@ -98,11 +99,12 @@ public class OwnerControl {
             if ( i<46 ) {
                 List< String > Lore = Arrays.asList( ddf.format( s.getValue() ),tdf.format( s.getValue() ) );
                 TempInv.setItem( i, Absorption.getPlayerHead( s.getKey(), Lore, Config.MakeHead ) );
-                player.openInventory( TempInv );
+                player.updateInventory();
                 Tools.Prt( ChatColor.GREEN + "Player Head Inventory Menu " + i + " Done", Tools.consoleMode.max, programCode );
             }
             i++;
         }
         inv.put( player.getUniqueId(), TempInv );
+        Tools.Prt( ChatColor.RED + "Inventory Maked finished", Tools.consoleMode.max, programCode );
     }
 }

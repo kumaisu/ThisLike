@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.mycompany</groupId>
     <artifactId>ThisLike</artifactId>
-    <version>0.6.12</version>
+    <version>0.7.1</version>
     <description>This Like Event Control plugin</description>
     <packaging>jar</packaging>
     <properties>
