@@ -57,7 +57,6 @@ public class InventoryListener implements Listener {
             switch( event.getCurrentItem().getType().name() ) {
                 case "BARRIER":
                     if ( event.getCurrentItem().getItemMeta().getDisplayName().contains( "Remove" ) ) {
-                        event.getWhoClicked().closeInventory();
                         Tools.Prt( ChatColor.YELLOW + player.getName() + " Signloc = " + OwnerControl.loc.get( player.getUniqueId() ).toString(), Tools.consoleMode.max, programCode );
                         //  DBから看板削除 & イイネDBをクリアー
                         SignData.DelSQL( Database.ID );
@@ -69,11 +68,9 @@ public class InventoryListener implements Listener {
                         sign.setLine( 0, ChatColor.RED + "#[ThisLike]#" );
                         sign.update();
                         Tools.Prt( player, Config.ReplaceString( Config.Remove ), Tools.consoleMode.full, programCode );
-                        return;
                     }
                     break;
                 case "END_CRYSTAL":
-                    event.getWhoClicked().closeInventory();
                     if ( event.getCurrentItem().getItemMeta().getDisplayName().contains( "Update" ) ) {
                         for ( int i = 0; i < 4; i++ ) { sign.setLine( i, Config.ReplaceString( Config.SignBase.get( i ) ) ); }
                         sign.update();
@@ -81,20 +78,17 @@ public class InventoryListener implements Listener {
                     }
                     break;
                 case "BLUE_WOOL":
-                    event.getWhoClicked().closeInventory();
                     if ( event.getCurrentItem().getItemMeta().getDisplayName().contains( Config.like ) ) {
                         LikeControl.SetLike( Database.ID, player );
                     }
                     break;
                 case "RED_WOOL":
-                    event.getWhoClicked().closeInventory();
                     if ( event.getCurrentItem().getItemMeta().getDisplayName().contains( Config.unlike ) ) {
                         LikeControl.SetUnlike( Database.ID, player );
                     }
                     break;
                 case "WOOL":    // 1.12.2 対応
                     Tools.Prt( "WOOL", Tools.consoleMode.full, programCode );
-                    event.getWhoClicked().closeInventory();
                     if ( event.getCurrentItem().getItemMeta().getDisplayName().equals( Config.like ) ) {
                         LikeControl.SetLike( Database.ID, player );
                     }
@@ -104,9 +98,11 @@ public class InventoryListener implements Listener {
                     break;
                 default:
                     Tools.Prt( event.getCurrentItem().getType().name(), Tools.consoleMode.full, programCode );
+                    return;
             }
 
             //  看板内容更新
+            event.getWhoClicked().closeInventory();
             sign.setLine( 3, Config.ReplaceString( Config.SignBase.get( 3 ) ) );
             sign.update();
         } catch ( NullPointerException e ) {}

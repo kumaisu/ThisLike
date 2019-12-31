@@ -46,9 +46,10 @@ public class OwnerControl {
     */
     public static void printLiker( Player player, int ID ) {
         Tools.Prt( ChatColor.RED + "Inventory Making", Tools.consoleMode.max, programCode );
+
         Map< String, Date > liker = LikePlayerData.listSQL( ID );
         boolean hasOwner = Database.OwnerName.equals( player.getName() );
-        
+
         int slot = liker.size() + ( ( ( liker.size() % 9 ) == 0 ) ? 0 : ( 9 - ( liker.size() % 9 ) ) ) + 9;
         if ( slot>54 ) { slot = 54; }
 
@@ -77,11 +78,11 @@ public class OwnerControl {
             TempInv.setItem( slot - 2, UpIcon );
         }
 
-        //  イイネ解除
-        TempInv.setItem( slot - 8, Absorption.Unlike() );
+        //  イイネ設定
+        TempInv.setItem( slot - 9, Absorption.Like() );
 
         //  イイネ解除
-        TempInv.setItem( slot - 9, Absorption.Like() );
+        TempInv.setItem( slot - 8, Absorption.Unlike() );
 
         player.openInventory( TempInv );
         Tools.Prt( ChatColor.GREEN + "Inventory Title", Tools.consoleMode.max, programCode );

@@ -62,21 +62,20 @@ public class ClickListener implements Listener {
 
             event.setCancelled( true );
 
+            /*
             if ( player.isSneaking() ) {
                 OwnerControl.loc.put( player.getUniqueId(), clickedBlock.getLocation() );
                 OwnerControl.printLiker( player, Database.ID );
                 return;
             }
+            */
 
-            if ( Database.OwnerName.equals( player.getName() ) ) {
-                Tools.Prt( player, Config.ReplaceString( Config.YourSign ), Tools.consoleMode.max, programCode );
-                return;
-            }
-
-            if ( LikePlayerData.hasSQL( Database.ID, player ) ) {
-                LikeControl.SetUnlike( Database.ID, player );
-            } else {
+            if ( ( !Database.OwnerName.equals( player.getName() ) ) && ( !LikePlayerData.hasSQL( Database.ID, player ) ) ) {
                 LikeControl.SetLike( Database.ID, player );
+            } else {
+                //  LikeControl.SetUnlike( Database.ID, player );
+                OwnerControl.loc.put( player.getUniqueId(), clickedBlock.getLocation() );
+                OwnerControl.printLiker( player, Database.ID );
             }
 
             //  看板内容更新
