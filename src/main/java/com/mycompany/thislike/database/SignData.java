@@ -122,7 +122,7 @@ public class SignData {
                 Database.OwnerName      = rs.getString( "name" );
                 Database.SignDate       = rs.getTimestamp( "date" );
                 Database.LikeNum        = rs.getInt( "likenum" );
-                Tools.Prt( "Sign Get Data from SQL Success.", Tools.consoleMode.full, programCode );
+                Tools.Prt( "[" + Database.TITLE + "] Sign Get Data from SQL Success.", Tools.consoleMode.full, programCode );
                 retStat = true;
             }
             con.close();
@@ -140,6 +140,7 @@ public class SignData {
      * @return 
      */
     public static boolean GetSignLoc( Location LOC ) {
+        Tools.Prt( "Get Sign Location Check", Tools.consoleMode.full, programCode );
         String sql = "SELECT * FROM sign WHERE x = " + LOC.getBlockX() +
             " AND y = " + LOC.getBlockY() +
             " AND z = " + LOC.getBlockZ() +
@@ -154,6 +155,7 @@ public class SignData {
      * @return 
      */
     public static boolean GetSignID( int ID ) {
+        Tools.Prt( "Get Sign ID Check", Tools.consoleMode.full, programCode );
         String sql = "SELECT * FROM sign WHERE ID = " + ID;
         return GetSQL( sql );
     }

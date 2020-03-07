@@ -52,23 +52,25 @@ public class ClickListener implements Listener {
 
         if ( !material.name().contains( "SIGN" ) ) { return; }
 
-        Tools.Prt( ChatColor.YELLOW + player.getName() + " SignLOC = " + clickedBlock.getLocation().toString(), Tools.consoleMode.max, programCode );
-        if ( SignData.GetSignLoc( clickedBlock.getLocation() ) ) {
-            Sign sign = (Sign) clickedBlock.getState();
+        Sign sign = ( Sign ) clickedBlock.getState();
 
+        Tools.Prt( ChatColor.YELLOW + player.getName() + " SignLOC = " + clickedBlock.getLocation().toString(), Tools.consoleMode.max, programCode );
+        String CheckSign = Config.ReplaceString( Config.SignBase.get( 0 ) );
+        Tools.Prt( 
+            ChatColor.WHITE + "[" +
+            sign.getLine( 0 ) +
+            ChatColor.WHITE + "] : [" +
+            CheckSign +
+            ChatColor.WHITE + "]",
+            Tools.consoleMode.full, Config.programCode
+        );
+        if ( !sign.getLine( 0 ).equals( CheckSign ) ) { return; }
+
+        if ( SignData.GetSignLoc( clickedBlock.getLocation() ) ) {
             for ( int i = 0; i < 4; i++ ) {
                 Tools.Prt( ChatColor.YELLOW + "Sign Line " + i + " : " + sign.getLine( i ), Tools.consoleMode.max, programCode );
             }
-
             event.setCancelled( true );
-
-            /*
-            if ( player.isSneaking() ) {
-                OwnerControl.loc.put( player.getUniqueId(), clickedBlock.getLocation() );
-                OwnerControl.printLiker( player, Database.ID );
-                return;
-            }
-            */
 
             if ( ( !Database.OwnerName.equals( player.getName() ) ) && ( !LikePlayerData.hasSQL( Database.ID, player ) ) ) {
                 LikeControl.SetLike( Database.ID, player );
