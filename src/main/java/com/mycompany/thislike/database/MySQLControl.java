@@ -126,6 +126,16 @@ public class MySQLControl {
             preparedStatement = con.prepareStatement( sql );
             preparedStatement.executeUpdate();
 
+            //  オーナープレイヤーテーブル
+            //      uuid : varchar(36)      player uuid
+            //      name : varchar(20)      player name
+            //      date : DATETIME         Rewards Date
+            //  存在すれば、無視される
+            sql = "CREATE TABLE IF NOT EXISTS owner( uuid varchar(36), name varchar(20), date DATETIME );";
+            Tools.Prt( "SQL : " + sql, Tools.consoleMode.max, programCode );
+            preparedStatement = con.prepareStatement( sql );
+            preparedStatement.executeUpdate();
+
             Tools.Prt( ChatColor.AQUA + "dataSource Open Success.", programCode );
             con.close();
         } catch( SQLException e ) {

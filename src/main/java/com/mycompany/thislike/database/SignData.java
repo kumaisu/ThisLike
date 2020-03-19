@@ -21,6 +21,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import com.mycompany.kumaisulibraries.Tools;
 import static com.mycompany.thislike.config.Config.programCode;
+import java.util.UUID;
 
 /**
  * @author sugichan
@@ -199,7 +200,7 @@ public class SignData {
     }
 
     /**
-     * Sifn Title 再設定
+     * Sign Title 再設定
      *
      * @param ID
      * @param Title

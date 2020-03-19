@@ -48,7 +48,7 @@ public class ThisLike extends JavaPlugin {
     public void onDisable() {
         super.onDisable(); //To change body of generated methods, choose Tools | Templates.
         HandlerList.unregisterAll( this );
-        MySQLControl.disconnect();
+        //  MySQLControl.disconnect();
     }
 
     @Override
