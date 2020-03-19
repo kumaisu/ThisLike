@@ -79,3 +79,24 @@ RemoveSignLore:
 #   プレイヤーヘッドを本人のものとして読み込む
 #   最初の処理で人数が多い場合、全表示まで初回は大きく時間がかかる
 MakeHead: false
+
+#   イイネ数による報償制度
+Reward:
+    enable: false
+    sound:
+        enabled: true
+        type: ENTITY_PLAYER_LEVELUP
+        volume: 1
+        pitch: 1
+    #   イイネ数の倍率、１イイネに対して何倍するか
+    magnification: 1
+    #   Rewardsのサイクル（日数)
+    datecount: 1
+    #   実行時のコマンド（複数可）
+    #   %count% イイネ総数
+    #   %total% イイネ総数 * magnification
+    commands:
+        - eco give %owner% %total%
+        - eco give %owner% %count%
+        - giveitem expcube %owner%
+        - giveitem kumaorb %owner%

@@ -12,11 +12,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.entity.Player;
-import org.bukkit.ChatColor;
 import com.mycompany.kumaisulibraries.Tools;
 import com.mycompany.thislike.config.Config;
-import com.mycompany.thislike.database.SignData;
+import com.mycompany.thislike.config.Reward;
 import com.mycompany.thislike.control.OwnerControl;
+import com.mycompany.thislike.control.Rewards;
 
 /**
  *
@@ -49,6 +49,8 @@ public class LoginListener implements Listener {
         Player player = event.getPlayer();
         OwnerControl.inv.put( player.getUniqueId(), null );
         OwnerControl.loc.put( player.getUniqueId(), null );
+
+        if ( Reward.Flag ) { Rewards.CheckRewards( player ); }
     }
 
     /**

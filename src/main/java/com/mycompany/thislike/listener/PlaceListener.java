@@ -16,6 +16,7 @@ import com.mycompany.kumaisulibraries.Tools;
 import com.mycompany.thislike.config.Config;
 import com.mycompany.thislike.database.Database;
 import com.mycompany.thislike.database.SignData;
+import com.mycompany.thislike.database.OwnerData;
 import com.mycompany.thislike.control.DynmapControl;
 import static com.mycompany.thislike.config.Config.programCode;
 
@@ -49,6 +50,7 @@ public class PlaceListener implements Listener {
 
         if ( event.getLine( 0 ).equals( Config.SignSetKey ) ) {
             SignData.AddSQL( player, event.getBlock().getLocation(), Title );
+            if ( OwnerData.GetDate( player.getUniqueId() ) == null ) { OwnerData.AddSQL( player ); }
             for ( int i = 0; i < 4; i++ ) {
                 String SignMsg = Config.ReplaceString( Config.SignBase.get( i ) );
                 Tools.Prt( ChatColor.YELLOW + "New Sign " + i + " : " + SignMsg, Tools.consoleMode.max, programCode );

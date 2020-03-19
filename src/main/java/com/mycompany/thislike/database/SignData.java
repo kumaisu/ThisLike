@@ -6,6 +6,7 @@
 package com.mycompany.thislike.database;
 
 import java.util.Date;
+import java.util.UUID;
 import java.util.List;
 import java.util.ArrayList;
 import java.sql.Connection;
@@ -21,7 +22,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import com.mycompany.kumaisulibraries.Tools;
 import static com.mycompany.thislike.config.Config.programCode;
-import java.util.UUID;
 
 /**
  * @author sugichan
@@ -314,5 +314,51 @@ public class SignData {
      */
     public static void LikeTop( Player player, int LineSet ) {
         GetList( player, "SELECT * FROM sign ORDER BY likenum DESC;", ChatColor.GREEN + "Like Top List ...", LineSet, false );
+    }
+
+    /**
+     * UUIDからプレイヤートータルイイネ数を取得する
+     *
+     * @param uuid
+     * @return
+     */
+    public static int GetTotalLikes( UUID uuid ) {
+        try ( Connection con = Database.dataSource.getConnection() ) {
+            int retStat = 0;
+            String sqlCmd = "SELECT sum(likenum) FROM sign WHERE uuid = '" + uuid.toString() + "';";
+            Statement stmt = con.createStatement();
+            Tools.Prt( "SQL : " + sqlCmd, Tools.consoleMode.max , programCode );
+            ResultSet rs = stmt.executeQuery( sqlCmd );
+            if ( rs.next() ) {
+                retStat = rs.getInt( "sum(likenum)" );
+            }
+            con.close();
+            return retStat;
+        } catch ( SQLException e ) {
+            Tools.Prt( ChatColor.RED + "Error GetTotalLikes" + e.getMessage(), programCode );
+            return 0;
+        }
+    }
+    
+    /**
+     * UUID の看板が有るかチェック
+     *
+     * @param uuid
+     * @return 
+     */
+    public static boolean CheckSign( UUID uuid ) {
+        try ( Connection con = Database.dataSource.getConnection() ) {
+            boolean retStat = false;
+            String sqlCmd = "SELECT * FROM sign WHERE uuid = '" + uuid.toString() + "';";
+            Statement stmt = con.createStatement();
+            Tools.Prt( "SQL : " + sqlCmd, Tools.consoleMode.max , programCode );
+            ResultSet rs = stmt.executeQuery( sqlCmd );
+            if ( rs.next() ) { retStat = true; }
+            con.close();
+            return retStat;
+        } catch ( SQLException e ) {
+            Tools.Prt( ChatColor.RED + "Error GetTotalLikes" + e.getMessage(), programCode );
+            return false;
+        }
     }
 }

@@ -14,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import com.mycompany.thislike.database.Database;
 import com.mycompany.thislike.database.SignData;
+import com.mycompany.thislike.database.OwnerData;
 import com.mycompany.thislike.database.LikePlayerData;
 import com.mycompany.thislike.control.OwnerControl;
 import com.mycompany.thislike.control.LikeControl;
@@ -61,9 +62,8 @@ public class InventoryListener implements Listener {
                         //  DBから看板削除 & イイネDBをクリアー
                         SignData.DelSQL( Database.ID );
                         LikePlayerData.DelSQL( Database.ID );
-                        if ( Config.OnDynmap ) {
-                            DynmapControl.DelDynmapArea( Database.ID );
-                        }
+                        if ( !SignData.CheckSign( Database.OwnerUUID ) ) { OwnerData.DelSQL( Database.OwnerUUID ); }
+                        if ( Config.OnDynmap ) { DynmapControl.DelDynmapArea( Database.ID ); }
                         //  対象看板を破壊する操作※追加予定　暫定的に1行目を赤にして破壊可能にする
                         sign.setLine( 0, ChatColor.RED + "#[ThisLike]#" );
                         sign.update();
