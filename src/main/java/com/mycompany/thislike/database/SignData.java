@@ -19,8 +19,12 @@ import static java.util.UUID.fromString;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import com.mycompany.kumaisulibraries.Tools;
+import com.mycompany.kumaisulibraries.InetCalc;
+import com.mycompany.thislike.config.Config;
 import static com.mycompany.thislike.config.Config.programCode;
 
 /**
@@ -35,6 +39,7 @@ import static com.mycompany.thislike.config.Config.programCode;
  *      z : int
  *      uuid : varchar(36)      owner player uuid
  *      name : varchar(20)      owner player name
+ *      ip : INTEGER UNSIGNED   IP Address
  *      date : DATETIME
  *      like : int
  */
@@ -50,7 +55,7 @@ public class SignData {
      */
     public static void AddSQL( Player player, Location LOC, String Title ) {
         try ( Connection con = Database.dataSource.getConnection() ) {
-            String sql = "INSERT INTO sign (title, world, x, y, z, uuid, name, date, likenum) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            String sql = "INSERT INTO sign (title, world, x, y, z, uuid, name, ip, date, likenum) VALUES (?, ?, ?, ?, ?, ?, ?, INET_ATON( ? ), ?, ?);";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
             PreparedStatement preparedStatement = con.prepareStatement( sql );
             preparedStatement.setString( 1, Title );
@@ -60,15 +65,18 @@ public class SignData {
             preparedStatement.setInt( 5, LOC.getBlockZ() );
             preparedStatement.setString( 6, player.getUniqueId().toString() );
             preparedStatement.setString( 7, player.getName() );
-            preparedStatement.setString( 8, sdf.format( new Date() ) );
-            preparedStatement.setInt( 9, 0 );
+            preparedStatement.setString( 8, player.getAddress().getHostString() );
+            preparedStatement.setString( 9, sdf.format( new Date() ) );
+            preparedStatement.setInt( 10, 0 );
 
             preparedStatement.executeUpdate();
             con.close();
 
             Database.LOC = LOC;
             Database.TITLE = Title;
+            Database.OwnerUUID = player.getUniqueId();
             Database.OwnerName = player.getName();
+            Database.OwnerIP = player.getAddress().getHostString();
             Database.SignDate = new Date();
             Database.LikeNum = 0;
 
@@ -121,6 +129,7 @@ public class SignData {
                 Database.TITLE          = rs.getString( "title" );
                 Database.OwnerUUID      = fromString( rs.getString( "uuid" ) );
                 Database.OwnerName      = rs.getString( "name" );
+                Database.OwnerIP        = InetCalc.toInetAddress( rs.getLong( "ip" ) );
                 Database.SignDate       = rs.getTimestamp( "date" );
                 Database.LikeNum        = rs.getInt( "likenum" );
                 Tools.Prt( "[" + Database.TITLE + "] Sign Get Data from SQL Success.", Tools.consoleMode.full, programCode );
@@ -325,7 +334,7 @@ public class SignData {
     public static int GetTotalLikes( UUID uuid ) {
         try ( Connection con = Database.dataSource.getConnection() ) {
             int retStat = 0;
-            String sqlCmd = "SELECT sum(likenum) FROM sign WHERE uuid = '" + uuid.toString() + "';";
+            String sqlCmd = "SELECT sum(likenum) FROM sign WHERE uuid = '" + uuid.toString() + "' AND name != '" + Config.AdminName + "';";
             Statement stmt = con.createStatement();
             Tools.Prt( "SQL : " + sqlCmd, Tools.consoleMode.max , programCode );
             ResultSet rs = stmt.executeQuery( sqlCmd );
@@ -360,5 +369,38 @@ public class SignData {
             Tools.Prt( ChatColor.RED + "Error GetTotalLikes" + e.getMessage(), programCode );
             return false;
         }
+    }
+
+    /**
+     * Player が見ているイイネ看板を Admin に変更する
+     *
+     * @param player
+     * @return 
+     */
+    public static boolean SetAdmin( Player player ) {
+        Block getBlock = player.getTargetBlock( null, 5 );
+        if ( GetSignLoc( getBlock.getLocation() ) ) {
+            try ( Connection con = Database.dataSource.getConnection() ) {
+                String sql = "UPDATE sign SET name = '" + Config.AdminName + "' WHERE id = " + Database.ID + ";";
+                Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
+                PreparedStatement preparedStatement = con.prepareStatement( sql );
+                preparedStatement.executeUpdate();
+                Tools.Prt( "Sign Set Admin Success.", Tools.consoleMode.full, programCode );
+                con.close();
+                Database.OwnerName = Config.AdminName;
+                Sign sign = ( Sign ) getBlock.getState();
+                for ( int i = 0; i < 4; i++ ) {
+                    String SignMsg = Config.ReplaceString( Config.SignBase.get( i ) );
+                    Tools.Prt( ChatColor.YELLOW + "Rewrite Sign " + i + " : " + SignMsg, Tools.consoleMode.max, programCode );
+                    sign.setLine( i, SignMsg );
+                }
+                sign.update();
+            } catch ( SQLException e ) {
+                Tools.Prt( ChatColor.RED + "Error Set Admin:" + e.getMessage(), programCode );
+            }
+        } else {
+            Tools.Prt( player, ChatColor.RED + "Admin 化する看板をターゲットしてください", Tools.consoleMode.full, programCode );
+        }
+        return false;
     }
 }

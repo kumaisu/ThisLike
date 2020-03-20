@@ -21,6 +21,9 @@ unlike: "解除"
 #   いいね看板と判断するキー文字
 SignSetKey: "ThisLike"
 
+#   アドミンネーム
+Admin: Server
+
 #   有効な置換文字列
 #   &$n = カラーコード
 #   %player% = プレイヤー名

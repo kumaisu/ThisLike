@@ -96,6 +96,7 @@ public class MySQLControl {
             //      z : int
             //      uuid : varchar(36)      owner player uuid
             //      name : varchar(20)      owner player name
+            //      ip : INTEGER UNSIGNED   IP Address
             //      date : DATETIME
             //      like : int
             //  存在すれば、無視される
@@ -108,6 +109,7 @@ public class MySQLControl {
                     + "z int, "
                     + "uuid varchar(36), "
                     + "name varchar(20), "
+                    + "ip INTEGER UNSIGNED, "
                     + "date DATETIME, "
                     + "likenum int, "
                     + "index( id ) );";

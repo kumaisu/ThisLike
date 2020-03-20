@@ -22,7 +22,7 @@ import static com.mycompany.thislike.config.Config.programCode;
  *
  * @author sugichan
  *
- * CREATE TABLE IF NOT EXISTS owner( id varchar(12), uuid varchar(36), name varchar(20), date DATETIME );
+ * CREATE TABLE IF NOT EXISTS owner( uuid varchar(36), name varchar(20), date DATETIME );
  *
  * オーナープレイヤーテーブル
  * uuid : varchar(36)      player uuid

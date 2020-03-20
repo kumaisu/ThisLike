@@ -30,6 +30,7 @@ public class Config {
     public static String like;
     public static String unlike;
     public static String SignSetKey;
+    public static String AdminName;
     public static String SetLike;
     public static String InfoLike;
     public static String SetUnlike;

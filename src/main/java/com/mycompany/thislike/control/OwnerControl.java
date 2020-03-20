@@ -78,11 +78,20 @@ public class OwnerControl {
             TempInv.setItem( slot - 2, UpIcon );
         }
 
-        //  イイネ設定
-        TempInv.setItem( slot - 9, Absorption.Like() );
-
-        //  イイネ解除
-        TempInv.setItem( slot - 8, Absorption.Unlike() );
+        if (
+            ( Database.OwnerName.equals( Config.AdminName ) )
+            ||
+            (
+                ( !player.getUniqueId().equals( Database.OwnerUUID ) )
+                &&
+                ( !Database.OwnerIP.equals( player.getAddress().getHostString() ) ) 
+            )
+        ) {
+            //  イイネ設定
+            TempInv.setItem( slot - 9, Absorption.Like() );
+            //  イイネ解除
+            TempInv.setItem( slot - 8, Absorption.Unlike() );
+        }
 
         player.openInventory( TempInv );
         Tools.Prt( ChatColor.GREEN + "Inventory Title", Tools.consoleMode.max, programCode );

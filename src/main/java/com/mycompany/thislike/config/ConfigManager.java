@@ -52,6 +52,7 @@ public class ConfigManager {
         Config.like             = config.getString( "like", "like" );
         Config.unlike           = config.getString( "unlike", "unlike" );
         Config.SignSetKey       = config.getString( "SignSetKey", "SignSetKey" );
+        Config.AdminName        = config.getString( "Admin", "Admin" );
         Config.SetLike          = config.getString( "SetLike", "SetLike" );
         Config.InfoLike         = config.getString( "InfoLike", "InfoLike" );
         Config.SetUnlike        = config.getString( "SetUnlike", "SetUnlike" );
@@ -91,6 +92,7 @@ public class ConfigManager {
         Tools.Prt( p, ChatColor.WHITE + "LIKE          : " + ChatColor.YELLOW + Config.like, programCode );
         Tools.Prt( p, ChatColor.WHITE + "UNLIKE        : " + ChatColor.YELLOW + Config.unlike, programCode );
         Tools.Prt( p, ChatColor.WHITE + "SignSetKey    : " + ChatColor.YELLOW + Config.SignSetKey, programCode );
+        Tools.Prt( p, ChatColor.WHITE + "Admin Name    : " + ChatColor.YELLOW + Config.AdminName, programCode );
         Tools.Prt( p, ChatColor.WHITE + "Inventory     : " + ChatColor.YELLOW + Config.InventoryTitle, programCode );
         Tools.Prt( p, ChatColor.WHITE + "Player Head   : " + ChatColor.YELLOW + ( Config.MakeHead ? "Make" : "Plain" ) + " Icon", programCode );
         

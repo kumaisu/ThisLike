@@ -73,7 +73,18 @@ public class ClickListener implements Listener {
             event.setCancelled( true );
 
             if ( ( !Database.OwnerName.equals( player.getName() ) ) && ( !LikePlayerData.hasSQL( Database.ID, player ) ) ) {
-                LikeControl.SetLike( Database.ID, player );
+                boolean Like = true;
+                if ( !Database.OwnerName.equals( Config.AdminName ) ) {
+                    if ( Database.OwnerIP.equals( player.getAddress().getHostString() ) ) {
+                        Tools.Prt( player, ChatColor.RED + "同一IPからのイイネは出来ません", Tools.consoleMode.full, programCode );
+                        Like = false;
+                    }
+                    if ( ( Like ) && ( player.getUniqueId().equals( Database.OwnerUUID ) ) ) {
+                        Tools.Prt( player, ChatColor.RED + "同一UUIDからのイイネは出来ません", Tools.consoleMode.full, programCode );
+                        Like = false;
+                    }
+                }
+                if ( Like ) { LikeControl.SetLike( Database.ID, player ); }
             } else {
                 //  LikeControl.SetUnlike( Database.ID, player );
                 OwnerControl.loc.put( player.getUniqueId(), clickedBlock.getLocation() );

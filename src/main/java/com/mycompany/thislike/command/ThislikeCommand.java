@@ -16,6 +16,7 @@ import com.mycompany.thislike.config.ConfigManager;
 import com.mycompany.thislike.database.Database;
 import com.mycompany.thislike.database.SignData;
 import com.mycompany.kumaisulibraries.Tools;
+import org.bukkit.Material;
 
 /**
  *
@@ -69,12 +70,16 @@ public class ThislikeCommand implements CommandExecutor {
             case "list":
                 SignData.SignList( player, LikeName, LikeDate, LikeKey, PrtLine );
                 return true;
+            case "admin":
+                SignData.SetAdmin( player );
+                return true;
             case "info":
                 if ( args.length > 1 ) {
                     if ( SignData.GetSignID( Integer.valueOf( args[1] ) ) ) {
                         Tools.Prt( player, ChatColor.GREEN + "ID       : " + ChatColor.WHITE + Database.ID, Config.programCode );
                         Tools.Prt( player, ChatColor.GREEN + "Title    : " + ChatColor.WHITE + Database.TITLE, Config.programCode );
                         Tools.Prt( player, ChatColor.GREEN + "Owner    : " + ChatColor.WHITE + Database.OwnerName, Config.programCode );
+                        Tools.Prt( player, ChatColor.GREEN + "IP       : " + ChatColor.WHITE + Database.OwnerIP, Config.programCode );
                         Tools.Prt( player, ChatColor.GREEN + "Like     : " + ChatColor.WHITE + Database.LikeNum, Config.programCode );
                         Tools.Prt( player, ChatColor.GREEN + "Location : " + ChatColor.WHITE +
                             Database.LOC.getBlockX() + " , " +
@@ -120,6 +125,7 @@ public class ThislikeCommand implements CommandExecutor {
             case "help":
                 Tools.Prt( player, ChatColor.GREEN + "/ThisLike Command List", Config.programCode );
                 Tools.Prt( player, ChatColor.WHITE + "Signs List         : " + ChatColor.YELLOW + "list [u:<player>] [d:<date>] [k:<Keyword>] [l:<line>]", Config.programCode );
+                Tools.Prt( player, ChatColor.WHITE + "Set Admin Sign     : " + ChatColor.YELLOW + "admin", Config.programCode );
                 Tools.Prt( player, ChatColor.WHITE + "Change Signs Title : " + ChatColor.YELLOW + "title [id] [new title]", Config.programCode );
                 Tools.Prt( player, ChatColor.WHITE + "ThisLike Top List  : " + ChatColor.YELLOW + "top [l:<line>]", Config.programCode );
                 Tools.Prt( player, ChatColor.WHITE + "System Status      : " + ChatColor.YELLOW + "status", Config.programCode );
