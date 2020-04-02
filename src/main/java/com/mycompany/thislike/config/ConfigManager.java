@@ -68,10 +68,10 @@ public class ConfigManager {
         Reward.DateCount        = config.getInt( "Reward.datecount", 1 );
         Reward.magnification    = config.getInt( "Reward.magnification", 1 );
         Reward.Commands         = config.getStringList( "Reward.commands" );
-        Reward.sound_play       = config.getBoolean( "rewards.sound.enabled", false );
-        Reward.sound_type       = config.getString( "rewards.sound.type", "" );
-        Reward.sound_volume     = config.getInt( "rewards.sound.volume", 1 );
-        Reward.sound_pitch      = config.getInt( "rewards.sound.pitch", 1 );
+        Reward.sound_play       = config.getBoolean( "Reward.sound.enabled", false );
+        Reward.sound_type       = config.getString( "Reward.sound.type", "" );
+        Reward.sound_volume     = config.getInt( "Reward.sound.volume", 1 );
+        Reward.sound_pitch      = config.getInt( "Reward.sound.pitch", 1 );
 
         if ( !Tools.setDebug( config.getString( "Debug" ), programCode ) ) {
             Tools.entryDebugFlag( programCode, Tools.consoleMode.normal );
@@ -106,6 +106,7 @@ public class ConfigManager {
         Config.SignBase.stream().forEach( CP -> { Tools.Prt( p, ChatColor.WHITE + " - " + ChatColor.YELLOW + CP, programCode ); } );
 
         if ( Reward.Flag ) {
+            Tools.Prt( p, ChatColor.GREEN + "ThisLike Rewards", programCode );
             if ( Reward.sound_play ) {
                 Tools.Prt( p, ChatColor.WHITE + "Sound Type   : " + ChatColor.YELLOW + Reward.sound_type, programCode );
                 Tools.Prt( p, ChatColor.WHITE + "      Volume : " + ChatColor.YELLOW + Reward.sound_volume, programCode );

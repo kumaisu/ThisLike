@@ -48,7 +48,8 @@ public class OwnerControl {
         Tools.Prt( ChatColor.RED + "Inventory Making", Tools.consoleMode.max, programCode );
 
         Map< String, Date > liker = LikePlayerData.listSQL( ID );
-        boolean hasOwner = Database.OwnerName.equals( player.getName() );
+        //  boolean hasOwner = Database.OwnerName.equals( player.getName() );
+        boolean hasOwner = Database.OwnerUUID.equals( player.getUniqueId() );
 
         int slot = liker.size() + ( ( ( liker.size() % 9 ) == 0 ) ? 0 : ( 9 - ( liker.size() % 9 ) ) ) + 9;
         if ( slot>54 ) { slot = 54; }
@@ -68,7 +69,7 @@ public class OwnerControl {
         }
 
         if ( player.hasPermission( "ThisLike.admin" ) ) {
-            //  Remove Icon 作成
+            //  Update Icon 作成
             ItemStack UpIcon = new ItemStack( Material.END_CRYSTAL, 1 );
             ItemMeta UpMeta = Bukkit.getItemFactory().getItemMeta( Material.END_CRYSTAL );
             UpMeta.setDisplayName( ChatColor.WHITE + "Update" );
@@ -81,8 +82,10 @@ public class OwnerControl {
         if (
             ( Database.OwnerName.equals( Config.AdminName ) )
             ||
+            ( player.hasPermission( "ThisLike.admin" ) )
+            ||
             (
-                ( !player.getUniqueId().equals( Database.OwnerUUID ) )
+                ( !hasOwner )
                 &&
                 ( !Database.OwnerIP.equals( player.getAddress().getHostString() ) ) 
             )

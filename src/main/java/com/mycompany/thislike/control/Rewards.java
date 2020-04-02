@@ -55,9 +55,8 @@ public class Rewards {
     public static void CheckRewards( Player player ) {
         //  Daily Rewards の判定
         Date RDate = OwnerData.GetDate( player.getUniqueId() );
-        int progress = Reward.DateCount;
         if ( RDate != null ) {
-            progress = Utility.dateDiff( RDate, new Date() );
+            int progress = Utility.dateDiff( RDate, new Date() );
             if ( progress >= Reward.DateCount ) {
                 Tools.Prt( "ThisLike Rewards distribution : " + progress, Config.programCode );
                 Reward( player );
