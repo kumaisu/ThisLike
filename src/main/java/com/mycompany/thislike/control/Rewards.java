@@ -62,15 +62,21 @@ public class Rewards {
                 Reward( player );
             } else {
                 Tools.Prt( "ThisLike Player Progress : " + progress, Config.programCode );
+                String NextMessage = ChatColor.YELLOW + "次のイイネ報酬まで ";
                 if ( ( Reward.DateCount - progress ) > 1 ) {
-                    Tools.Prt( player,
-                        ChatColor.YELLOW + "次のイイネ報酬まで " +
-                        ChatColor.AQUA + ( Reward.DateCount - progress ) +
-                        ChatColor.YELLOW + " 日です" ,
-                        Tools.consoleMode.max,
-                        Config.programCode
-                    );
+                    NextMessage += ChatColor.AQUA + String.format( "%d", Reward.DateCount - progress ) + ChatColor.YELLOW + " 日です";
+                } else {
+                    long dateTimeTo = new Date().getTime();
+                    long dateTimeFrom = RDate.getTime();
+                    long dayDiff = dateTimeTo - dateTimeFrom;
+                    Tools.Prt( "Current time      : " + dateTimeTo, Tools.consoleMode.full, Config.programCode );
+                    Tools.Prt( "Last distribution : " + dateTimeFrom, Tools.consoleMode.full, Config.programCode );
+                    Tools.Prt( "Differential time : " + dayDiff, Tools.consoleMode.full, Config.programCode );
+                    //  純粋に時間なのでms秒での数値を時間に修正
+                    int NextTime = ( int ) Math.round( dayDiff / 1000 / 60 );
+                    NextMessage += ChatColor.AQUA + String.format( "%d", 1440 - NextTime ) + ChatColor.YELLOW + " 分です";
                 }
+                Tools.Prt( player, NextMessage, Tools.consoleMode.max, Config.programCode );
             }
         } else {
             Tools.Prt( ChatColor.RED + "ThisLike Rewards Date is NULL", Config.programCode );
