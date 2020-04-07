@@ -235,8 +235,9 @@ public class SignData {
      * @param sqlCmd
      * @param Title
      * @param line
+     * @param IDPRT
      */
-    public static void GetList( Player player, String sqlCmd, String Title, int line ) {
+    public static void GetList( Player player, String sqlCmd, String Title, int line, boolean IDPRT ) {
         List< String > StringData = new ArrayList<>();
         Tools.Prt( "SQL : " + sqlCmd, Tools.consoleMode.max, programCode );
 
@@ -248,7 +249,12 @@ public class SignData {
             while( rs.next() && ( loopCount<line ) ) {
                 loopCount++;
                 String Lines;
-                Lines = ChatColor.WHITE + String.format( "%4d", loopCount ) +
+                if ( IDPRT ) {
+                    Lines = ChatColor.WHITE + String.format( "%4d", rs.getInt( "id" ) );
+                } else {
+                    Lines = ChatColor.WHITE + String.format( "%4d", loopCount );
+                }
+                Lines +=
                     ChatColor.GOLD + "(" +
                     ChatColor.BLUE + String.format( "%2d", rs.getInt( "likenum" ) ) +
                     ChatColor.GOLD + ")" +
@@ -306,7 +312,7 @@ public class SignData {
 
         sqlCmd +=  " ORDER BY date DESC;";
 
-        GetList( player, sqlCmd, TitleString, line );
+        GetList( player, sqlCmd, TitleString, line, true );
     }
 
     /**
@@ -318,9 +324,10 @@ public class SignData {
     public static void LikeTop( Player player, int LineSet ) {
         GetList(
             player,
-            "SELECT * FROM sign WHERE != '" + Config.AdminName + "' ORDER BY likenum DESC;",
+            "SELECT * FROM sign WHERE name != '" + Config.AdminName + "' ORDER BY likenum DESC;",
             ChatColor.GREEN + "Like Top List ...",
-            LineSet
+            LineSet,
+            false
         );
     }
 
