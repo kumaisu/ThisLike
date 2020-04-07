@@ -235,9 +235,8 @@ public class SignData {
      * @param sqlCmd
      * @param Title
      * @param line
-     * @param IDPRT
      */
-    public static void GetList( Player player, String sqlCmd, String Title, int line, boolean IDPRT ) {
+    public static void GetList( Player player, String sqlCmd, String Title, int line ) {
         List< String > StringData = new ArrayList<>();
         Tools.Prt( "SQL : " + sqlCmd, Tools.consoleMode.max, programCode );
 
@@ -249,15 +248,10 @@ public class SignData {
             while( rs.next() && ( loopCount<line ) ) {
                 loopCount++;
                 String Lines;
-                if ( IDPRT ) {
-                    Lines = ChatColor.WHITE + String.format( "%4d", rs.getInt( "id" ) );
-                } else {
-                    Lines = ChatColor.WHITE + String.format( "%2d", loopCount ) +
+                Lines = ChatColor.WHITE + String.format( "%4d", loopCount ) +
                     ChatColor.GOLD + "(" +
                     ChatColor.BLUE + String.format( "%2d", rs.getInt( "likenum" ) ) +
-                    ChatColor.GOLD + ")";
-                }
-                Lines += 
+                    ChatColor.GOLD + ")" +
                     ChatColor.WHITE + ": " +
                     ChatColor.GREEN + rs.getString( "title" ) +
                     ChatColor.AQUA +  " By." + rs.getString( "name" );
@@ -312,7 +306,7 @@ public class SignData {
 
         sqlCmd +=  " ORDER BY date DESC;";
 
-        GetList( player, sqlCmd, TitleString, line, true );
+        GetList( player, sqlCmd, TitleString, line );
     }
 
     /**
@@ -322,7 +316,12 @@ public class SignData {
      * @param LineSet 
      */
     public static void LikeTop( Player player, int LineSet ) {
-        GetList( player, "SELECT * FROM sign ORDER BY likenum DESC;", ChatColor.GREEN + "Like Top List ...", LineSet, false );
+        GetList(
+            player,
+            "SELECT * FROM sign WHERE != '" + Config.AdminName + "' ORDER BY likenum DESC;",
+            ChatColor.GREEN + "Like Top List ...",
+            LineSet
+        );
     }
 
     /**

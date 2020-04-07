@@ -16,7 +16,6 @@ import com.mycompany.thislike.config.ConfigManager;
 import com.mycompany.thislike.database.Database;
 import com.mycompany.thislike.database.SignData;
 import com.mycompany.kumaisulibraries.Tools;
-import org.bukkit.Material;
 
 /**
  *
