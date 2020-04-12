@@ -14,6 +14,7 @@ public class Reward {
     public static boolean Flag;
     public static int DateCount;
     public static int magnification;
+    public static String RewardMessage;
     public static List<String> Commands;
 
     public static boolean sound_play;

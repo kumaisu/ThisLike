@@ -95,7 +95,10 @@ Reward:
     magnification: 1
     #   Rewardsのサイクル（日数)
     datecount: 1
+    #   Reward時にプレイヤーに送るメッセージ
+    message: "Present for you"
     #   実行時のコマンド（複数可）
+    #   %owner% プレイヤー名
     #   %count% イイネ総数
     #   %total% イイネ総数 * magnification
     commands:

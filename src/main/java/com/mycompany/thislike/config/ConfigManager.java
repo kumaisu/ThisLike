@@ -67,6 +67,7 @@ public class ConfigManager {
         Reward.Flag             = config.getBoolean( "Reward.enable", false );
         Reward.DateCount        = config.getInt( "Reward.datecount", 1 );
         Reward.magnification    = config.getInt( "Reward.magnification", 1 );
+        Reward.RewardMessage    = config.getString( "Reward.message", "" );
         Reward.Commands         = config.getStringList( "Reward.commands" );
         Reward.sound_play       = config.getBoolean( "Reward.sound.enabled", false );
         Reward.sound_type       = config.getString( "Reward.sound.type", "" );

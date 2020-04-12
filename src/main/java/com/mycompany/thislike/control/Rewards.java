@@ -41,15 +41,25 @@ public class Rewards {
             }
 
             Reward.Commands.stream().forEach( CP -> {
-                String cmd = CP.replace( "%owner%", player.getName() );
-                cmd = cmd.replace( "%total%", String.valueOf( total * Reward.magnification ) );
-                cmd = cmd.replace( "%count%", String.valueOf( total ) );
+                String cmd = Replace( player, CP, total );
                 Tools.ExecOtherCommand( player, cmd, "" );
                 Tools.Prt( ChatColor.AQUA + "Command Execute : " + ChatColor.WHITE + cmd, Tools.consoleMode.max, Config.programCode );
             } );
+
+            if ( !"".equals( Reward.RewardMessage ) ) {
+                Tools.Prt( player, Replace( player, Reward.RewardMessage, total ), Tools.consoleMode.full, Config.programCode );
+            }
         } else {
             Tools.Prt( player, ChatColor.RED + "残念ながらイイネがありません", Tools.consoleMode.full, Config.programCode );
         }
+    }
+
+    public static String Replace( Player player, String msg, int total ) {
+        String RetMsg = Utility.ReplaceString( msg );
+        RetMsg = RetMsg.replace( "%owner%", player.getName() );
+        RetMsg = RetMsg.replace( "%total%", String.valueOf( total * Reward.magnification ) );
+        RetMsg = RetMsg.replace( "%count%", String.valueOf( total ) );
+        return RetMsg;
     }
 
     public static void CheckRewards( Player player ) {
