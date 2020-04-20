@@ -68,10 +68,10 @@ public class Rewards {
         if ( RDate != null ) {
             int progress = Utility.dateDiff( RDate, new Date() );
             if ( progress >= Reward.DateCount ) {
-                Tools.Prt( "ThisLike Rewards distribution : " + progress, Config.programCode );
+                Tools.Prt( "ThisLike Rewards distribution : " + progress, Tools.consoleMode.full, Config.programCode );
                 Reward( player );
             } else {
-                Tools.Prt( "ThisLike Player Progress : " + progress, Config.programCode );
+                Tools.Prt( "ThisLike Reward Progress : " + progress, Tools.consoleMode.full, Config.programCode );
                 String NextMessage = ChatColor.YELLOW + "次のイイネ報酬まで ";
                 if ( ( Reward.DateCount - progress ) > 1 ) {
                     NextMessage += ChatColor.AQUA + String.format( "%d", Reward.DateCount - progress ) + ChatColor.YELLOW + " 日です";
@@ -79,9 +79,9 @@ public class Rewards {
                     long dateTimeTo = new Date().getTime();
                     long dateTimeFrom = RDate.getTime();
                     long dayDiff = dateTimeTo - dateTimeFrom;
-                    Tools.Prt( "Current time      : " + dateTimeTo, Tools.consoleMode.full, Config.programCode );
-                    Tools.Prt( "Last distribution : " + dateTimeFrom, Tools.consoleMode.full, Config.programCode );
-                    Tools.Prt( "Differential time : " + dayDiff, Tools.consoleMode.full, Config.programCode );
+                    Tools.Prt( "Current time      : " + dateTimeTo, Tools.consoleMode.max, Config.programCode );
+                    Tools.Prt( "Last distribution : " + dateTimeFrom, Tools.consoleMode.max, Config.programCode );
+                    Tools.Prt( "Differential time : " + dayDiff, Tools.consoleMode.max, Config.programCode );
                     //  純粋に時間なのでms秒での数値を時間に修正
                     int NextTime = ( int ) Math.round( dayDiff / 1000 / 60 );
                     NextMessage += ChatColor.AQUA + String.format( "%d", 1440 - NextTime ) + ChatColor.YELLOW + " 分です";
