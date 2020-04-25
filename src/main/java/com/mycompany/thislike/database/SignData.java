@@ -378,22 +378,51 @@ public class SignData {
     }
 
     /**
-     * Player が見ているイイネ看板を Admin に変更する
+     * イイネ看板のUUIDを変更する
      *
      * @param player
+     * @param uuid
      * @return 
      */
-    public static boolean SetAdmin( Player player ) {
+    public static boolean changeUUID( Player player, UUID uuid ) {
         Block getBlock = player.getTargetBlock( null, 5 );
         if ( GetSignLoc( getBlock.getLocation() ) ) {
             try ( Connection con = Database.dataSource.getConnection() ) {
-                String sql = "UPDATE sign SET name = '" + Config.AdminName + "' WHERE id = " + Database.ID + ";";
+                String sql = "UPDATE sign SET uuid = '" + uuid.toString() + "' WHERE id = " + Database.ID + ";";
                 Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
                 PreparedStatement preparedStatement = con.prepareStatement( sql );
                 preparedStatement.executeUpdate();
-                Tools.Prt( "Sign Set Admin Success.", Tools.consoleMode.full, programCode );
+                Tools.Prt( "Sign Set UUID Success.", Tools.consoleMode.full, programCode );
                 con.close();
-                Database.OwnerName = Config.AdminName;
+                Database.OwnerUUID = uuid;
+                return true;
+            } catch ( SQLException e ) {
+                Tools.Prt( ChatColor.RED + "Error Set UUID : " + e.getMessage(), programCode );
+            }
+        } else {
+            Tools.Prt( player, ChatColor.RED + "指定する看板をターゲットしてください", Tools.consoleMode.full, programCode );
+        }
+        return false;
+    }
+
+    /**
+     * イイネ看板に名前を設定する
+     *
+     * @param player
+     * @param ChangeName
+     * @return 
+     */
+    public static boolean SetName( Player player, String ChangeName ) {
+        Block getBlock = player.getTargetBlock( null, 5 );
+        if ( GetSignLoc( getBlock.getLocation() ) ) {
+            try ( Connection con = Database.dataSource.getConnection() ) {
+                String sql = "UPDATE sign SET name = '" + ChangeName + "' WHERE id = " + Database.ID + ";";
+                Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
+                PreparedStatement preparedStatement = con.prepareStatement( sql );
+                preparedStatement.executeUpdate();
+                Tools.Prt( "Sign Set Name Success.", Tools.consoleMode.full, programCode );
+                con.close();
+                Database.OwnerName = ChangeName;
                 Sign sign = ( Sign ) getBlock.getState();
                 for ( int i = 0; i < 4; i++ ) {
                     String SignMsg = Config.ReplaceString( Config.SignBase.get( i ) );
@@ -401,11 +430,39 @@ public class SignData {
                     sign.setLine( i, SignMsg );
                 }
                 sign.update();
+                return true;
             } catch ( SQLException e ) {
-                Tools.Prt( ChatColor.RED + "Error Set Admin:" + e.getMessage(), programCode );
+                Tools.Prt( ChatColor.RED + "Error Set Name : " + e.getMessage(), programCode );
             }
         } else {
-            Tools.Prt( player, ChatColor.RED + "Admin 化する看板をターゲットしてください", Tools.consoleMode.full, programCode );
+            Tools.Prt( player, ChatColor.RED + "指定する看板をターゲットしてください", Tools.consoleMode.full, programCode );
+        }
+        return false;
+    }
+
+    /**
+     * Player が見ているイイネ看板を Admin に変更する
+     *
+     * @param player
+     * @return 
+     */
+    public static boolean SetAdmin( Player player ) {
+        return SetName( player, Config.AdminName );
+    }
+
+    /**
+     * イイネ看板のOwnerを変更する
+     *
+     * @param player
+     * @param LikeName
+     * @return 
+     */
+    public static boolean SetOwner( Player player, String LikeName ) {
+        Player getP = Bukkit.getPlayer( LikeName );
+        if ( getP != null ) {
+            if ( changeUUID( player, getP.getUniqueId() ) ) {
+                return SetName( player, LikeName );
+            }
         }
         return false;
     }

@@ -72,6 +72,9 @@ public class ThislikeCommand implements CommandExecutor {
             case "admin":
                 SignData.SetAdmin( player );
                 return true;
+            case "set":
+                SignData.SetOwner( player, LikeName );
+                return true;
             case "info":
                 if ( args.length > 1 ) {
                     if ( SignData.GetSignID( Integer.valueOf( args[1] ) ) ) {
