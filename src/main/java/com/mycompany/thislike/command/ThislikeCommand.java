@@ -128,6 +128,7 @@ public class ThislikeCommand implements CommandExecutor {
                 Tools.Prt( player, ChatColor.GREEN + "/ThisLike Command List", Config.programCode );
                 Tools.Prt( player, ChatColor.WHITE + "Signs List         : " + ChatColor.YELLOW + "list [u:<player>] [d:<date>] [k:<Keyword>] [l:<line>]", Config.programCode );
                 Tools.Prt( player, ChatColor.WHITE + "Set Admin Sign     : " + ChatColor.YELLOW + "admin", Config.programCode );
+                Tools.Prt( player, ChatColor.WHITE + "Set Owner Sign     : " + ChatColor.YELLOW + "set [u:<player>]", Config.programCode );
                 Tools.Prt( player, ChatColor.WHITE + "Change Signs Title : " + ChatColor.YELLOW + "title [id] [new title]", Config.programCode );
                 Tools.Prt( player, ChatColor.WHITE + "ThisLike Top List  : " + ChatColor.YELLOW + "top [l:<line>]", Config.programCode );
                 Tools.Prt( player, ChatColor.WHITE + "System Status      : " + ChatColor.YELLOW + "status", Config.programCode );

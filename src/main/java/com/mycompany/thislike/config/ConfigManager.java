@@ -82,23 +82,22 @@ public class ConfigManager {
 
     public static void Status( Player p ) {
         Tools.Prt( p, ChatColor.GREEN + "=== ThisLike Status ===", programCode );
-        Tools.Prt( p, ChatColor.WHITE + "Degub Mode    : " + ChatColor.YELLOW + Tools.consoleFlag.get( programCode ).toString(), programCode );
-        Tools.Prt( p, ChatColor.WHITE + "Mysql         : " + ChatColor.YELLOW + Config.host + ":" + Config.port, programCode );
-        Tools.Prt( p, ChatColor.WHITE + "DB Name       : " + ChatColor.YELLOW + Config.database, programCode );
+        Tools.Prt( p, ChatColor.WHITE + "Degub Mode  : " + ChatColor.YELLOW + Tools.consoleFlag.get( programCode ).toString(), programCode );
+        Tools.Prt( p, ChatColor.WHITE + "Mysql       : " + ChatColor.YELLOW + Config.host + ":" + Config.port + "/" + Config.database, programCode );
         if ( p == null ) {
-            Tools.Prt( p, ChatColor.WHITE + "DB UserName   : " + ChatColor.YELLOW + Config.username, programCode );
-            Tools.Prt( p, ChatColor.WHITE + "DB Password   : " + ChatColor.YELLOW + Config.password, programCode );
+            Tools.Prt( p, ChatColor.WHITE + "DB UserName : " + ChatColor.YELLOW + Config.username, programCode );
+            Tools.Prt( p, ChatColor.WHITE + "DB Password : " + ChatColor.YELLOW + Config.password, programCode );
         }
-        Tools.Prt( p, ChatColor.WHITE + "Dynmap Icon   : " + ChatColor.YELLOW + ( Config.OnDynmap ? "True":"False" ), programCode );
-        Tools.Prt( p, ChatColor.WHITE + "LIKE          : " + ChatColor.YELLOW + Config.like, programCode );
-        Tools.Prt( p, ChatColor.WHITE + "UNLIKE        : " + ChatColor.YELLOW + Config.unlike, programCode );
-        Tools.Prt( p, ChatColor.WHITE + "SignSetKey    : " + ChatColor.YELLOW + Config.SignSetKey, programCode );
-        Tools.Prt( p, ChatColor.WHITE + "Admin Name    : " + ChatColor.YELLOW + Config.AdminName, programCode );
-        Tools.Prt( p, ChatColor.WHITE + "Inventory     : " + ChatColor.YELLOW + Config.InventoryTitle, programCode );
-        Tools.Prt( p, ChatColor.WHITE + "Player Head   : " + ChatColor.YELLOW + ( Config.MakeHead ? "Make" : "Plain" ) + " Icon", programCode );
+        Tools.Prt( p, ChatColor.WHITE + "Dynmap Icon : " + ChatColor.YELLOW + ( Config.OnDynmap ? "True":"False" ), programCode );
+        Tools.Prt( p, ChatColor.WHITE + "LIKE : " + ChatColor.YELLOW + Config.like + 
+            " - UNLIKE : " + ChatColor.YELLOW + Config.unlike, programCode );
+        Tools.Prt( p, ChatColor.WHITE + "SignSetKey  : " + ChatColor.YELLOW + Config.SignSetKey, programCode );
+        Tools.Prt( p, ChatColor.WHITE + "Admin Name  : " + ChatColor.YELLOW + Config.AdminName, programCode );
+        Tools.Prt( p, ChatColor.WHITE + "Inventory   : " + ChatColor.YELLOW + Config.InventoryTitle, programCode );
+        Tools.Prt( p, ChatColor.WHITE + "Player Head : " + ChatColor.YELLOW + ( Config.MakeHead ? "Make" : "Plain" ) + " Icon", programCode );
         
-        Tools.Prt( p, ChatColor.WHITE + "Like Broadcast     : " + ChatColor.YELLOW + ( Config.LikeBroadcast ? "Yes" : "No" ), programCode );
-        Tools.Prt( p, ChatColor.WHITE + "Unlike Broadcast   : " + ChatColor.YELLOW + ( Config.UnlikeBroadcast ? "Yes" : "No" ), programCode );
+        Tools.Prt( p, ChatColor.WHITE + "Broadcast   : Link(" + ChatColor.YELLOW + ( Config.LikeBroadcast ? "Yes" : "No" ) +
+                ") Unlike(" + ChatColor.YELLOW + ( Config.UnlikeBroadcast ? "Yes" : "No" ) + ")", programCode );
 
         Tools.Prt( p, ChatColor.WHITE + "Remove Sign Switch Lore", programCode );
         Config.RemoveSignLore.stream().forEach( CP -> { Tools.Prt( p, ChatColor.WHITE + " - " + ChatColor.YELLOW + CP, programCode ); } );
@@ -109,9 +108,9 @@ public class ConfigManager {
         if ( Reward.Flag ) {
             Tools.Prt( p, ChatColor.GREEN + "ThisLike Rewards", programCode );
             if ( Reward.sound_play ) {
-                Tools.Prt( p, ChatColor.WHITE + "Sound Type   : " + ChatColor.YELLOW + Reward.sound_type, programCode );
-                Tools.Prt( p, ChatColor.WHITE + "      Volume : " + ChatColor.YELLOW + Reward.sound_volume, programCode );
-                Tools.Prt( p, ChatColor.WHITE + "      Pitch  : " + ChatColor.YELLOW + Reward.sound_pitch, programCode );
+                Tools.Prt( p, ChatColor.WHITE + "Sound Type : " + ChatColor.YELLOW + Reward.sound_type +
+                    "V:" + ChatColor.YELLOW + Reward.sound_volume +
+                    " P:" + ChatColor.YELLOW + Reward.sound_pitch, programCode );
             }
             Tools.Prt( p, ChatColor.WHITE + "Date Count    : " + ChatColor.YELLOW + Reward.DateCount + " Days", programCode );
             Tools.Prt( p, ChatColor.WHITE + "Magnification : " + ChatColor.YELLOW + Reward.magnification + " times", programCode );

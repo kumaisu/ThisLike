@@ -56,18 +56,28 @@ public class ThisLikeTabComp implements TabCompleter {
                         list.add( "[Sign ID]" );
                         break;
                     case "list":
-                        list.add( "u:player" );
                         list.add( "d:yyyy-mm-dd" );
-                        list.add( "k:Keyword" );
+                        list.add( "k:<Keyword>" );
+                        list.add( "u:<player>" );
                     case "top":
                         list.add( "l:lines" );
+                        break;
+                    case "set":
+                        list.add( "u:<player>" );
                         break;
                 }
                 break;
             case 3:
                 if ( args[0].equals( "title") ) {
-                    list.add( "new title" );
+                    list.add( "[new title]" );
                     break;
+                }
+            default:
+                if ( args[0].equals( "list" ) ) {
+                    list.add( "u:<player>" );
+                    list.add( "d:yyyy-mm-dd" );
+                    list.add( "k:<Keyword>" );
+                    list.add( "l:lines" );
                 }
         }
         return list;
