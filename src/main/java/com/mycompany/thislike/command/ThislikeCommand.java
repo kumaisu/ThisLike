@@ -133,7 +133,7 @@ public class ThislikeCommand implements CommandExecutor {
                 Tools.Prt( player, ChatColor.WHITE + "ThisLike Top List  : " + ChatColor.YELLOW + "top [l:<line>]", Config.programCode );
                 Tools.Prt( player, ChatColor.WHITE + "System Status      : " + ChatColor.YELLOW + "status", Config.programCode );
                 Tools.Prt( player, ChatColor.WHITE + "System Message     : " + ChatColor.YELLOW + "message", Config.programCode );
-                Tools.Prt( player, ChatColor.WHITE + "Console Mode       : " + ChatColor.YELLOW + "Console [max/full/normal/stop]", Config.programCode );
+                Tools.Prt( player, ChatColor.WHITE + "Console Mode       : " + ChatColor.YELLOW + "Console [max,full,normal,stop]", Config.programCode );
                 Tools.Prt( player, ChatColor.WHITE + "Config Reload      : " + ChatColor.YELLOW + "reload", Config.programCode );
                 return true;
             default:

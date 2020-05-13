@@ -110,10 +110,10 @@ public class OwnerControl {
         for ( Entry< String, Date > s : entries ) {
             Tools.Prt( ChatColor.AQUA + s.getKey() + " : " + s.getValue(), Tools.consoleMode.full, programCode );
             if ( i<46 ) {
-                List< String > Lore = Arrays.asList( ddf.format( s.getValue() ),tdf.format( s.getValue() ) );
+                Tools.Prt( ChatColor.GREEN + "Player Head Inventory Menu " + i + " Done", Tools.consoleMode.max, programCode );
+                List< String > Lore = Arrays.asList( ddf.format( s.getValue() ), tdf.format( s.getValue() ) );
                 TempInv.setItem( i, Absorption.getPlayerHead( s.getKey(), Lore, Config.MakeHead ) );
                 player.updateInventory();
-                Tools.Prt( ChatColor.GREEN + "Player Head Inventory Menu " + i + " Done", Tools.consoleMode.max, programCode );
             }
             i++;
         }

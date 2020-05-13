@@ -12,6 +12,8 @@ import org.bukkit.block.Sign;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import com.mycompany.kumaisulibraries.Tools;
+import com.mycompany.thislike.config.Config;
 import com.mycompany.thislike.database.Database;
 import com.mycompany.thislike.database.SignData;
 import com.mycompany.thislike.database.OwnerData;
@@ -19,8 +21,6 @@ import com.mycompany.thislike.database.LikePlayerData;
 import com.mycompany.thislike.control.OwnerControl;
 import com.mycompany.thislike.control.LikeControl;
 import com.mycompany.thislike.control.DynmapControl;
-import com.mycompany.thislike.config.Config;
-import com.mycompany.kumaisulibraries.Tools;
 import static com.mycompany.thislike.config.Config.programCode;
 
 /**
