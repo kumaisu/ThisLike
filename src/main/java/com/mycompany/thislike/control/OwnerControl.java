@@ -22,6 +22,7 @@ import org.bukkit.Location;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import com.mycompany.kumaisulibraries.Tools;
 import com.mycompany.thislike.Absorption;
 import com.mycompany.thislike.config.Config;
@@ -107,17 +108,18 @@ public class OwnerControl {
         SimpleDateFormat ddf = new SimpleDateFormat( "yyyy/MM/dd" );
         SimpleDateFormat tdf = new SimpleDateFormat( "HH:mm:ss" );
         // 内容を表示
+        boolean MakeFlag = ( ( Config.MakeHead ) && ( i<20 ) );
         for ( Entry< String, Date > s : entries ) {
             Tools.Prt( ChatColor.AQUA + s.getKey() + " : " + s.getValue(), Tools.consoleMode.full, programCode );
             if ( i<46 ) {
                 Tools.Prt( ChatColor.GREEN + "Player Head Inventory Menu " + i + " Done", Tools.consoleMode.max, programCode );
                 List< String > Lore = Arrays.asList( ddf.format( s.getValue() ), tdf.format( s.getValue() ) );
-                TempInv.setItem( i, Absorption.getPlayerHead( s.getKey(), Lore, Config.MakeHead ) );
+                TempInv.setItem( i, Absorption.getPlayerHead( s.getKey(), Lore, MakeFlag ) );
                 player.updateInventory();
             }
             i++;
         }
         inv.put( player.getUniqueId(), TempInv );
-        Tools.Prt( ChatColor.RED + "Inventory Maked finished", Tools.consoleMode.max, programCode );
+        Tools.Prt( ChatColor.GREEN + "Inventory Maked finished", Tools.consoleMode.max, programCode );
     }
 }

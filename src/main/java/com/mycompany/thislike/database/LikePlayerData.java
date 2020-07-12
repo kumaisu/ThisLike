@@ -7,6 +7,8 @@ package com.mycompany.thislike.database;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Date;
 import static java.util.UUID.fromString;
 import java.text.SimpleDateFormat;
@@ -59,7 +61,7 @@ public class LikePlayerData {
 
             Tools.Prt( "Like Add Data to SQL Success.", Tools.consoleMode.full , programCode );
         } catch ( SQLException e ) {
-            Tools.Prt( ChatColor.RED + "Error AddToSQL" + e.getMessage(), programCode );
+            Tools.Prt( ChatColor.RED + "Error AddToSQL:" + e.getMessage(), programCode );
         }
     }
 
@@ -80,7 +82,7 @@ public class LikePlayerData {
             con.close();
             return true;
         } catch ( SQLException e ) {
-            Tools.Prt( ChatColor.RED + "Error DelFromSQL" + e.getMessage(), programCode );
+            Tools.Prt( ChatColor.RED + "Error DelFromSQL:" + e.getMessage(), programCode );
             return false;
         }
     }
@@ -101,7 +103,7 @@ public class LikePlayerData {
             con.close();
             return true;
         } catch ( SQLException e ) {
-            Tools.Prt( ChatColor.RED + "Error DelFromSQL" + e.getMessage(), programCode );
+            Tools.Prt( ChatColor.RED + "Error DelFromSQL:" + e.getMessage(), programCode );
             return false;
         }
     }
@@ -158,7 +160,7 @@ public class LikePlayerData {
             con.close();
             return retStat;
         } catch ( SQLException e ) {
-            Tools.Prt( ChatColor.RED + "Error GetPlayer" + e.getMessage(), programCode );
+            Tools.Prt( ChatColor.RED + "Error GetPlayer:" + e.getMessage(), programCode );
             return false;
         }
     }
@@ -187,7 +189,32 @@ public class LikePlayerData {
             Tools.Prt( "get Like Player List from SQL Success.", Tools.consoleMode.full, programCode );
             con.close();
         } catch ( SQLException e ) {
-            Tools.Prt( ChatColor.RED + "Error listSQL" + e.getMessage(), programCode );
+            Tools.Prt( ChatColor.RED + "Error listSQL:" + e.getMessage(), programCode );
+        }
+        return likeP;
+    }
+
+    /**
+     * イイネプレイヤーの一覧
+     *
+     * @return 
+     */
+    public static List< String > PlayerList() {
+        List< String > likeP = new ArrayList<>();
+
+        try ( Connection con = Database.dataSource.getConnection() ) {
+            Statement stmt = con.createStatement();
+            String sql = "SELECT name FROM likes GROUP BY name";
+            Tools.Prt( "SQL : " + sql, Tools.consoleMode.max , programCode );
+            ResultSet rs = stmt.executeQuery( sql );
+            while ( rs.next() ) {
+                likeP.add( rs.getString( "name" ) );
+                Tools.Prt( "get Player : " + rs.getString( "name" ), Tools.consoleMode.max, programCode );
+            }
+            Tools.Prt( "get Player List from SQL Success.", Tools.consoleMode.full, programCode );
+            con.close();
+        } catch ( SQLException e ) {
+            Tools.Prt( ChatColor.RED + "Error PlayerList SQL:" + e.getMessage(), programCode );
         }
         return likeP;
     }

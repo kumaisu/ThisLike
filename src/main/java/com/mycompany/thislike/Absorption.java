@@ -5,18 +5,16 @@
  */
 package com.mycompany.thislike;
 
+import com.mycompany.kumaisulibraries.Tools;
 import java.util.List;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.SkullType;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.DyeColor;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.Wool;
 import com.mycompany.thislike.config.Config;
+import static com.mycompany.thislike.config.Config.programCode;
 
 /**
  *
@@ -25,11 +23,7 @@ import com.mycompany.thislike.config.Config;
 public class Absorption {
     
     public static int getPlayTime( Player player ) {
-        try {
-            return player.getStatistic( Statistic.valueOf( "PLAY_ONE_MINUTE" ) );
-        } catch( IllegalArgumentException e ) {
-            return player.getStatistic( Statistic.valueOf( "PLAY_ONE_TICK" ) );
-        }
+        return player.getStatistic( Statistic.PLAY_ONE_MINUTE );
     }
 
     /**
@@ -41,46 +35,24 @@ public class Absorption {
      * @return 
      */
     public static ItemStack getPlayerHead( String target, List<String> Lore, boolean makeIcon ) {
-        SkullMeta skull;
-        try {
-            //  1.14.4
-            skull = ( SkullMeta ) Bukkit.getItemFactory().getItemMeta( Material.valueOf( "PLAYER_HEAD" ) );
-        } catch( Exception e ) {
-            //  1.12.2
-            skull = ( SkullMeta ) Bukkit.getItemFactory().getItemMeta( Material.valueOf( "SKULL_ITEM" ) );
-        }
-        
+        ItemStack RetItem = new ItemStack( Material.PLAYER_HEAD, 1 );
+        SkullMeta skull = ( SkullMeta ) RetItem.getItemMeta();
+
         if ( makeIcon ) {
+            Tools.Prt( "Get Online : " + target, Tools.consoleMode.max, programCode );
             skull.setOwner( target );
         }
+
         skull.setDisplayName( target );
         skull.setLore( Lore );
-        ItemStack RetItem;
-        try {
-            //  1.14.4
-            RetItem = new ItemStack( Material.valueOf( "PLAYER_HEAD" ), 1 );
-        } catch( Exception e ) {
-            //  1.12.2
-            if ( makeIcon ) {
-                RetItem = new ItemStack( Material.valueOf( "SKULL_ITEM" ), 1, ( byte ) SkullType.PLAYER.ordinal() );
-            } else {
-                RetItem = new ItemStack( Material.valueOf( "SKULL_ITEM" ), 1 );
-            }
-        }
+
         RetItem.setItemMeta( skull );
         return RetItem;
     }
 
     public static ItemStack Like() {
         //  イイネ解除
-        ItemStack Like;
-        try {
-            //  1.14.4
-            Like = new ItemStack( Material.valueOf( "BLUE_WOOL" ), 1 );
-        } catch( Exception e ) {
-            //  1.12.2
-            Like = new Wool( DyeColor.BLUE ).toItemStack( 1 );
-        }
+        ItemStack Like = new ItemStack( Material.BLUE_WOOL, 1 );
         ItemMeta lm = Like.getItemMeta();
         lm.setDisplayName( Config.like );
         Like.setItemMeta( lm );
@@ -89,14 +61,7 @@ public class Absorption {
 
     public static ItemStack Unlike() {
         //  イイネ解除
-        ItemStack Unlike;
-        try {
-            //  1.14.4
-            Unlike = new ItemStack( Material.valueOf( "RED_WOOL" ), 1 );
-        } catch( Exception e ) {
-            //  1.12.2
-            Unlike = new Wool( DyeColor.RED ).toItemStack( 1 );
-        }
+        ItemStack Unlike = new ItemStack( Material.RED_WOOL, 1 );
         ItemMeta um = Unlike.getItemMeta();
         um.setDisplayName( Config.unlike );
         Unlike.setItemMeta( um );
