@@ -28,6 +28,7 @@ public class ThisLike extends JavaPlugin {
     private ThisLike instance;
 
     public static ConfigManager config;
+    public static boolean TaskFlag = false;
 
     @Override
     @SuppressWarnings( "ResultOfObjectAllocationIgnored" )

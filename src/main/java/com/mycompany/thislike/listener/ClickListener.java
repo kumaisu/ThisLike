@@ -16,6 +16,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.plugin.Plugin;
 import com.mycompany.kumaisulibraries.Tools;
+import com.mycompany.thislike.PlayerHeadTimer;
+import static com.mycompany.thislike.ThisLike.TaskFlag;
 import com.mycompany.thislike.config.Config;
 import com.mycompany.thislike.database.Database;
 import com.mycompany.thislike.database.SignData;
@@ -29,9 +31,12 @@ import static com.mycompany.thislike.config.Config.programCode;
  * @author sugichan
  */
 public class ClickListener implements Listener {
+    
+    private final Plugin plg;
 
     public ClickListener( Plugin plugin ) {
         plugin.getServer().getPluginManager().registerEvents( this, plugin );
+        plg = plugin;
     }
 
     /**
@@ -89,6 +94,9 @@ public class ClickListener implements Listener {
                 //  LikeControl.SetUnlike( Database.ID, player );
                 OwnerControl.loc.put( player.getUniqueId(), clickedBlock.getLocation() );
                 OwnerControl.printLiker( player, Database.ID );
+                TaskFlag = true;
+                new PlayerHeadTimer( plg, player ).runTaskLater( plg, 0 );
+                //new PlayerHeadTimer( plg. player ).runTaskAsynchronously( plg, 0 );
             }
 
             //  看板内容更新

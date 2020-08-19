@@ -22,7 +22,6 @@ import org.bukkit.Location;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import com.mycompany.kumaisulibraries.Tools;
 import com.mycompany.thislike.Absorption;
 import com.mycompany.thislike.config.Config;
@@ -52,6 +51,7 @@ public class OwnerControl {
         //  boolean hasOwner = Database.OwnerName.equals( player.getName() );
         boolean hasOwner = Database.OwnerUUID.equals( player.getUniqueId() );
 
+        Tools.Prt( ChatColor.GREEN + "Liker num:(" + liker.size() + ")", Tools.consoleMode.max, programCode );
         int slot = liker.size() + ( ( ( liker.size() % 9 ) == 0 ) ? 0 : ( 9 - ( liker.size() % 9 ) ) ) + 9;
         if ( slot>54 ) { slot = 54; }
 
@@ -108,13 +108,12 @@ public class OwnerControl {
         SimpleDateFormat ddf = new SimpleDateFormat( "yyyy/MM/dd" );
         SimpleDateFormat tdf = new SimpleDateFormat( "HH:mm:ss" );
         // 内容を表示
-        boolean MakeFlag = ( ( Config.MakeHead ) && ( i<20 ) );
         for ( Entry< String, Date > s : entries ) {
             Tools.Prt( ChatColor.AQUA + s.getKey() + " : " + s.getValue(), Tools.consoleMode.full, programCode );
-            if ( i<46 ) {
+            if ( i<45 ) {
                 Tools.Prt( ChatColor.GREEN + "Player Head Inventory Menu " + i + " Done", Tools.consoleMode.max, programCode );
                 List< String > Lore = Arrays.asList( ddf.format( s.getValue() ), tdf.format( s.getValue() ) );
-                TempInv.setItem( i, Absorption.getPlayerHead( s.getKey(), Lore, MakeFlag ) );
+                TempInv.setItem( i, Absorption.getPlayerHead( s.getKey(), Lore, false ) );
                 player.updateInventory();
             }
             i++;
