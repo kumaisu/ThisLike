@@ -87,13 +87,25 @@ public class ConfigManager {
         if ( p == null ) {
             Tools.Prt( p, ChatColor.WHITE + "DB UserName : " + ChatColor.YELLOW + Config.username + " [" + Config.password + "]", programCode );
         }
-        Tools.Prt( p, ChatColor.WHITE + "Dynmap Icon : " + ChatColor.YELLOW + ( Config.OnDynmap ? "True":"False" ), programCode );
-        Tools.Prt( p, ChatColor.WHITE + "LIKE : " + ChatColor.YELLOW + Config.like + 
-            ChatColor.WHITE + " - UNLIKE : " + ChatColor.YELLOW + Config.unlike, programCode );
-        Tools.Prt( p, ChatColor.WHITE + "SignSetKey  : " + ChatColor.YELLOW + Config.SignSetKey, programCode );
+        Tools.Prt( p,
+            ChatColor.WHITE + "Player Head : " +
+            ChatColor.YELLOW + ( Config.MakeHead ? "Make" : "Plain" ) + " Icon  :  " +
+            ChatColor.WHITE + "Dynmap Icon : " +
+            ChatColor.YELLOW + ( Config.OnDynmap ? "True":"False" ),
+            programCode
+        );
+        Tools.Prt( p,
+            ChatColor.WHITE + "SignSetKey  : " +
+            ChatColor.YELLOW + Config.SignSetKey +
+            ChatColor.WHITE + "[ LIKE : " + 
+            ChatColor.YELLOW + Config.like + 
+            ChatColor.WHITE + " - UNLIKE : " +
+            ChatColor.YELLOW + Config.unlike +
+            ChatColor.WHITE + " ]",
+            programCode
+        );
         Tools.Prt( p, ChatColor.WHITE + "Admin Name  : " + ChatColor.YELLOW + Config.AdminName, programCode );
         Tools.Prt( p, ChatColor.WHITE + "Inventory   : " + ChatColor.YELLOW + Config.InventoryTitle, programCode );
-        Tools.Prt( p, ChatColor.WHITE + "Player Head : " + ChatColor.YELLOW + ( Config.MakeHead ? "Make" : "Plain" ) + " Icon", programCode );
         
         Tools.Prt( p, ChatColor.WHITE + "Broadcast : Link(" +
             ChatColor.YELLOW + ( Config.LikeBroadcast ? "Yes" : "No" ) +
